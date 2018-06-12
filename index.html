@@ -335,6 +335,158 @@
   
   <div class="post-date">
 			<div class="post-month">06月</div>
+			<div class="post-day">12</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/vue-cli2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/12/vue-cli2/" itemprop="url">vue-cli构建博客项目中遇到的坑（二）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-12T18:42:48+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h1><ul>
+<li>博客常用配置样式总结： nprogress/normalize.css/evanyou.js</li>
+</ul>
+<h1 id="1-使用nprogress添加页面进度条"><a href="#1-使用nprogress添加页面进度条" class="headerlink" title="1 使用nprogress添加页面进度条"></a>1 使用nprogress添加页面进度条</h1><ol>
+<li><p>效果演示<br><img src="http://cdn.xuanfengge.com/wp-content/uploads/2014/04/nprogress.gif" alt="nprogress"></p>
+</li>
+<li><p>nprogress是一款轻量级的进度条组件，用于页面刚打开时的页面加载进度显示（不过在大多数情况下确实很少显示…）</p>
+</li>
+<li>安装：npm install nprogress</li>
+<li>使用：需在main.js（入口文件处）加载，引入css文件即可，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;nprogress/nprogress.css&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="2-使用normalize-css初始化页面"><a href="#2-使用normalize-css初始化页面" class="headerlink" title="2 使用normalize.css初始化页面"></a>2 使用normalize.css初始化页面</h1><ol>
+<li>normalize.css就是用来初始化页面默认样式的css文件，相比于一些重设样式（如compass框架中的reset.sass）而言更加“温和”，<br>不会对一些浏览器默认样式进行暴力地全部重置，而是更好地考虑跨浏览器的兼容性，使页面更优雅地呈现</li>
+<li>安装：npm install normalize.css</li>
+<li>使用：需在main.js（入口文件处）加载，引入css文件，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;normalize.css&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="3-evanyou-js实现彩色三角条"><a href="#3-evanyou-js实现彩色三角条" class="headerlink" title="3 evanyou.js实现彩色三角条"></a>3 evanyou.js实现彩色三角条</h1><ol>
+<li>彩色三角条的背景样式，最早是EvanYou大神的作品，效果请参考<a href="evanyou.me">evanyou</a>，这个博客的背景也是这个样式哦</li>
+<li>具体的实现过程及源代码，请参考<a href="https://blog.csdn.net/fen747042796/article/details/76574058" target="_blank" rel="noopener">绘制随机不规则三角彩条</a></li>
+<li>其中的<strong>取色算法</strong>非常有意思，可以反复参照</li>
+<li>引入：我的做法是将生成背景的evanyou.js文件放在src/util文件夹下，并在index.html中引入canvas元素。</li>
+<li>为了更好地将Canvas元素作为背景（浮动在博客主页面的下方），有两种处理方式：其一是设置position为absolute，同时将z-index设置为-9999，其二是设置背景，即：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.getElementsByTagName(&apos;body&apos;).style.backgroundImage=&quot;url(&apos;&quot;+myCanvas.toDataURL()+&quot;&apos;)&quot;;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/12/vue-cli2/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
 			<div class="post-day">05</div>
 	</div>
   
@@ -411,10 +563,15 @@
       
         
           
-            <h1 id="1-Vue使用-Font-Awesome-5"><a href="#1-Vue使用-Font-Awesome-5" class="headerlink" title="1 Vue使用 Font Awesome 5"></a>1 Vue使用 Font Awesome 5</h1><p><a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome官网</a></p>
+            <h1 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h1><ul>
+<li>在Vue中使用Font Awesome5</li>
+<li>Vue-router的组件按需加载</li>
+<li>一些踩过的坑</li>
+</ul>
+<h1 id="1-Vue使用-Font-Awesome-5"><a href="#1-Vue使用-Font-Awesome-5" class="headerlink" title="1 Vue使用 Font Awesome 5"></a>1 Vue使用 Font Awesome 5</h1><p><a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome官网</a></p>
 <h2 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h2><ol>
 <li><p>Font Awesome是一个强大的前端icon库，要想在vue项目中使用，首先需安装依赖：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 安装基础依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome -S</span><br><span class="line">$ npm i @fortawesome/vue-fontawesome -S</span><br><span class="line">// 安装样式依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-solid</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-regulaer</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-brands</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 安装基础依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome -S</span><br><span class="line">$ npm i @fortawesome/vue-fontawesome -S</span><br><span class="line">// 安装样式依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-solid</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-regular</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-brands</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>其中免费版支持三种样式：solid/regular/brands，请按需下载</p>
 </li>
@@ -880,7 +1037,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
