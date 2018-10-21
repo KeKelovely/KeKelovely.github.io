@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Hello WorldJSX简介 React通过使用JSX的扩展语法，更容易地在JavaScript中创建UI  JSX（标签）的属性值 使用双引号来指定字符串字面量作为属性值 1const element = &amp;lt;div tabIndex=&amp;quot;0&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;;  用花括号嵌入一个JavaScript表达式作为属性值 1const element = &amp;">
+<meta name="keywords" content="Font-End React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「React官方文档学习笔记」 1. React快速入门">
+<meta property="og:url" content="http://yoursite.com/2018/08/05/1-react/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="Hello WorldJSX简介 React通过使用JSX的扩展语法，更容易地在JavaScript中创建UI  JSX（标签）的属性值 使用双引号来指定字符串字面量作为属性值 1const element = &amp;lt;div tabIndex=&amp;quot;0&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;;  用花括号嵌入一个JavaScript表达式作为属性值 1const element = &amp;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T13:59:10.826Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「React官方文档学习笔记」 1. React快速入门">
+<meta name="twitter:description" content="Hello WorldJSX简介 React通过使用JSX的扩展语法，更容易地在JavaScript中创建UI  JSX（标签）的属性值 使用双引号来指定字符串字面量作为属性值 1const element = &amp;lt;div tabIndex=&amp;quot;0&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;;  用花括号嵌入一个JavaScript表达式作为属性值 1const element = &amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/05/1-react/"/>
+
+
+
+
+
+  <title>「React官方文档学习笔记」 1. React快速入门 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">05</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/1-react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「React官方文档学习笔记」 1. React快速入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-05T00:00:00+08:00">
+                2018-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><h3 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h3><ul>
+<li>React通过使用JSX的扩展语法，更容易地在JavaScript中创建UI</li>
+</ul>
+<h4 id="JSX（标签）的属性值"><a href="#JSX（标签）的属性值" class="headerlink" title="JSX（标签）的属性值"></a>JSX（标签）的属性值</h4><ul>
+<li><p>使用双引号来指定字符串字面量作为属性值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;div tabIndex=&quot;0&quot;&gt;&lt;/div&gt;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用花括号嵌入一个JavaScript表达式作为属性值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;img src=&#123;user.avatarUrl&#125;&gt;&lt;/img&gt;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="JSX是React-createElement-的语法糖"><a href="#JSX是React-createElement-的语法糖" class="headerlink" title="JSX是React.createElement()的语法糖"></a>JSX是React.createElement()的语法糖</h4><ul>
+<li>下面两个代码完全等价，第二种是React读取并构建VirtualDOM的方式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const element = (</span><br><span class="line">        &lt;h1 className=&quot;greeting&quot;&gt;</span><br><span class="line">            Hello World</span><br><span class="line">        &lt;/h1&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const element = React.createElement(</span><br><span class="line">        &apos;h1&apos;,</span><br><span class="line">        &#123;className: &apos;greeting&apos;&#125;,</span><br><span class="line">        &apos;Hello world!&apos;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h4 id="编码规范"><a href="#编码规范" class="headerlink" title="编码规范"></a>编码规范</h4><ul>
+<li>推荐用括号将JSX包裹起来，好处是避免分号自动插入的陷阱</li>
+<li>JSX要求使用驼峰(camelCase)命名，如class为className, tabindex为tabIndex</li>
+</ul>
+<h3 id="元素渲染"><a href="#元素渲染" class="headerlink" title="元素渲染"></a>元素渲染</h3><ul>
+<li>使用ReactDOM.render()方法渲染一个React元素到一个root DOM节点中</li>
+<li>React元素是不可突变（Immutable）的，一旦元素被创建，就不能再修改其子元素或任何属性，除非重新渲染</li>
+<li>React DOM会将元素及其子元素与之前版本逐一对比，并只对有必要更新的DOM进行更新（部分更新），以达到DOM所需的状态</li>
+</ul>
+<h3 id="组件和属性"><a href="#组件和属性" class="headerlink" title="组件和属性"></a>组件和属性</h3><ul>
+<li>React中有两种组件：函数组件和类组件</li>
+</ul>
+<h4 id="一个好的经验准则"><a href="#一个好的经验准则" class="headerlink" title="一个好的经验准则"></a>一个好的经验准则</h4><ul>
+<li>如果你UI的一部分需要用多次，或者本身足够复杂，最好的做法是使其成为可复用组件</li>
+</ul>
+<h4 id="编码规范-1"><a href="#编码规范-1" class="headerlink" title="编码规范"></a>编码规范</h4><ul>
+<li>组件名称总是以大写字母开头</li>
+<li>组件必须返回一个单独的根元素，有时需要添加一个div元素来包含多个组件</li>
+<li>所有React组件必须是纯函数，并禁止修改其自身的props</li>
+</ul>
+<h3 id="状态和生命周期"><a href="#状态和生命周期" class="headerlink" title="状态和生命周期"></a>状态和生命周期</h3><ul>
+<li>状态和生命周期是类组件的专有特性</li>
+</ul>
+<h4 id="正确地使用state状态"><a href="#正确地使用state状态" class="headerlink" title="正确地使用state状态"></a>正确地使用state状态</h4><ul>
+<li>不要直接修改state状态，即使你改了，也不会重新渲染一个组件</li>
+<li>用setState()更新state</li>
+</ul>
+<h4 id="state更新可能是异步的"><a href="#state更新可能是异步的" class="headerlink" title="state更新可能是异步的"></a>state更新可能是异步的</h4><ul>
+<li>React为了优化性能，有可能会将多个setState()调用合并为一次更新</li>
+<li>this.props和this.state可能是异步更新，你不能依赖它们的值计算下一个state（状态）</li>
+<li>要解决这个问题，应使用另一种setState()形式，它接受一个函数而不是一个对象，前一个状态作为参数，应用更新时的props作为第二个参数：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this.setState((prevState, props)=&gt;(&#123;</span><br><span class="line">    counter: prevState.counter + props.increment</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="从上到下，单向的数据流"><a href="#从上到下，单向的数据流" class="headerlink" title="从上到下，单向的数据流"></a>从上到下，单向的数据流</h4><ul>
+<li>任何state始终由某个特定组件所有，不能被其他以外的任何组件访问</li>
+<li>从该state导出的任何数据和UI只能影响其DOM树中下方的组件</li>
+<li>即使如此，所有的组件相互之间都是完全独立的，不受影响</li>
+</ul>
+<h3 id="处理事件"><a href="#处理事件" class="headerlink" title="处理事件"></a>处理事件</h3><ul>
+<li>React事件使用驼峰命名，如onClick</li>
+<li>JSX传递一个函数而不是字符串，作为事件处理程序</li>
+<li>React中不能通过返回false来阻止默认行为，而是需要明确调用preventDefault</li>
+<li>注意this的指向：在JavaScript中，类方法默认没有绑定的对象，（因为还未实例化），因此需要使用bind来绑定，如this.handeleClick.bind(this)</li>
+</ul>
+<h4 id="将参数传递给事件处理程序"><a href="#将参数传递给事件处理程序" class="headerlink" title="将参数传递给事件处理程序"></a>将参数传递给事件处理程序</h4><ul>
+<li>下列两行代码是等价的，分别使用arrow functions和Function.prototype.bind</li>
+<li>第一个例子中，参数e作为React事件对象将被作为第二个参数进行显式地传递<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;(e)=&gt;this.deleteRow(id,e)&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;this.deleteRow.bind(this,id)&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><ul>
+<li><p>使用逻辑&amp;&amp;操作符的内联if用法：在JSX中嵌入表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;unreadMessages.length &gt; 0 &amp;&amp; </span><br><span class="line">	&lt;h2&gt;</span><br><span class="line">		You have messages!</span><br><span class="line">	&lt;/h2&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用条件操作符condition ? true : false</p>
+</li>
+<li><p>通过return null，来隐藏一个组件，不让其渲染输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function WarningBanner(props)&#123;</span><br><span class="line">	if(!props.warn)&#123;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从组件的render方法返回null不会影响组件生命周期方法的触发，componentWillUpdate以及componentDidUpdate仍将被调用</p>
+</li>
+</ul>
+<h3 id="列表和键"><a href="#列表和键" class="headerlink" title="列表和键"></a>列表和键</h3><ul>
+<li><p>多组件渲染：例如，创建一个数组集合，并包含到一个ul元素中，再渲染到DOM</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(&lt;ul&gt;&#123;listItems&#125;&lt;/ul&gt;,document.getElementById(&apos;root&apos;));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>应当为列表元素（例如ul元素中的li元素）提供一个key，key是一个你需要包含的特殊字符串属性</p>
+</li>
+</ul>
+<h4 id="为什么要添加key值"><a href="#为什么要添加key值" class="headerlink" title="为什么要添加key值"></a>为什么要添加key值</h4><ul>
+<li>key帮助React标识哪个项被修改、添加或移除，数组中的每一个元素都应该有一个唯一不变的键来标识</li>
+<li>key只在数组的上下文中存在意义，而不要在return的渲染部分将key作为属性传入到组件中</li>
+<li>key必须在同辈之间唯一，但不需要全局唯一</li>
+<li>key是React的一个内部映射，但不会传递给组件内部，组件也无法读取</li>
+</ul>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><ul>
+<li><p>示例一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function NumberList(props)&#123;</span><br><span class="line">	const numbers = props.numbers;</span><br><span class="line">	const listItems = numbers.map((number)=&gt;</span><br><span class="line">	&lt;ListItem key=&#123;number.toString()&#125; value=&#123;number&#125;/&gt;</span><br><span class="line">);</span><br><span class="line">return (</span><br><span class="line">		&lt;ul&gt;</span><br><span class="line">		&#123;listItems&#125; // 批量传入组件</span><br><span class="line">		&lt;/ul&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>示例二：也可以直接将map方法内联</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function NumberList(props)&#123;</span><br><span class="line">	const numbers = props.numbers;</span><br><span class="line">	return(</span><br><span class="line">		&lt;ul&gt;</span><br><span class="line">		&#123;numbers.map((number)=&gt;&lt;ListItem key=&#123;number.toString()&#125; value=&#123;number&#125; /&gt;)&#125;</span><br><span class="line">		&lt;/ul&gt;</span><br><span class="line">		);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h3><ul>
+<li>在React中允许表单的默认行为，例如提交表单，上传数据等</li>
+<li>但是But！也可以将表单中的数据和值交给React中的state来存储，将表单与React结合，这种，其值由React控制的输入表单元素称为受控组件</li>
+<li><p>相应的，不受控组件就是其值由DOM元素来控制，如input元素中的value属性，在react中可以使用ref与refs来引用非受控组件的值，用ref从DOM获得表单值，而不是为每个状态更新编写一个事件处理程序~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">this.state = &#123;value : &apos;&apos;&#125;;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.state.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;input type=&quot;text&quot; value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置表单元素的value属性之后，其显示值将由this.state.value决定，以满足React状态的同一数据理念，每次键盘敲击后会执行handleChange方法以更新React状态，显示值也将随着用户的输入改变</p>
+</li>
+<li><p>对于受控组件来说，每一次状态state的变化都会伴有相关联的处理函数(onChange={function})，这使得可以直接修改或验证用户的输入</p>
+</li>
+</ul>
+<h4 id="textarea标签"><a href="#textarea标签" class="headerlink" title="textarea标签"></a>textarea标签</h4><ul>
+<li><p>HTML中，textarea元素通过它的子节点定义它的文本值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea&gt;</span><br><span class="line"> Hello, I am kekelovely!~</span><br><span class="line">&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>React中，textarea的赋值使用value属性代理，类似于input的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props)</span><br><span class="line">	this.state = &#123;</span><br><span class="line">		value: &apos; Please Write Something here~! &apos;</span><br><span class="line">	&#125;</span><br><span class="line">	this.handleChange = this.handleChange.bind(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.target.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;textarea value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="select标签"><a href="#select标签" class="headerlink" title="select标签"></a>select标签</h4><ul>
+<li><p>类似的，React并不用selected属性，而是在根select标签中使用一个value属性，这样你只需更新value属性即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props);</span><br><span class="line">	this.state = &#123;value :&apos;coconut&apos;&#125;;</span><br><span class="line">	this.handleChange = this.handleChange.bind(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.target.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;select value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>总结：input，textarea和select都可以以类似的方式工作：接受一个value属性以实现受控组件</p>
+</li>
+</ul>
+<h4 id="file-input标签"><a href="#file-input标签" class="headerlink" title="file input标签"></a>file input标签</h4><ul>
+<li>在React中，一个<input type="file">是只读的(read-only)，不能设置值，只能用File API与文件交互<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">handleSubmit(event)&#123;</span><br><span class="line">	event.preventDefault();</span><br><span class="line">	alert(this.fileInput.files[0].name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">	&lt;input type=&quot;file&quot; ref=&#123;input =&gt; &#123;this.fileInput = input;&#125;&#125;&gt; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="状态提升"><a href="#状态提升" class="headerlink" title="状态提升"></a>状态提升</h3><ul>
+<li>通常情况下，同一个数据的变化需要几个不同的组件来反映。我们建议提升共享的状态到它们最近的祖先组件中</li>
+<li>在React中，共享state状态，是通过将其移动到需要它的组件的最近的共同祖先组件来实现的，这被称为状态提升</li>
+<li>具体来说，可以在祖先组件中编辑处理函数，再以props属性的方式传入给子组件（注意传入的函数的this仍然绑定在当前组件上），交由子组件去处理，不过子组件已经实现了对父组件中state的共享<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props);</span><br><span class="line">	this.state = &#123;temperature:&apos;&apos;,scale:&apos;c&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleCelsiusChange(temperature)&#123;</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		scale:&apos;c&apos;,</span><br><span class="line">		temperature</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleFahrenheitChange(temperature)&#123;</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		scale:&apos;f&apos;,</span><br><span class="line">		temperature</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line">&lt;TemperatureInput temperature=&#123;celsius&#125; onTemperatureChange=&#123;this.handleCelsiusChange&#125; /&gt;</span><br><span class="line">&lt;TemperatureInput temperature=&#123;fahrenheit&#125; onTemperatureChange=&#123;this.handleFahrenheitChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="组合VS继承"><a href="#组合VS继承" class="headerlink" title="组合VS继承"></a>组合VS继承</h3><ul>
+<li><p>使用自定义的props属性，来实现组件的组合搭配。如<contacts>和<chat>等React元素本质上也是对象，所以可以像其他数据一样作为props属性传递使用</chat></contacts></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function SplitPane(props)&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;div className=&quot;SplitPane&quot;&gt;</span><br><span class="line">			&lt;div className=&quot;SplitPane-left&quot;&gt;</span><br><span class="line">				&#123;props.left&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">			&lt;div className=&quot;SplitPane-right&quot;&gt;</span><br><span class="line">				&#123;props.right&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function App()&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;SplitPane left=&#123;&lt;Contacts /&gt;&#125; right=&#123;&lt;Chat /&gt;&#125;/&gt;</span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在React中，也可以使用组合的方式（组合就是使用props属性传值）来从一个偏通用的组件渲染出一个偏特殊的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function Dialog(props)&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;FancyBorder color=&quot;blue&quot;&gt;</span><br><span class="line">			&lt;h1 className=&quot;Dialog-title&quot;&gt;</span><br><span class="line">				&#123;props.title&#125;</span><br><span class="line">			&lt;/h1&gt;</span><br><span class="line">			&lt;p className=&quot;Dialog-message&quot;&gt;</span><br><span class="line">				&#123;props.message&#125;</span><br><span class="line">			&lt;/p&gt;</span><br><span class="line">		&lt;/FancyBorder&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function WelcomDialog()&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;Dialog title=&quot;Welcome&quot; message=&quot;Thank you for visiting us!&quot; /&gt; </span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="组合与继承的取舍"><a href="#组合与继承的取舍" class="headerlink" title="组合与继承的取舍"></a>组合与继承的取舍</h4><ul>
+<li>在facebook，我们还没有发现任何用例，值得我们建议你用继承层次结构来创建组件（即class extends）</li>
+<li>使用props属性和组合已经足够灵活来明确、安全地定制一个组件的外观和行为，组件可以接受任意的props属性，包括原始值，React元素或函数</li>
+</ul>
+<h3 id="React的编程思想"><a href="#React的编程思想" class="headerlink" title="React的编程思想"></a>React的编程思想</h3><ul>
+<li>步骤1：将UI拆解到组件层次结构中</li>
+<li>步骤2：用React构建一个静态版本</li>
+<li>步骤3：确定UI state的最小完整表示</li>
+<li>步骤4：确定state的位置</li>
+<li>步骤5：添加反向数据流</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-React/" rel="tag"># Font-End React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/31/vue-cli2/" rel="next" title="vue-cli构建博客项目中遇到的坑（二）">
+                <i class="fa fa-chevron-left"></i> vue-cli构建博客项目中遇到的坑（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/07/2-react/" rel="prev" title="「React官方文档学习笔记」 2. React高级指南（一）">
+                「React官方文档学习笔记」 2. React高级指南（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hello-World"><span class="nav-number">1.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSX简介"><span class="nav-number">2.</span> <span class="nav-text">JSX简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSX（标签）的属性值"><span class="nav-number">2.1.</span> <span class="nav-text">JSX（标签）的属性值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSX是React-createElement-的语法糖"><span class="nav-number">2.2.</span> <span class="nav-text">JSX是React.createElement()的语法糖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码规范"><span class="nav-number">2.3.</span> <span class="nav-text">编码规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元素渲染"><span class="nav-number">3.</span> <span class="nav-text">元素渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件和属性"><span class="nav-number">4.</span> <span class="nav-text">组件和属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个好的经验准则"><span class="nav-number">4.1.</span> <span class="nav-text">一个好的经验准则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编码规范-1"><span class="nav-number">4.2.</span> <span class="nav-text">编码规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态和生命周期"><span class="nav-number">5.</span> <span class="nav-text">状态和生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#正确地使用state状态"><span class="nav-number">5.1.</span> <span class="nav-text">正确地使用state状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#state更新可能是异步的"><span class="nav-number">5.2.</span> <span class="nav-text">state更新可能是异步的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从上到下，单向的数据流"><span class="nav-number">5.3.</span> <span class="nav-text">从上到下，单向的数据流</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理事件"><span class="nav-number">6.</span> <span class="nav-text">处理事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#将参数传递给事件处理程序"><span class="nav-number">6.1.</span> <span class="nav-text">将参数传递给事件处理程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件渲染"><span class="nav-number">7.</span> <span class="nav-text">条件渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表和键"><span class="nav-number">8.</span> <span class="nav-text">列表和键</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要添加key值"><span class="nav-number">8.1.</span> <span class="nav-text">为什么要添加key值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码"><span class="nav-number">8.2.</span> <span class="nav-text">示例代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表单"><span class="nav-number">9.</span> <span class="nav-text">表单</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#textarea标签"><span class="nav-number">9.1.</span> <span class="nav-text">textarea标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select标签"><span class="nav-number">9.2.</span> <span class="nav-text">select标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#file-input标签"><span class="nav-number">9.3.</span> <span class="nav-text">file input标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态提升"><span class="nav-number">10.</span> <span class="nav-text">状态提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合VS继承"><span class="nav-number">11.</span> <span class="nav-text">组合VS继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组合与继承的取舍"><span class="nav-number">11.1.</span> <span class="nav-text">组合与继承的取舍</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React的编程思想"><span class="nav-number">12.</span> <span class="nav-text">React的编程思想</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
