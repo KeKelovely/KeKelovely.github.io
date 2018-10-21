@@ -113,18 +113,18 @@
 
 
 
-<meta name="description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta name="description" content="Vue2.x脚手架UI在脚手架中使用bootstrap以cdn的方式引入 用vue init webpack-simple boot-demo安装vue脚手架 用bower安装bootstrap 在脚手架文件夹中的index.html中用外链的形式引入bootstrap 缺点：打包本身不会对index.html进行打包，因此外部库等文件无法被打包到dist文件中，需要页面额外加载引入  以npm/">
 <meta name="keywords" content="Font-End Vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「Vue学习笔记」 3. Vue-resource">
-<meta property="og:url" content="http://yoursite.com/2018/07/03/3-vue/index.html">
+<meta property="og:title" content="「Vue学习笔记」 18. Vue2.x脚手架UI">
+<meta property="og:url" content="http://yoursite.com/2018/07/18/18-vue/index.html">
 <meta property="og:site_name" content="KeKeHome">
-<meta property="og:description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta property="og:description" content="Vue2.x脚手架UI在脚手架中使用bootstrap以cdn的方式引入 用vue init webpack-simple boot-demo安装vue脚手架 用bower安装bootstrap 在脚手架文件夹中的index.html中用外链的形式引入bootstrap 缺点：打包本身不会对index.html进行打包，因此外部库等文件无法被打包到dist文件中，需要页面额外加载引入  以npm/">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-21T03:47:26.747Z">
+<meta property="og:updated_time" content="2018-10-21T09:04:31.003Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「Vue学习笔记」 3. Vue-resource">
-<meta name="twitter:description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta name="twitter:title" content="「Vue学习笔记」 18. Vue2.x脚手架UI">
+<meta name="twitter:description" content="Vue2.x脚手架UI在脚手架中使用bootstrap以cdn的方式引入 用vue init webpack-simple boot-demo安装vue脚手架 用bower安装bootstrap 在脚手架文件夹中的index.html中用外链的形式引入bootstrap 缺点：打包本身不会对index.html进行打包，因此外部库等文件无法被打包到dist文件中，需要页面额外加载引入  以npm/">
 
 
 
@@ -179,13 +179,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/03/3-vue/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/18/18-vue/"/>
 
 
 
 
 
-  <title>「Vue学习笔记」 3. Vue-resource | KeKeHome</title>
+  <title>「Vue学习笔记」 18. Vue2.x脚手架UI | KeKeHome</title>
   
 
 
@@ -339,12 +339,12 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
-			<div class="post-day">03</div>
+			<div class="post-day">18</div>
 	</div>
   
 
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/3-vue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/18-vue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -361,7 +361,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 3. Vue-resource</h1>
+          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 18. Vue2.x脚手架UI</h1>
         
 
         <div class="post-meta">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T00:00:00+08:00">
-                2018-07-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-18T00:00:00+08:00">
+                2018-07-18
               </time>
             
 
@@ -411,32 +411,63 @@
       
 
       
-        <h1 id="bower包管理工具、Vue的交互与vue-resource的应用"><a href="#bower包管理工具、Vue的交互与vue-resource的应用" class="headerlink" title="bower包管理工具、Vue的交互与vue-resource的应用"></a>bower包管理工具、Vue的交互与vue-resource的应用</h1><h2 id="bower介绍"><a href="#bower介绍" class="headerlink" title="bower介绍"></a>bower介绍</h2><ul>
-<li>bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g）</li>
-<li>bower中的版本号用#表示(不是@)</li>
-<li>bower i 下载的库的名字#版本号</li>
+        <h1 id="Vue2-x脚手架UI"><a href="#Vue2-x脚手架UI" class="headerlink" title="Vue2.x脚手架UI"></a>Vue2.x脚手架UI</h1><h2 id="在脚手架中使用bootstrap"><a href="#在脚手架中使用bootstrap" class="headerlink" title="在脚手架中使用bootstrap"></a>在脚手架中使用bootstrap</h2><h3 id="以cdn的方式引入"><a href="#以cdn的方式引入" class="headerlink" title="以cdn的方式引入"></a>以cdn的方式引入</h3><ul>
+<li>用vue init webpack-simple boot-demo安装vue脚手架</li>
+<li>用bower安装bootstrap</li>
+<li>在脚手架文件夹中的index.html中用外链的形式引入bootstrap</li>
+<li>缺点：打包本身不会对index.html进行打包，因此外部库等文件无法被打包到dist文件中，需要页面额外加载引入</li>
 </ul>
-<h2 id="vue-resource插件介绍"><a href="#vue-resource插件介绍" class="headerlink" title="vue-resource插件介绍"></a>vue-resource插件介绍</h2><ul>
-<li>vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目</li>
-<li>vue-resource主要给vue1.x提供如ajax、jsonp等方法，这也是本章介绍的主题</li>
-<li>vue-resource在vue对象上添加了若干方法，如$http，你可以通过在vue对象内部使用this.$http.xxx调用</li>
+<h3 id="以npm-webpack的方式引入并打包"><a href="#以npm-webpack的方式引入并打包" class="headerlink" title="以npm/webpack的方式引入并打包"></a>以npm/webpack的方式引入并打包</h3><ul>
+<li>以下文element-ui的安装及使用为例，见下~</li>
 </ul>
-<h2 id="vue-resource的GET方法"><a href="#vue-resource的GET方法" class="headerlink" title="vue-resource的GET方法"></a>vue-resource的GET方法</h2><ul>
-<li>vue-resource添加了一个this.$http方法用以交互，注意是封装成了Promise的用法，因此需要使用.then语法</li>
-<li>基本语法格式：this.$http.get(‘url’,data).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.get(&apos;http://localhost:2133/getInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="elment-ui"><a href="#elment-ui" class="headerlink" title="elment-ui"></a>elment-ui</h2><h3 id="elment-ui的配置和使用"><a href="#elment-ui的配置和使用" class="headerlink" title="elment-ui的配置和使用"></a>elment-ui的配置和使用</h3><ol>
+<li>用vue init webpack-simple ele-demo安装vue脚手架</li>
+<li>在安装完预先配置文件后，再使用cnpm i element-ui -S在上线环境中安装element-ui</li>
+<li><p>在main.js中引入如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import ElementUI from &apos;element-ui&apos;</span><br><span class="line">import &apos;element-ui/lib/theme-chalk/index.css&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(ElementUI)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是脚手架中webpack的默认配置无法解析.css文件，因此我们需要额外安装style-loader</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm i style-loader -D</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后在webpack.config.js中配置文件信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use: [</span><br><span class="line">	&apos;vue-style-loader&apos;,</span><br><span class="line">	&apos;style-loader&apos;,</span><br><span class="line">	&apos;css-loader&apos;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后…你特么发现编译还是报错…因为无法解析ttf文件的file-loader，所以你需要在webpack.config.js文件中加入ttf，可能还涉及到woff2/eot等文件，请一并加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	test: /\.(png|jpg|gif|svg|ttf|woff|woff2|eot)$/,</span><br><span class="line">	loader: &apos;file-loader&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="使用element-ui组件"><a href="#使用element-ui组件" class="headerlink" title="使用element-ui组件"></a>使用element-ui组件</h3><ol>
+<li>参考官方文档即可，相当于直接引DOM元素/标签</li>
+</ol>
+<h3 id="按需加载element-ui组件"><a href="#按需加载element-ui组件" class="headerlink" title="按需加载element-ui组件"></a>按需加载element-ui组件</h3><ol start="2">
+<li>按需引入：减小项目体积</li>
+</ol>
+<ul>
+<li>安装插件：cnpm i babel-plugin-component -D</li>
+<li><p>修改.babelrc文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;plugins&quot;: [[&quot;component&quot;,[</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;libraryName&quot;: &quot;element-ui&quot;,</span><br><span class="line">			&quot;styleLibraryName&quot;: &quot;theme-chalk&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	]]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来，如果你只希望引入部分组件，比如Button和Select，那么需要在main.js中写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import &#123;Button&#125; from &apos;element-ui&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Button);</span><br><span class="line"></span><br><span class="line">// 或者</span><br><span class="line"></span><br><span class="line">Vue.component(Button.name,Button);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>补充：使用npm run build打包生成dist后，应将资源文件放在http服务器上，有关组件才会正常显示（否则路径指向会不正确），建议用nodejs实现</p>
 </li>
 </ul>
-<h2 id="vue-resource的POST方法"><a href="#vue-resource的POST方法" class="headerlink" title="vue-resource的POST方法"></a>vue-resource的POST方法</h2><ul>
-<li>同样是用this.$http.post进行交互，并封装成Promise的语法，注意需要添加emulateJSON属性用以说明是用post传输的json数据</li>
-<li>基本语法格式：this.$http.post(‘url’,data,{emulateJSON:true}).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.post(&apos;http://localhost:2133/postInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			emulateJSON:true</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="mint-ui"><a href="#mint-ui" class="headerlink" title="mint-ui"></a>mint-ui</h2><h3 id="什么是mint-ui"><a href="#什么是mint-ui" class="headerlink" title="什么是mint-ui"></a>什么是mint-ui</h3><ul>
+<li>基于vue.js的移动端组件库，设计风格与element-ui一致</li>
+<li>安装：建议使用npm安装，并用webpack的方式引入 npm i mint-ui -S</li>
+</ul>
+<h3 id="引入mint-ui"><a href="#引入mint-ui" class="headerlink" title="引入mint-ui"></a>引入mint-ui</h3><ul>
+<li><p>完整引入：在main.js中写入以下内容：，注意样式文件需要单独引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import MintUI from &apos;mint-ui&apos;</span><br><span class="line">import &apos;mint-ui/lib/style.css&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(MintUI)</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;#app&apos;,</span><br><span class="line">	components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>别忘了在Index.html中声明移动端适配的meta元素，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按需引入：与element-ui相同</p>
 </li>
 </ul>
-<h2 id="vue-resource的jsonp方法"><a href="#vue-resource的jsonp方法" class="headerlink" title="vue-resource的jsonp方法"></a>vue-resource的jsonp方法</h2><ul>
-<li>利用DOM元素中的src属性可以跨域调用的原理，用script标签跨域调用外部API接口</li>
-<li>外部API接口可以在开发者工具中的Network中获取</li>
-<li>基本语法格式：this.$http.jsonp(‘api-url’,data,{jsonp:callback-key}).then(function(){success},function(){failed})</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	query: function()&#123;</span><br><span class="line">		this.$http.jsonp(&quot;https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su&quot;,&#123;</span><br><span class="line">			wd: this.wd</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			jsonp: &apos;cb&apos; // 此处jsonp属性的值应为对应API接口上的callback函数query上的键</span><br><span class="line">		&#125;).then(function(json)&#123;</span><br><span class="line">			//console.log(json.data.s);</span><br><span class="line">			for(var i in json.data.s)&#123;</span><br><span class="line">				this.arr.push(json.data.s[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			console.log(&apos;error!&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -470,8 +501,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/02/2-vue/" rel="next" title="「Vue学习笔记」 2. Vue入门（二）">
-                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 2. Vue入门（二）
+              <a href="/2018/07/17/17-vue/" rel="next" title="「Vue学习笔记」 17. Vue2.x脚手架">
+                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 17. Vue2.x脚手架
               </a>
             
           </div>
@@ -480,8 +511,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/04/4-vue/" rel="prev" title="「Vue学习笔记」 4. Vue属性">
-                「Vue学习笔记」 4. Vue属性 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/19/19-vue/" rel="prev" title="「Vue学习笔记」 19. VueX">
+                「Vue学习笔记」 19. VueX <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -657,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bower包管理工具、Vue的交互与vue-resource的应用"><span class="nav-number">1.</span> <span class="nav-text">bower包管理工具、Vue的交互与vue-resource的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bower介绍"><span class="nav-number">1.1.</span> <span class="nav-text">bower介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource插件介绍"><span class="nav-number">1.2.</span> <span class="nav-text">vue-resource插件介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的GET方法"><span class="nav-number">1.3.</span> <span class="nav-text">vue-resource的GET方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的POST方法"><span class="nav-number">1.4.</span> <span class="nav-text">vue-resource的POST方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的jsonp方法"><span class="nav-number">1.5.</span> <span class="nav-text">vue-resource的jsonp方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue2-x脚手架UI"><span class="nav-number">1.</span> <span class="nav-text">Vue2.x脚手架UI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在脚手架中使用bootstrap"><span class="nav-number">1.1.</span> <span class="nav-text">在脚手架中使用bootstrap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以cdn的方式引入"><span class="nav-number">1.1.1.</span> <span class="nav-text">以cdn的方式引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以npm-webpack的方式引入并打包"><span class="nav-number">1.1.2.</span> <span class="nav-text">以npm/webpack的方式引入并打包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elment-ui"><span class="nav-number">1.2.</span> <span class="nav-text">elment-ui</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#elment-ui的配置和使用"><span class="nav-number">1.2.1.</span> <span class="nav-text">elment-ui的配置和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用element-ui组件"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用element-ui组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按需加载element-ui组件"><span class="nav-number">1.2.3.</span> <span class="nav-text">按需加载element-ui组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mint-ui"><span class="nav-number">1.3.</span> <span class="nav-text">mint-ui</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是mint-ui"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是mint-ui</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入mint-ui"><span class="nav-number">1.3.2.</span> <span class="nav-text">引入mint-ui</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
