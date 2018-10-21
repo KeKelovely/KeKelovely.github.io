@@ -113,18 +113,18 @@
 
 
 
-<meta name="description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta name="description" content="Vue2.x的动画复习：Vue1.x的动画 使用transition来实现动画效果： v-show从true到false，就是leave过程，从false到true，就是enter过程123456789101112131415161718&amp;lt;div transition=&amp;apos;animeName&amp;apos; v-show=&amp;apos;true/false&amp;apos;&amp;gt;&amp;lt;/di">
 <meta name="keywords" content="Font-End Vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「Vue学习笔记」 3. Vue-resource">
-<meta property="og:url" content="http://yoursite.com/2018/07/03/3-vue/index.html">
+<meta property="og:title" content="「Vue学习笔记」 15. Vue2.x动画">
+<meta property="og:url" content="http://yoursite.com/2018/07/15/15-vue/index.html">
 <meta property="og:site_name" content="KeKeHome">
-<meta property="og:description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta property="og:description" content="Vue2.x的动画复习：Vue1.x的动画 使用transition来实现动画效果： v-show从true到false，就是leave过程，从false到true，就是enter过程123456789101112131415161718&amp;lt;div transition=&amp;apos;animeName&amp;apos; v-show=&amp;apos;true/false&amp;apos;&amp;gt;&amp;lt;/di">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-21T03:47:26.747Z">
+<meta property="og:updated_time" content="2018-10-21T08:58:18.676Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「Vue学习笔记」 3. Vue-resource">
-<meta name="twitter:description" content="bower包管理工具、Vue的交互与vue-resource的应用bower介绍 bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g） bower中的版本号用#表示(不是@) bower i 下载的库的名字#版本号  vue-resource插件介绍 vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目 v">
+<meta name="twitter:title" content="「Vue学习笔记」 15. Vue2.x动画">
+<meta name="twitter:description" content="Vue2.x的动画复习：Vue1.x的动画 使用transition来实现动画效果： v-show从true到false，就是leave过程，从false到true，就是enter过程123456789101112131415161718&amp;lt;div transition=&amp;apos;animeName&amp;apos; v-show=&amp;apos;true/false&amp;apos;&amp;gt;&amp;lt;/di">
 
 
 
@@ -179,13 +179,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/03/3-vue/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/15/15-vue/"/>
 
 
 
 
 
-  <title>「Vue学习笔记」 3. Vue-resource | KeKeHome</title>
+  <title>「Vue学习笔记」 15. Vue2.x动画 | KeKeHome</title>
   
 
 
@@ -339,12 +339,12 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
-			<div class="post-day">03</div>
+			<div class="post-day">15</div>
 	</div>
   
 
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/3-vue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/15-vue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -361,7 +361,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 3. Vue-resource</h1>
+          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 15. Vue2.x动画</h1>
         
 
         <div class="post-meta">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T00:00:00+08:00">
-                2018-07-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-15T00:00:00+08:00">
+                2018-07-15
               </time>
             
 
@@ -411,32 +411,63 @@
       
 
       
-        <h1 id="bower包管理工具、Vue的交互与vue-resource的应用"><a href="#bower包管理工具、Vue的交互与vue-resource的应用" class="headerlink" title="bower包管理工具、Vue的交互与vue-resource的应用"></a>bower包管理工具、Vue的交互与vue-resource的应用</h1><h2 id="bower介绍"><a href="#bower介绍" class="headerlink" title="bower介绍"></a>bower介绍</h2><ul>
-<li>bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g）</li>
-<li>bower中的版本号用#表示(不是@)</li>
-<li>bower i 下载的库的名字#版本号</li>
-</ul>
-<h2 id="vue-resource插件介绍"><a href="#vue-resource插件介绍" class="headerlink" title="vue-resource插件介绍"></a>vue-resource插件介绍</h2><ul>
-<li>vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目</li>
-<li>vue-resource主要给vue1.x提供如ajax、jsonp等方法，这也是本章介绍的主题</li>
-<li>vue-resource在vue对象上添加了若干方法，如$http，你可以通过在vue对象内部使用this.$http.xxx调用</li>
-</ul>
-<h2 id="vue-resource的GET方法"><a href="#vue-resource的GET方法" class="headerlink" title="vue-resource的GET方法"></a>vue-resource的GET方法</h2><ul>
-<li>vue-resource添加了一个this.$http方法用以交互，注意是封装成了Promise的用法，因此需要使用.then语法</li>
-<li>基本语法格式：this.$http.get(‘url’,data).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.get(&apos;http://localhost:2133/getInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="Vue2-x的动画"><a href="#Vue2-x的动画" class="headerlink" title="Vue2.x的动画"></a>Vue2.x的动画</h1><h2 id="复习：Vue1-x的动画"><a href="#复习：Vue1-x的动画" class="headerlink" title="复习：Vue1.x的动画"></a>复习：Vue1.x的动画</h2><ul>
+<li>使用transition来实现动画效果：</li>
+<li>v-show从true到false，就是leave过程，从false到true，就是enter过程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div transition=&apos;animeName&apos; v-show=&apos;true/false&apos;&gt;&lt;/div&gt;</span><br><span class="line">// css方式</span><br><span class="line">.animeName-transition&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">.animeName-enter&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">.animeName-leave&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// js方式</span><br><span class="line">transitions: &#123;</span><br><span class="line">	&apos;animateName&apos; :&#123;</span><br><span class="line">		enterClass: &apos;enterStyle&apos;,</span><br><span class="line">		leaveClass: &apos;levaeStyle&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="vue-resource的POST方法"><a href="#vue-resource的POST方法" class="headerlink" title="vue-resource的POST方法"></a>vue-resource的POST方法</h2><ul>
-<li>同样是用this.$http.post进行交互，并封装成Promise的语法，注意需要添加emulateJSON属性用以说明是用post传输的json数据</li>
-<li>基本语法格式：this.$http.post(‘url’,data,{emulateJSON:true}).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.post(&apos;http://localhost:2133/postInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			emulateJSON:true</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Vue2-x的动画实现：transition标签"><a href="#Vue2-x的动画实现：transition标签" class="headerlink" title="Vue2.x的动画实现：transition标签"></a>Vue2.x的动画实现：transition标签</h2><ul>
+<li><p>在DOM文档中插入transition标签(作为一个“动画容器”)，用来实现动画：使用name属性来指定动画名称，以及显示动画的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&apos;animeName&apos;&gt;</span><br><span class="line">	//...</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>与1.x类似，动画分为如下几个阶段：anime-enter（进入前）/anime-enter-active（进入后）/anime-leave（消失前）/anime-leave-active（消失后）</p>
+</li>
+<li>其余的操作与1.x的版本同理（如v-show的布尔值控制样式效果）</li>
+<li>此外，你需要为anime-enter-active和anime-leave-active指定transition过渡属性（哪里变化，就给哪里加上过渡属性）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.anime-enter-active, .anime-leave-active&#123;</span><br><span class="line">	transition: 1s ease all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="vue-resource的jsonp方法"><a href="#vue-resource的jsonp方法" class="headerlink" title="vue-resource的jsonp方法"></a>vue-resource的jsonp方法</h2><ul>
-<li>利用DOM元素中的src属性可以跨域调用的原理，用script标签跨域调用外部API接口</li>
-<li>外部API接口可以在开发者工具中的Network中获取</li>
-<li>基本语法格式：this.$http.jsonp(‘api-url’,data,{jsonp:callback-key}).then(function(){success},function(){failed})</li>
+<h3 id="18-2-1-总结："><a href="#18-2-1-总结：" class="headerlink" title="18.2.1 总结："></a>18.2.1 总结：</h3><ul>
+<li>命名：自定义的名称-状态（下面以自定义的名称fade为例）</li>
+<li>fade-enter：进入之前的状态</li>
+<li>fade-enter-active：变成什么（进入之后的状态）</li>
+<li>fade-leave：要消失了（消失之前的状态）</li>
+<li>fade-leave-active：变成什么样（消失之后的状态）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	query: function()&#123;</span><br><span class="line">		this.$http.jsonp(&quot;https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su&quot;,&#123;</span><br><span class="line">			wd: this.wd</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			jsonp: &apos;cb&apos; // 此处jsonp属性的值应为对应API接口上的callback函数query上的键</span><br><span class="line">		&#125;).then(function(json)&#123;</span><br><span class="line">			//console.log(json.data.s);</span><br><span class="line">			for(var i in json.data.s)&#123;</span><br><span class="line">				this.arr.push(json.data.s[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			console.log(&apos;error!&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="对1-x版本的延续"><a href="#对1-x版本的延续" class="headerlink" title="对1.x版本的延续"></a>对1.x版本的延续</h3><ul>
+<li>Vue2.x版本中也提供了对1.x版本写法的支持：</li>
+<li>enter-active-class = ‘进入之前的class’</li>
+<li>leave-active-class = ‘要离开的class’</li>
+<li>这时，就不用再定义如fade-enter、fade-enter-active等属性了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&apos;fade&apos; enter-active-class=&apos;myaaa&apos; leave-active-class=&apos;mybbb&apos;&gt;</span><br><span class="line">	&lt;div class=&apos;box&apos; v-show=&apos;show&apos;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Vue2-x的动画的生命周期"><a href="#Vue2-x的动画的生命周期" class="headerlink" title="Vue2.x的动画的生命周期"></a>Vue2.x的动画的生命周期</h2><ul>
+<li><p>生命周期在transition标签上添加，方法在methods属性中定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&apos;fade&apos; @before-enter=&apos;beforeEnter&apos; @enter=&apos;enter&apos; @after-enter=&apos;afterEnter&apos;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/transition&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#root&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			show: true</span><br><span class="line">		&#125;,</span><br><span class="line">		methods: &#123;</span><br><span class="line">			changed()&#123;</span><br><span class="line">				this.show = !this.show;</span><br><span class="line">			&#125;,</span><br><span class="line">			beforeEnter()&#123;</span><br><span class="line">				console.log(&apos;before Enter&apos;);</span><br><span class="line">			&#125;,</span><br><span class="line">			enter()&#123;</span><br><span class="line">				console.log(&apos;entering&apos;);</span><br><span class="line">			&#125;,</span><br><span class="line">			afterEnter()&#123;</span><br><span class="line">				console.log(&apos;entered&apos;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>总结：在transition标签上，生命周期由属性来添加，进入与离开同理，总共有：</p>
+<ul>
+<li>@before-enter = ‘’;</li>
+<li>@enter（进入的过程中）</li>
+<li>@after-enter</li>
+<li>@before-leave</li>
+<li>@leave（离开的过程中）</li>
+<li>@after-leave</li>
+</ul>
+</li>
+<li>然后，你只需要在Vue对象中添加同名的methods方法即可（名称预先由transition标签的属性值来确定）</li>
+<li>动画的生命周期：1.x版本没有，是2.x版本新增加的内容</li>
+</ul>
+<h2 id="animate-css的使用"><a href="#animate-css的使用" class="headerlink" title="animate.css的使用"></a>animate.css的使用</h2><ul>
+<li>使用vue 1.x版本的写法，在enter-active-class和leave-active-class中添加animate中的类</li>
+<li>注意一定要预先加入animated类，用以声明transition的过渡时间</li>
+<li>示例代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition name=&apos;fade&apos; enter-active-class=&apos;animated filp&apos; leave-active-class=&apos;animated hinge&apos;&gt;</span><br><span class="line">	&lt;div class=&apos;box&apos; v-show=&apos;show&apos;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/transition&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="为元素群组添加动画"><a href="#为元素群组添加动画" class="headerlink" title="为元素群组添加动画"></a>为元素群组添加动画</h2><ul>
+<li>如果你想在transition元素中加入多个元素，为它们制造统一的动画效果，应使用transition-group元素，同时为每个“相同”的子元素添加key属性加以区分</li>
+<li>注意，为保证每个子元素是唯一的，它们的key值应当不一样~<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;transition-group&gt;</span><br><span class="line">	&lt;div class=&quot;box&quot; v-show=&apos;show&apos; :key=&apos;1&apos;&gt;&lt;/div&gt;</span><br><span class="line">	&lt;div class=&quot;box&quot; v-show=&apos;show&apos; :key=&apos;2&apos;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/transition-group&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
     </div>
     
@@ -470,8 +501,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/02/2-vue/" rel="next" title="「Vue学习笔记」 2. Vue入门（二）">
-                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 2. Vue入门（二）
+              <a href="/2018/07/14/14-vue/" rel="next" title="「Vue学习笔记」 14. Vue2.x组件">
+                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 14. Vue2.x组件
               </a>
             
           </div>
@@ -480,8 +511,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/04/4-vue/" rel="prev" title="「Vue学习笔记」 4. Vue属性">
-                「Vue学习笔记」 4. Vue属性 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/13/LXM-PR-reCHECK1/" rel="prev" title="小曼姐的产品课复盘（一）">
+                小曼姐的产品课复盘（一） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -657,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bower包管理工具、Vue的交互与vue-resource的应用"><span class="nav-number">1.</span> <span class="nav-text">bower包管理工具、Vue的交互与vue-resource的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bower介绍"><span class="nav-number">1.1.</span> <span class="nav-text">bower介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource插件介绍"><span class="nav-number">1.2.</span> <span class="nav-text">vue-resource插件介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的GET方法"><span class="nav-number">1.3.</span> <span class="nav-text">vue-resource的GET方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的POST方法"><span class="nav-number">1.4.</span> <span class="nav-text">vue-resource的POST方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-resource的jsonp方法"><span class="nav-number">1.5.</span> <span class="nav-text">vue-resource的jsonp方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue2-x的动画"><span class="nav-number">1.</span> <span class="nav-text">Vue2.x的动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复习：Vue1-x的动画"><span class="nav-number">1.1.</span> <span class="nav-text">复习：Vue1.x的动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue2-x的动画实现：transition标签"><span class="nav-number">1.2.</span> <span class="nav-text">Vue2.x的动画实现：transition标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#18-2-1-总结："><span class="nav-number">1.2.1.</span> <span class="nav-text">18.2.1 总结：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对1-x版本的延续"><span class="nav-number">1.2.2.</span> <span class="nav-text">对1.x版本的延续</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue2-x的动画的生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">Vue2.x的动画的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animate-css的使用"><span class="nav-number">1.4.</span> <span class="nav-text">animate.css的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为元素群组添加动画"><span class="nav-number">1.5.</span> <span class="nav-text">为元素群组添加动画</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End Vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Vue的路由（仅限1.x版本） 路由：SPA 单页Web应用 （根据不同的地址，在一个页面中显示不同的内容/效果/数据） 需要使用路由插件来实现 Vue1.x版本中，对应的vue-router版本是#0.7.13  路由的搭建：a标签 示例代码： 为a标签添加v-link属性，并指定路径 与React类似，添加router-view，用以指定输出的router页面(v-link的变化会引起该标签内">
+<meta name="keywords" content="Font-End Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Vue学习笔记」 11. Vue路由">
+<meta property="og:url" content="http://yoursite.com/2018/07/11/11-vue/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="Vue的路由（仅限1.x版本） 路由：SPA 单页Web应用 （根据不同的地址，在一个页面中显示不同的内容/效果/数据） 需要使用路由插件来实现 Vue1.x版本中，对应的vue-router版本是#0.7.13  路由的搭建：a标签 示例代码： 为a标签添加v-link属性，并指定路径 与React类似，添加router-view，用以指定输出的router页面(v-link的变化会引起该标签内">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T08:57:37.827Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Vue学习笔记」 11. Vue路由">
+<meta name="twitter:description" content="Vue的路由（仅限1.x版本） 路由：SPA 单页Web应用 （根据不同的地址，在一个页面中显示不同的内容/效果/数据） 需要使用路由插件来实现 Vue1.x版本中，对应的vue-router版本是#0.7.13  路由的搭建：a标签 示例代码： 为a标签添加v-link属性，并指定路径 与React类似，添加router-view，用以指定输出的router页面(v-link的变化会引起该标签内">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/11/11-vue/"/>
+
+
+
+
+
+  <title>「Vue学习笔记」 11. Vue路由 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">07月</div>
+			<div class="post-day">11</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/11/11-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 11. Vue路由</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-11T00:00:00+08:00">
+                2018-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Vue的路由（仅限1-x版本）"><a href="#Vue的路由（仅限1-x版本）" class="headerlink" title="Vue的路由（仅限1.x版本）"></a>Vue的路由（仅限1.x版本）</h1><ul>
+<li>路由：SPA 单页Web应用 （根据不同的地址，在一个页面中显示不同的内容/效果/数据）</li>
+<li>需要使用路由插件来实现</li>
+<li>Vue1.x版本中，对应的vue-router版本是#0.7.13</li>
+</ul>
+<h2 id="路由的搭建：a标签"><a href="#路由的搭建：a标签" class="headerlink" title="路由的搭建：a标签"></a>路由的搭建：a标签</h2><ul>
+<li>示例代码：</li>
+<li>为a标签添加v-link属性，并指定路径</li>
+<li><p>与React类似，添加router-view，用以指定输出的router页面(v-link的变化会引起该标签内容的改变)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;box&apos;&gt;</span><br><span class="line">	&lt;a v-link=&apos;&#123;path:&quot;/home&quot;&#125;&apos;&gt;首页&lt;/a&gt;</span><br><span class="line">	&lt;a v-link=&apos;&#123;path:&quot;/news&quot;&#125;&apos;&gt;新闻&lt;/a&gt;</span><br><span class="line">	&lt;router-view&gt;&lt;/router-view&gt;	</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后，按照步骤依次书写路由：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">	// 1. 准备全局组件(用一个空组件来启动路由)</span><br><span class="line">	var app = Vue.extend();</span><br><span class="line"></span><br><span class="line">	// 2. 准备组件</span><br><span class="line">	var home = Vue.extend(&#123;</span><br><span class="line">		template:`&lt;h1&gt;我是首页&lt;/h1&gt;`</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	var news = Vue.extend(&#123;</span><br><span class="line">		template:`&lt;h1&gt;我是新闻页&lt;/h1&gt;`</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	// 3.准备路由</span><br><span class="line">	var router = new VueRouter();</span><br><span class="line"></span><br><span class="line">	// 4. 关联路由和页面</span><br><span class="line">	router.map(&#123;</span><br><span class="line">		&apos;home&apos;: &#123;</span><br><span class="line">			component: home</span><br><span class="line">		&#125;,</span><br><span class="line">		&apos;news&apos;: &#123;</span><br><span class="line">			component: news</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	// 5. 启动路由</span><br><span class="line">	router.start(app,&apos;#box&apos;);</span><br><span class="line"></span><br><span class="line">	// 6. 添加默认显示页面</span><br><span class="line">	router.redirect(&#123;</span><br><span class="line">		&apos;/&apos;: &apos;home&apos;,</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="路由的样式"><a href="#路由的样式" class="headerlink" title="路由的样式"></a>路由的样式</h3><ul>
+<li><p>在为a标签添加v-link属性后，渲染到文档中时，a标签会被添加一个.v-link-active类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;#!/home&quot; class=&quot;v-link-active&quot;&gt;首页&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过为.v-link-active添加css样式，可以丰富交互效果</p>
+</li>
+</ul>
+<h2 id="路由的嵌套：多层地址"><a href="#路由的嵌套：多层地址" class="headerlink" title="路由的嵌套：多层地址"></a>路由的嵌套：多层地址</h2><ul>
+<li>要嵌套路由，首先要在模板中再使用a标签及v-link属性：</li>
+<li><p>注意：只要添加了a标签及v-link，就需要加上router-view，用来提供渲染页面的DOM元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;template id=&apos;component1&apos;&gt;</span><br><span class="line">	&lt;h1&gt;content111&lt;/h1&gt;</span><br><span class="line">	&lt;a v-link=&apos;&#123;path: &quot;/component1/eat&quot;&#125;&apos;&gt;我喜欢的食物~&lt;/a&gt;</span><br><span class="line">	&lt;a v-link=&apos;&#123;path: &quot;/component1/love&quot;&#125;&apos;&gt;我喜欢的人~&lt;/a&gt;</span><br><span class="line">	&lt;router-view&gt;&lt;/router-view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;template id=&apos;eat&apos;&gt;&lt;/template&gt;</span><br><span class="line">&lt;template id=&apos;love&apos;&gt;&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同时，需要在router.map中指定对应的页面，将路由和页面关联起来，使用subRoutes指定嵌套的子路由</p>
+</li>
+<li>属性就是路由的地址，值就是component，component用来指定组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">router.map(&#123;</span><br><span class="line">	component1: &#123;</span><br><span class="line">		component: &#123;</span><br><span class="line">			template: &apos;#component1&apos;</span><br><span class="line">		&#125;,</span><br><span class="line">		subRoutes: &#123;</span><br><span class="line">			eat: &#123;</span><br><span class="line">				component: &#123;</span><br><span class="line">					template: &apos;#eat&apos;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;,</span><br><span class="line">			love: &#123;</span><br><span class="line">				component: &#123;</span><br><span class="line">					template: &apos;#love&apos;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="子路由数据交互"><a href="#子路由数据交互" class="headerlink" title="子路由数据交互"></a>子路由数据交互</h2><ul>
+<li><p>有可能你的v-link中有参数，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a v-link=&quot;&#123;path:&apos;/search/detail/0231?a=12&apos;&#125;&quot;&gt;小说一&lt;/a&gt;</span><br><span class="line">&lt;a v-link=&quot;&#123;path:&apos;/search/detail/2183?a=13&apos;&#125;&quot;&gt;小说二&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>你可以在subRoutes的定义中，为路径添加参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">subRoutes: &#123;</span><br><span class="line">	&apos;/detail/:id&apos;: &#123;</span><br><span class="line">		component: &#123;</span><br><span class="line">			template: &apos;#detail&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后，你就可以获取到$route对象上的参数，如$route.parmas/$route.path/$route.query</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template id=&quot;detail&quot;&gt;</span><br><span class="line">	&lt;h1&gt;&#123;&#123;$route.params | json&#125;&#125;&lt;/h1&gt;</span><br><span class="line">	&lt;h1&gt;&#123;&#123;$route.path&#125;&#125;&lt;/h1&gt;</span><br><span class="line">	&lt;h1&gt;&#123;&#123;$route.query | json&#125;&#125;&lt;/h1&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后，我们只需要将父组件上的params数据传递给子组件即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template id=&apos;detail&apos;&gt;</span><br><span class="line">	&lt;childcomponent :params=&apos;$route.params&apos;&gt;&lt;/childcomponent&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	components: &#123;</span><br><span class="line">		childcomponent: &#123;</span><br><span class="line">			props: [&apos;params&apos;],</span><br><span class="line">			template: &apos;#childcomponent&apos;,</span><br><span class="line">			methods: &#123;</span><br><span class="line">				s()&#123;</span><br><span class="line">					console.log(this.params);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-Vue/" rel="tag"># Font-End Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/10/10-vue/" rel="next" title="「Vue学习笔记」 10. Vue组件">
+                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 10. Vue组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/12/12-vue/" rel="prev" title="「Vue学习笔记」 12 Vue-cli">
+                「Vue学习笔记」 12 Vue-cli <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue的路由（仅限1-x版本）"><span class="nav-number">1.</span> <span class="nav-text">Vue的路由（仅限1.x版本）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#路由的搭建：a标签"><span class="nav-number">1.1.</span> <span class="nav-text">路由的搭建：a标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#路由的样式"><span class="nav-number">1.1.1.</span> <span class="nav-text">路由的样式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由的嵌套：多层地址"><span class="nav-number">1.2.</span> <span class="nav-text">路由的嵌套：多层地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子路由数据交互"><span class="nav-number">1.3.</span> <span class="nav-text">子路由数据交互</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
