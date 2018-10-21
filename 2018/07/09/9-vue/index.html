@@ -113,18 +113,18 @@
 
 
 
-<meta name="description" content="Vue的computed计算属性与$watch侦听属性computed计算属性基本用法 vue的computed以对象的形式传入计算属性，和data类似，但是在computed中允许对数据进行计算 computed属性在多数情况下必须是一个函数（前提是你不向其中传入参数）  1234567891011new Vue(&amp;#123;	el: &amp;apos;body&amp;apos;,	data: &amp;#123;">
+<meta name="description" content="Vue1.x的动画 原理：transition 动画主要分为三个阶段：进入之前 → 显示 → 离开，在Vue中对应enter、transition（默认显示）和leave三部分  使用CSS定义动画 在DOM元素中添加transition属性，并给上自定义的动画名 1&amp;lt;div id=&amp;apos;animateDiv&amp;apos; transition=&amp;apos;animationName&amp;a">
 <meta name="keywords" content="Font-End Vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「Vue学习笔记」 4. Vue属性">
-<meta property="og:url" content="http://yoursite.com/2018/07/04/4-vue/index.html">
+<meta property="og:title" content="「Vue学习笔记」 9. Vue动画">
+<meta property="og:url" content="http://yoursite.com/2018/07/09/9-vue/index.html">
 <meta property="og:site_name" content="KeKeHome">
-<meta property="og:description" content="Vue的computed计算属性与$watch侦听属性computed计算属性基本用法 vue的computed以对象的形式传入计算属性，和data类似，但是在computed中允许对数据进行计算 computed属性在多数情况下必须是一个函数（前提是你不向其中传入参数）  1234567891011new Vue(&amp;#123;	el: &amp;apos;body&amp;apos;,	data: &amp;#123;">
+<meta property="og:description" content="Vue1.x的动画 原理：transition 动画主要分为三个阶段：进入之前 → 显示 → 离开，在Vue中对应enter、transition（默认显示）和leave三部分  使用CSS定义动画 在DOM元素中添加transition属性，并给上自定义的动画名 1&amp;lt;div id=&amp;apos;animateDiv&amp;apos; transition=&amp;apos;animationName&amp;a">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-21T03:47:34.507Z">
+<meta property="og:updated_time" content="2018-10-21T08:44:44.696Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「Vue学习笔记」 4. Vue属性">
-<meta name="twitter:description" content="Vue的computed计算属性与$watch侦听属性computed计算属性基本用法 vue的computed以对象的形式传入计算属性，和data类似，但是在computed中允许对数据进行计算 computed属性在多数情况下必须是一个函数（前提是你不向其中传入参数）  1234567891011new Vue(&amp;#123;	el: &amp;apos;body&amp;apos;,	data: &amp;#123;">
+<meta name="twitter:title" content="「Vue学习笔记」 9. Vue动画">
+<meta name="twitter:description" content="Vue1.x的动画 原理：transition 动画主要分为三个阶段：进入之前 → 显示 → 离开，在Vue中对应enter、transition（默认显示）和leave三部分  使用CSS定义动画 在DOM元素中添加transition属性，并给上自定义的动画名 1&amp;lt;div id=&amp;apos;animateDiv&amp;apos; transition=&amp;apos;animationName&amp;a">
 
 
 
@@ -179,13 +179,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/04/4-vue/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/09/9-vue/"/>
 
 
 
 
 
-  <title>「Vue学习笔记」 4. Vue属性 | KeKeHome</title>
+  <title>「Vue学习笔记」 9. Vue动画 | KeKeHome</title>
   
 
 
@@ -339,12 +339,12 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
-			<div class="post-day">04</div>
+			<div class="post-day">09</div>
 	</div>
   
 
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/4-vue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/9-vue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -361,7 +361,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 4. Vue属性</h1>
+          <h1 class="post-title" itemprop="name headline">「Vue学习笔记」 9. Vue动画</h1>
         
 
         <div class="post-meta">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T00:00:00+08:00">
-                2018-07-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-09T00:00:00+08:00">
+                2018-07-09
               </time>
             
 
@@ -411,21 +411,34 @@
       
 
       
-        <h1 id="Vue的computed计算属性与-watch侦听属性"><a href="#Vue的computed计算属性与-watch侦听属性" class="headerlink" title="Vue的computed计算属性与$watch侦听属性"></a>Vue的computed计算属性与$watch侦听属性</h1><h2 id="computed计算属性"><a href="#computed计算属性" class="headerlink" title="computed计算属性"></a>computed计算属性</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><ul>
-<li>vue的computed以对象的形式传入计算属性，和data类似，但是在computed中允许对数据进行计算</li>
-<li>computed属性在多数情况下必须是一个函数（前提是你不向其中传入参数）</li>
+        <h1 id="Vue1-x的动画"><a href="#Vue1-x的动画" class="headerlink" title="Vue1.x的动画"></a>Vue1.x的动画</h1><ul>
+<li>原理：transition</li>
+<li>动画主要分为三个阶段：进入之前 → 显示 → 离开，在Vue中对应enter、transition（默认显示）和leave三部分</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: &apos;&apos;,</span><br><span class="line">	&#125;,</span><br><span class="line">	computed: &#123;</span><br><span class="line">		b: function()&#123;</span><br><span class="line">			return this.a + 20;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="向computed属性传入参数"><a href="#向computed属性传入参数" class="headerlink" title="向computed属性传入参数"></a>向computed属性传入参数</h3><ul>
-<li>以对象而不是函数的形式传入get与set函数，get函数用来读取值（也就是computed的默认用法），set函数用来传入参数或是设置参数</li>
-<li>注意，向get函数传入参数是没有任何效果的</li>
-<li>例如在下面的例子中，向vue.c显式的传入值10,10就会被自动赋给set函数中的参数，换言之，vue.c的值实际上就是指向的set函数的参数，而不会对get函数有任何影响，get函数只用于return</li>
-<li>总结：set是入口，用于显式地传入参数，get是出口，用于返回数据，提供给外部模板使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var vue = new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: &apos;&apos;,</span><br><span class="line">		b: &apos;&apos;,</span><br><span class="line">	&#125;,</span><br><span class="line">	computed: &#123;</span><br><span class="line">		c: &#123;</span><br><span class="line">			get: function()&#123;</span><br><span class="line">				return this.a;</span><br><span class="line">			&#125;,</span><br><span class="line">			set: function(argument)&#123;</span><br><span class="line">				this.b = 20;</span><br><span class="line">				this.a = this.b + argument; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vue.c = 10; // argument = vue.c = 10;</span><br></pre></td></tr></table></figure>
+<h2 id="使用CSS定义动画"><a href="#使用CSS定义动画" class="headerlink" title="使用CSS定义动画"></a>使用CSS定义动画</h2><ul>
+<li><p>在DOM元素中添加transition属性，并给上自定义的动画名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;animateDiv&apos; transition=&apos;animationName&apos;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后在CSS中按照transition（默认显示的样式），leave及enter，依次定义动画效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.animationName-transition&#123;</span><br><span class="line">	// 默认显示样式</span><br><span class="line">	// transition: 1s;</span><br><span class="line">&#125;</span><br><span class="line">.animationName-leave&#123;</span><br><span class="line">	// 离开时动画效果</span><br><span class="line">&#125;</span><br><span class="line">.animationName-enter&#123;</span><br><span class="line">	// 加载时动画效果</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="watch侦听属性"><a href="#watch侦听属性" class="headerlink" title="$watch侦听属性"></a>$watch侦听属性</h2><ul>
-<li>添加$watch的侦听属性，当变量or数据发生变化时，就会触发回调函数</li>
-<li>基本格式：vue.$watch(data,callback),当data发生变化时，callback被调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var vue = new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: 10</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">vue.$watch(&apos;a&apos;,function()&#123;</span><br><span class="line">	console.log(&apos;vue中的data.a发生了变化&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<h2 id="使用JS定义动画"><a href="#使用JS定义动画" class="headerlink" title="使用JS定义动画"></a>使用JS定义动画</h2><ul>
+<li>在Vue实例中，使用transition属性来定义动画名称，并在CSS中加以对应：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// transition的属性中填入你自定义的动画名称</span><br><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		show: &apos;true&apos;</span><br><span class="line">	&#125;,</span><br><span class="line">	transition: &#123;</span><br><span class="line">		animation_name: &#123;</span><br><span class="line">			enterClass: &apos;classname1&apos;,</span><br><span class="line">			leaveClass: &apos;classname2&apos;,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Animate-css库"><a href="#Animate-css库" class="headerlink" title="Animate.css库"></a>Animate.css库</h2><ul>
+<li>加载animate.css文件，同时添加库中预定义好的css类，就能方便的使用动画~</li>
+</ul>
+<h2 id="Vue动画学习的“坑”"><a href="#Vue动画学习的“坑”" class="headerlink" title="Vue动画学习的“坑”"></a>Vue动画学习的“坑”</h2><ul>
+<li>在使用CSS的样式为Vue添加动画效果时，注意：</li>
+<li>用v-show:true/false来控制元素的显示和隐藏，从而制造动画效果（进入-显示-离开，这个进入和离开的过程就需要用v-show来控制）</li>
+<li>直接使用.myAnimate-transition{}来控制元素默认显示的样式，不要额外再添加其他样式，这样会覆盖掉原有的动画效果，例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 不要使用#myDiv定义，这样会覆盖动画的CSS样式！</span><br><span class="line">#myDiv&#123;</span><br><span class="line">	width:200px;height:200px;background:red;transition:2s;</span><br><span class="line">&#125;</span><br><span class="line">.myAnimate-transition&#123;</span><br><span class="line">	width:200px;height:200px;background:red;transition:1s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 正确的风格，直接用-transition来控制默认显示样式</span><br><span class="line">.myAnimate-transition&#123;</span><br><span class="line">	width:200px;height:200px;background:red;transition:1s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Warning："><a href="#Warning：" class="headerlink" title="Warning："></a>Warning：</h4><ul>
+<li>似乎在Vue1.x版本中，必须要直接引用当前目录下的./vue.min.js，才能顺利加载animate.css的动画效果</li>
+<li>不能引用bower_component目录下的vue.js，否则会出问题，好吧我也不知道为啥会这样，明明是双份的快乐</li>
 </ul>
 
       
@@ -461,8 +474,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/03/3-vue/" rel="next" title="「Vue学习笔记」 3. Vue-resource">
-                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 3. Vue-resource
+              <a href="/2018/07/08/8-vie/" rel="next" title="「Vue学习笔记」 8. Vue的生命周期">
+                <i class="fa fa-chevron-left"></i> 「Vue学习笔记」 8. Vue的生命周期
               </a>
             
           </div>
@@ -471,8 +484,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/05/5-vue/" rel="prev" title="「Vue学习笔记」 5. Vue过滤器">
-                「Vue学习笔记」 5. Vue过滤器 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/10/10-vue/" rel="prev" title="「Vue学习笔记」 10. Vue组件">
+                「Vue学习笔记」 10. Vue组件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -648,7 +661,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue的computed计算属性与-watch侦听属性"><span class="nav-number">1.</span> <span class="nav-text">Vue的computed计算属性与$watch侦听属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#computed计算属性"><span class="nav-number">1.1.</span> <span class="nav-text">computed计算属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向computed属性传入参数"><span class="nav-number">1.1.2.</span> <span class="nav-text">向computed属性传入参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#watch侦听属性"><span class="nav-number">1.2.</span> <span class="nav-text">$watch侦听属性</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue1-x的动画"><span class="nav-number">1.</span> <span class="nav-text">Vue1.x的动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用CSS定义动画"><span class="nav-number">1.1.</span> <span class="nav-text">使用CSS定义动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用JS定义动画"><span class="nav-number">1.2.</span> <span class="nav-text">使用JS定义动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Animate-css库"><span class="nav-number">1.3.</span> <span class="nav-text">Animate.css库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue动画学习的“坑”"><span class="nav-number">1.4.</span> <span class="nav-text">Vue动画学习的“坑”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Warning："><span class="nav-number">1.4.0.1.</span> <span class="nav-text">Warning：</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
