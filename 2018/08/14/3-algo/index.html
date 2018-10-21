@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="algorithm," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据结构与算法分析：C语言描述第六章 优先队列（堆） 优先队列是一种特殊的队列，会对待处理的数据进行排序并处理  模型 优先队列是至少允许下列两种操作的数据结构：Insert、DeleteMin  Insert操作等价于Enqueue，而DeleteMin则是队列中Dequeue在优先队列中的等价操作  我们只是把优先队列当作近似队列的一种结构以方便理解，但严格的定义和队列不同，优先队列（或者叫堆">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「数据结构与算法分析-C语言实现」 3. 优先队列">
+<meta property="og:url" content="http://yoursite.com/2018/08/14/3-algo/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="数据结构与算法分析：C语言描述第六章 优先队列（堆） 优先队列是一种特殊的队列，会对待处理的数据进行排序并处理  模型 优先队列是至少允许下列两种操作的数据结构：Insert、DeleteMin  Insert操作等价于Enqueue，而DeleteMin则是队列中Dequeue在优先队列中的等价操作  我们只是把优先队列当作近似队列的一种结构以方便理解，但严格的定义和队列不同，优先队列（或者叫堆">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:56:19.898Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「数据结构与算法分析-C语言实现」 3. 优先队列">
+<meta name="twitter:description" content="数据结构与算法分析：C语言描述第六章 优先队列（堆） 优先队列是一种特殊的队列，会对待处理的数据进行排序并处理  模型 优先队列是至少允许下列两种操作的数据结构：Insert、DeleteMin  Insert操作等价于Enqueue，而DeleteMin则是队列中Dequeue在优先队列中的等价操作  我们只是把优先队列当作近似队列的一种结构以方便理解，但严格的定义和队列不同，优先队列（或者叫堆">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/14/3-algo/"/>
+
+
+
+
+
+  <title>「数据结构与算法分析-C语言实现」 3. 优先队列 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">14</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/14/3-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「数据结构与算法分析-C语言实现」 3. 优先队列</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-14T00:00:00+08:00">
+                2018-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据结构与算法分析：C语言描述"><a href="#数据结构与算法分析：C语言描述" class="headerlink" title="数据结构与算法分析：C语言描述"></a>数据结构与算法分析：C语言描述</h1><h2 id="第六章-优先队列（堆）"><a href="#第六章-优先队列（堆）" class="headerlink" title="第六章 优先队列（堆）"></a>第六章 优先队列（堆）</h2><ul>
+<li>优先队列是一种特殊的队列，会对待处理的数据进行排序并处理</li>
+</ul>
+<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><ul>
+<li><p>优先队列是至少允许下列两种操作的数据结构：Insert、DeleteMin</p>
+</li>
+<li><p>Insert操作等价于Enqueue，而DeleteMin则是队列中Dequeue在优先队列中的等价操作</p>
+</li>
+<li><p>我们只是把优先队列当作近似队列的一种结构以方便理解，但严格的定义和队列不同，优先队列（或者叫堆）的基本操作只有Insert和Delete</p>
+</li>
+</ul>
+<h3 id="一些简单的实现"><a href="#一些简单的实现" class="headerlink" title="一些简单的实现"></a>一些简单的实现</h3><ul>
+<li><p>方法一：用一个简单链表在表头以O(1)执行插入操作，并遍历该链表以删除最小元，时间为O(N)</p>
+</li>
+<li><p>方法二：使用二叉查找树，其平均运行时间都是O(logN)</p>
+</li>
+<li><p>但是，使用查找树可能有些小题大做了（因为它还支持许多并不需要的操作，而我们只关心insert和deletemin），下面我们将要使用的数据结构不要指针（二叉堆），但仍然可以以最坏情形时间O(logN)支持这两个操作</p>
+</li>
+</ul>
+<h3 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h3><ul>
+<li>二叉堆是最普遍的实现优先队列的数据结构。一般称“堆（heap）时”，默认就是用二叉堆形式实现的优先队列</li>
+</ul>
+<ul>
+<li>二叉堆是一颗完全二叉树（叶子节点只能出现在最下层和次下层，并且最下面一层的节点都集中在该层左边若干位置的二叉树）</li>
+</ul>
+<h4 id="结构性质"><a href="#结构性质" class="headerlink" title="结构性质"></a>结构性质</h4><ul>
+<li><p>因为完全二叉树很有规律，所以它可以用一个数组表示而不需要指针。</p>
+</li>
+<li><p>对数组中任一位置i上的元素，左儿子在位置2i上，右儿子在2i+1上，父亲在[i/2]上</p>
+</li>
+<li><p>一个堆数据结构将由一个数组（不管关键字是什么类型），一个代表最大值的整数，以及当前堆的大小组成</p>
+</li>
+<li><p>为了保证完全二叉树的结构，注意数组的0位置上并不放任何元素，换言之，树的根节点从[1]开始计算起</p>
+</li>
+</ul>
+<h4 id="堆序性质"><a href="#堆序性质" class="headerlink" title="堆序性质"></a>堆序性质</h4><ul>
+<li>堆序性质：在一个堆中，对于每一个节点X，X的父亲中的关键字小于或等于X中的关键字，根节点没有父亲除外</li>
+<li>根据堆序性质，最小元总可以在根处找到。因此FindMin例程只需要常数时间</li>
+</ul>
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li>Insert操作</li>
+</ul>
+<ol>
+<li>在下一个空闲位置创建一个空穴（否则该堆将不是完全树）</li>
+<li>如果X放入空穴中没有破坏该堆的序，那么插入完成</li>
+<li>否则将空穴“不断上移”，直到保持该堆的序为止，然后将X放入到空穴中</li>
+</ol>
+<ul>
+<li>DeleteMin操作</li>
+</ul>
+<ol>
+<li>删除根上的最小元，根节点处产生一个空穴</li>
+<li>将堆中最后一个元素X置入沿着从根开始包含最小儿子的一条路径上的一个正确的位置</li>
+</ol>
+<h4 id="其他堆操作"><a href="#其他堆操作" class="headerlink" title="其他堆操作"></a>其他堆操作</h4><ul>
+<li>BuildHeap：把N个关键字作为输入并把它们放入空堆中，使用N个Insert完成，而每个Insert花费的时间在O(1)-O(logN)之间，因此该算法的总运行时间是O(N)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 堆的声明 */</span><br><span class="line">struct HeapStruct</span><br><span class="line">&#123;</span><br><span class="line">	int Capcity;</span><br><span class="line">	int Size;</span><br><span class="line">	ElementType *Elements;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 堆的初始化 */</span><br><span class="line">PriorityQueue</span><br><span class="line">Initialize (int MaxElements)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue H;</span><br><span class="line"></span><br><span class="line">	if (MaxElements &lt; MinPQSize)</span><br><span class="line">			Error(&quot;Priority queue size is too small&quot;);</span><br><span class="line"></span><br><span class="line">	H = malloc(sizeof(srtuct HeapStruct));</span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;Elements = malloc((MaxElements+1) * sizeof(ElementType));</span><br><span class="line"></span><br><span class="line">	if (H-&gt;Elements == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	H-&gt;size = 0;</span><br><span class="line">	H-&gt;Elements[0] = MinData;</span><br><span class="line"></span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/* 插入到一个二叉堆的过程 */</span><br><span class="line">void Insert( ElementType X, PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	if (isFull(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Priority queue is full!&quot;);</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for (i = ++H-&gt;size; H-&gt;Elements[i/2] &gt; x; i/=2)</span><br><span class="line">			H-&gt;Elements[i] = H-&gt;Elements[i/2];</span><br><span class="line">	H-&gt;Elements[i] = X;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 在二叉堆中执行DeleteMin函数 */</span><br><span class="line"></span><br><span class="line">ElementType DeleteMin (PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,Child;</span><br><span class="line">	ElementType MinElement,LastElement;</span><br><span class="line"></span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;PriorityQueue is empty!&quot;);</span><br><span class="line">		return H-&gt;Elements[0];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MinElement = H-&gt;Elements[1];</span><br><span class="line">	LastElement = H-&gt;Elements[H-&gt;size--];</span><br><span class="line"></span><br><span class="line">	for (i=1; i*2 &lt;= H-&gt;size; i=Child)</span><br><span class="line">	&#123;</span><br><span class="line">		Child = i*2;</span><br><span class="line">		if (Child != H-&gt;size &amp;&amp; H-&gt;Elements[Child +1] &lt; H-&gt;Elements[Child])</span><br><span class="line">			Child++;</span><br><span class="line"></span><br><span class="line">		if (LastElement &gt; H-&gt;Elements[Child])</span><br><span class="line">			H-&gt;Elements[i] = H-&gt;Elements[Child];</span><br><span class="line">		else</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line">	H-&gt;Elements[i] = LastElement;</span><br><span class="line">	return MinElement;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优先队列的应用"><a href="#优先队列的应用" class="headerlink" title="优先队列的应用"></a>优先队列的应用</h3><h4 id="选择问题"><a href="#选择问题" class="headerlink" title="选择问题"></a>选择问题</h4><h4 id="事件模拟"><a href="#事件模拟" class="headerlink" title="事件模拟"></a>事件模拟</h4><h3 id="d-堆"><a href="#d-堆" class="headerlink" title="d-堆"></a>d-堆</h3><ul>
+<li><p>d-堆是二叉堆的简单推广，它恰像是一个二叉堆，只是所有的节点都由d个儿子（因此，二叉堆是2-堆）</p>
+</li>
+<li><p>d-堆将Insert操作时间改进为O(logdN)，而DeleteMin的时间则变为了O(dlogdN)</p>
+</li>
+</ul>
+<h3 id="左式堆"><a href="#左式堆" class="headerlink" title="左式堆"></a>左式堆</h3><ul>
+<li>左式堆的好处在于它的Merge操作很方便。而二叉堆的Merge操作一般需要O(N)的时间</li>
+<li><p>右路径上有r个节点的左式树必然至少有2^r-1个节点</p>
+</li>
+<li><p>左式堆的类型声明：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* 左式堆类型声明 */</span><br><span class="line">struct TreeNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	PriorityQueue Left;</span><br><span class="line">	PriorityQueue Right;</span><br><span class="line">	int Npl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>左式堆的合并（合并的时间界为logN，比二叉堆的N要低）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/* 合并左式堆的驱动例程 */</span><br><span class="line">PriorityQueue Merge(PriorityQueue H1, PriorityQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	if (H1 == NULL)</span><br><span class="line">		return H2;</span><br><span class="line">	if (H2 == NULL)</span><br><span class="line">		return H1;</span><br><span class="line">	if (H1-&gt;Element &lt; H2-&gt;Element)</span><br><span class="line">		return Merge(H1,H2);</span><br><span class="line">	else</span><br><span class="line">		return Merge(H2,H1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 合并左式堆的实际例程 */</span><br><span class="line">static PriorityQueue </span><br><span class="line">PriorityQueue Mergel(PriorityQueue H1, PriorityQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	if (H1-&gt;left == NULL)</span><br><span class="line">		H1-&gt;left = H2;</span><br><span class="line"></span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		H1-&gt;right = Merge(H1-&gt;right,H2);</span><br><span class="line">		if (H1-&gt;left-&gt;Npl &lt; H1-&gt;right-&gt;Npl)</span><br><span class="line">			SwapChildren(H1);</span><br><span class="line">		H1-&gt;Npl = H1-&gt;right-&gt;Npl +1;</span><br><span class="line">	&#125;</span><br><span class="line">	return H1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>插入的实现：可以把被插入项看成单节点堆并执行一次Merge操作来完成</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/* 左式堆的插入例程 */</span><br><span class="line">PriorityQueue Insert (ElementType X, PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue SingleNode;</span><br><span class="line"></span><br><span class="line">	SingleNode = malloc(sizeof(struct  TreeNode));</span><br><span class="line">	if (SingleNode == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		SingleNode-&gt;Element = X; SingleNode-&gt;Npl = 0;</span><br><span class="line">		SingleNode-&gt;left = SingleNode-&gt;right = NULL;</span><br><span class="line"></span><br><span class="line">		H = Merge(SingleNode,H);</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 左式堆的DeleteMin例程 */</span><br><span class="line">PriorityQueue DeleteMin(PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue LeftHeap,RightHeap;</span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Priority queue is empty&quot;);</span><br><span class="line">		return H;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LeftHeap = H-&gt;left;</span><br><span class="line">	RightHeap = H-&gt;right;</span><br><span class="line">	free(H);</span><br><span class="line">	return Merge(LeftHeap,RightHeap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="斜堆"><a href="#斜堆" class="headerlink" title="斜堆"></a>斜堆</h3><ul>
+<li>斜堆是左式堆的自调节形式，斜堆和左式堆的关系类似于伸展树和AVL树间的关系</li>
+<li>斜堆是具有堆序的二叉树，但是不存在对树的结构限制</li>
+<li>与伸展树类似，斜堆每次操作的摊还时间为logN</li>
+</ul>
+<h3 id="二项队列"><a href="#二项队列" class="headerlink" title="二项队列"></a>二项队列</h3><ul>
+<li>虽然左式堆和斜堆每次操作花费logN的时间，但是有效的支持了合并、插入和DeleteMin这三种操作。</li>
+<li>而二项队列是对上述两者的又一改进。二项队列支持合并、插入和DeleteMin，每次操作的最坏时间为logN，插入操作平均花费常数时间</li>
+</ul>
+<h4 id="二项队列结构"><a href="#二项队列结构" class="headerlink" title="二项队列结构"></a>二项队列结构</h4><ul>
+<li>一个二项队列不是一颗堆序的树，而是堆序树的集合，称为森林。堆序树中的每一颗都是有约束的形式，叫做二项树，每个高度上至多存在一颗二项树</li>
+</ul>
+<h4 id="二项队列操作"><a href="#二项队列操作" class="headerlink" title="二项队列操作"></a>二项队列操作</h4><h4 id="二项队列的实现"><a href="#二项队列的实现" class="headerlink" title="二项队列的实现"></a>二项队列的实现</h4><ul>
+<li>二项树的每一个节点将包含数据、第一个儿子以及左兄弟</li>
+<li>二项队列依赖于一般树的表现形式：每个节点的儿子都存在一个链表中，而且每个节点都有一个指向它的第一个儿子（如果有的话）的指针</li>
+<li>并且还要求诸儿子按照它们的子树的大小排序，我们也需要保证能够很容易地合并两棵树</li>
+<li><p>二项队列将是二项树的数组</p>
+</li>
+<li><p>二项队列的类型声明</p>
+</li>
+<li><p>合并同样大小的两颗二项树</p>
+</li>
+<li><p>合并两个二项队列的例程</p>
+</li>
+<li><p>二项队列的DeleteMin</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">/* 二项队列类型声明 */</span><br><span class="line">struct BinNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	Position LeftChild;</span><br><span class="line">	Position NextSibling;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Collection</span><br><span class="line">&#123;</span><br><span class="line">	int CurrentSize;</span><br><span class="line">	BinTree TheTrees[MaxTrees];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 合并同样大小的两颗二项树的例程 */</span><br><span class="line"></span><br><span class="line">BinTree CombineTrees(BinTree T1, BinTree T2)</span><br><span class="line">&#123;</span><br><span class="line">	if（T1-&gt;Element &gt; T2-&gt;Element）</span><br><span class="line">			return CombineTrees(T2,T1);</span><br><span class="line">	T2-&gt;NextSibling = T1-&gt;LeftChild;</span><br><span class="line">	T1-&gt;LeftChild = T2;</span><br><span class="line">	return T1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 合并两个优先队列的例程 */</span><br><span class="line">/* H1 contains merged result */</span><br><span class="line">BinQueue Merge(BinQueue H1, BinQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	BinTree T1,T2,Carry = NULL; </span><br><span class="line">	/* Carry means the last result */</span><br><span class="line">	int i,j;</span><br><span class="line"></span><br><span class="line">	if (H1-&gt;CurrentSize + H2-&gt;CurrentSize &gt;Capcity)</span><br><span class="line">		Error(&quot;Merge would exceed Capcity&quot;);</span><br><span class="line"></span><br><span class="line">	H1-&gt;CurrentSize += H2-&gt;CurrentSize;</span><br><span class="line"></span><br><span class="line">	for (i=0,j=1; j&lt;=H1-&gt;CurrentSize; i++,j*=2) </span><br><span class="line">	/* 每两两合并一次，所以这里的循环次数不是以i，而是以j计 */</span><br><span class="line">	&#123;</span><br><span class="line">		T1 = H1-&gt;TheTrees[i];</span><br><span class="line">		T2 = H2-&gt;TheTrees[i];</span><br><span class="line">		switch( !!T1 + 2* !!T2 + 4* !!Carry)</span><br><span class="line">		/* 这里是一个数学糖衣，!!将所有非0值变为1，再进行分类讨论 */</span><br><span class="line">		&#123;</span><br><span class="line">			case 0: /* No Trees */</span><br><span class="line">			case 1: /* Only H1 */</span><br><span class="line">				break;</span><br><span class="line">			case 2: /* Only H2 */</span><br><span class="line">				H1-&gt;TheTrees[i] = T2;</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 4: /* Only Carry*/</span><br><span class="line">				H1-&gt;TheTrees[i] = Carry;</span><br><span class="line">				Carry = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 3: /* H1 and H2 */</span><br><span class="line">				Carry = CombineTrees(T1,T2);</span><br><span class="line">				H1-&gt;TheTrees[i] = H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 5: /* H1 and Carry */</span><br><span class="line">				Carry = CombineTrees(T1,Carry);</span><br><span class="line">				H1-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 6: /* H2 and Carry */</span><br><span class="line">				Carry = CombineTrees(T2,Carry);</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 7: /* All three */</span><br><span class="line">				H1-&gt;TheTrees[i] = Carry;</span><br><span class="line">				Carry = CombineTrees(T1,T2);</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return H1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 二项队列的DeleteMin */</span><br><span class="line">ElementType DeleteMin(BinTree H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	int MinTree;</span><br><span class="line">	BinTree DeleteQueue;</span><br><span class="line">	Position DeletedTree,OldRoot;</span><br><span class="line">	ElementType MinItem;</span><br><span class="line"></span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Empty binomial queue&quot;);</span><br><span class="line">		return -Infinity;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MinItem = Infinity;</span><br><span class="line">	for (i=0; i&lt;MaxTrees; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		if (H-&gt;TheTrees[i] &amp;&amp; H-&gt;TheTrees[i]-&gt;Element &lt; MinItem)</span><br><span class="line">		&#123;</span><br><span class="line">			/* Update minimum */</span><br><span class="line">			MinItem = H-&gt;TheTrees[i]-&gt;Element;</span><br><span class="line">			MinTree = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	DeletedTree = H-&gt;TheTrees[MinTree];</span><br><span class="line">	OldRoot = DeletedTree;</span><br><span class="line">	DeletedTree = DeletedTree-&gt;LeftChild;</span><br><span class="line">	free(OldRoot);</span><br><span class="line"></span><br><span class="line">	DeletedQueue = Initialize();</span><br><span class="line">	DeletedQueue-&gt;CurrentSize = ( 1&lt;&lt;MinTree )-1;</span><br><span class="line">	for (j = MinTree -1; j&gt;=0; j--)</span><br><span class="line">	&#123;</span><br><span class="line">		DeletedQueue-&gt;TheTrees[j] = DeletedTree;</span><br><span class="line">		DeletedTree = DeletedTree-&gt;NextSibling;</span><br><span class="line">		DeletedQueue-&gt;TheTrees[j]-&gt;NextSibling = NULL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	H-&gt;TheTrees[MinTree] = NULL;</span><br><span class="line">	H-&gt;CurrentSize -= DeletedQueue-&gt;CurrentSize +1;</span><br><span class="line"></span><br><span class="line">	Merge(H,DeletedQueue);</span><br><span class="line">	return MinItem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>这一章，我们看到了优先队列（堆）ADT的各种实现方法和用途，标准二叉堆实现由于简单和速度快从而是精致的。它不需要指针，只要常数的附加空间，而且有效支持队列的操作</p>
+</li>
+<li><p>我们考虑了另外的合并操作，发展了三种实现方法（左式堆、斜堆、二项队列）</p>
+</li>
+<li>我们还看到优先队列的几个用途，从操作系统的工作调度到模拟，后面几章中将再次看到这些应用。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/13/2-algo/" rel="next" title="「数据结构与算法分析-C语言实现」 2. 散列">
+                <i class="fa fa-chevron-left"></i> 「数据结构与算法分析-C语言实现」 2. 散列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/15/4-algo/" rel="prev" title="「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT">
+                「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构与算法分析：C语言描述"><span class="nav-number">1.</span> <span class="nav-text">数据结构与算法分析：C语言描述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-优先队列（堆）"><span class="nav-number">1.1.</span> <span class="nav-text">第六章 优先队列（堆）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型"><span class="nav-number">1.1.1.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些简单的实现"><span class="nav-number">1.1.2.</span> <span class="nav-text">一些简单的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉堆"><span class="nav-number">1.1.3.</span> <span class="nav-text">二叉堆</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结构性质"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">结构性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆序性质"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">堆序性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本操作"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他堆操作"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">其他堆操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先队列的应用"><span class="nav-number">1.1.4.</span> <span class="nav-text">优先队列的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择问题"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">选择问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件模拟"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">事件模拟</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-堆"><span class="nav-number">1.1.5.</span> <span class="nav-text">d-堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#左式堆"><span class="nav-number">1.1.6.</span> <span class="nav-text">左式堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#斜堆"><span class="nav-number">1.1.7.</span> <span class="nav-text">斜堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二项队列"><span class="nav-number">1.1.8.</span> <span class="nav-text">二项队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二项队列结构"><span class="nav-number">1.1.8.1.</span> <span class="nav-text">二项队列结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二项队列操作"><span class="nav-number">1.1.8.2.</span> <span class="nav-text">二项队列操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二项队列的实现"><span class="nav-number">1.1.8.3.</span> <span class="nav-text">二项队列的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

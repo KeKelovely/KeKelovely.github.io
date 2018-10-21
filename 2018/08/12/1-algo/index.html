@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="algorithm," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据结构与算法分析：C语言实现 书中均为伪代码，不要照抄  第二章 算法分析时间复杂度的计算 O(N1)+O(N2) = MAX{O(N1),O(N2)} O(N1)  O(N2) = O(N1  N2)  应用：在顺序求值中，各个语句的运行时间求和，根据法则一，各运行时间的最大值就是所得的运行时间    递归调用的合成效益法则：在求解一个问题的同一实例时，切勿在不同的递归调用中做重复性的工作，参">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树">
+<meta property="og:url" content="http://yoursite.com/2018/08/12/1-algo/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="数据结构与算法分析：C语言实现 书中均为伪代码，不要照抄  第二章 算法分析时间复杂度的计算 O(N1)+O(N2) = MAX{O(N1),O(N2)} O(N1)  O(N2) = O(N1  N2)  应用：在顺序求值中，各个语句的运行时间求和，根据法则一，各运行时间的最大值就是所得的运行时间    递归调用的合成效益法则：在求解一个问题的同一实例时，切勿在不同的递归调用中做重复性的工作，参">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:53:48.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树">
+<meta name="twitter:description" content="数据结构与算法分析：C语言实现 书中均为伪代码，不要照抄  第二章 算法分析时间复杂度的计算 O(N1)+O(N2) = MAX{O(N1),O(N2)} O(N1)  O(N2) = O(N1  N2)  应用：在顺序求值中，各个语句的运行时间求和，根据法则一，各运行时间的最大值就是所得的运行时间    递归调用的合成效益法则：在求解一个问题的同一实例时，切勿在不同的递归调用中做重复性的工作，参">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/12/1-algo/"/>
+
+
+
+
+
+  <title>「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">12</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/12/1-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T00:00:00+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据结构与算法分析：C语言实现"><a href="#数据结构与算法分析：C语言实现" class="headerlink" title="数据结构与算法分析：C语言实现"></a>数据结构与算法分析：C语言实现</h1><blockquote>
+<p>书中均为伪代码，不要照抄</p>
+</blockquote>
+<h2 id="第二章-算法分析"><a href="#第二章-算法分析" class="headerlink" title="第二章 算法分析"></a>第二章 算法分析</h2><h3 id="时间复杂度的计算"><a href="#时间复杂度的计算" class="headerlink" title="时间复杂度的计算"></a>时间复杂度的计算</h3><ul>
+<li>O(N1)+O(N2) = MAX{O(N1),O(N2)}</li>
+<li><p>O(N1) <em> O(N2) = O(N1 </em> N2)</p>
+</li>
+<li><p>应用：在顺序求值中，各个语句的运行时间求和，根据法则一，各运行时间的最大值就是所得的运行时间</p>
+</li>
+</ul>
+<blockquote>
+<p>递归调用的合成效益法则：在求解一个问题的同一实例时，切勿在不同的递归调用中做重复性的工作，参考斐波那契数列算法</p>
+</blockquote>
+<h3 id="时间复杂度的排序"><a href="#时间复杂度的排序" class="headerlink" title="时间复杂度的排序"></a>时间复杂度的排序</h3><ul>
+<li>O(c) &lt; O(logN) &lt; O(N) &lt; O(NlogN) &lt; O(N^2) &lt;O(N^k) &lt; O(2^N)</li>
+</ul>
+<h3 id="最大子序列和问题"><a href="#最大子序列和问题" class="headerlink" title="最大子序列和问题"></a>最大子序列和问题</h3><ul>
+<li><p>算法一：暴力枚举所有的可能性 复杂度：O(N^3) or O(N^2)</p>
+</li>
+<li><p>算法二：分治算法</p>
+</li>
+</ul>
+<ol>
+<li>把问题分成两个大致相等的子问题，然后递归地对它们求解</li>
+<li>将两个子问题的解合并到一起，并尽可能做一些少量的附加工作，最后得到整个问题的解</li>
+<li>复杂度O(NlogN)</li>
+</ol>
+<ul>
+<li>算法三：只统计可能的正数情形，复杂度O(N)</li>
+</ul>
+<h3 id="估算运行时间的技巧"><a href="#估算运行时间的技巧" class="headerlink" title="估算运行时间的技巧"></a>估算运行时间的技巧</h3><ul>
+<li>如果一个算法用常数时间O(1)将问题的大小削减为其一部分（1/2），那么该算法就是O(logN)</li>
+<li><p>如果使用常数时间O(1)只是把问题减少一个常数（如将问题大小削减了1个），那么这种算法就是O(N)</p>
+</li>
+<li><p>具有对数时间复杂度的三个例子</p>
+</li>
+</ul>
+<ol>
+<li>对分查找：Binary Search</li>
+<li>欧几里得算法：求最大公因数</li>
+<li>幂运算：奇偶讨论</li>
+</ol>
+<h3 id="whu版数据结构复习（12-18）"><a href="#whu版数据结构复习（12-18）" class="headerlink" title="whu版数据结构复习（12.18）"></a>whu版数据结构复习（12.18）</h3><ul>
+<li><p>内容：顺序表的实现</p>
+</li>
+<li><p>顺序表也就是一个封装的数组，提供了初始化、插入、删除等一系列的接口函数。但实现起来和数组没什么区别</p>
+</li>
+<li><p>使用场景：就是一个有接口的数组，方便我们操作。以及处理一些顺序排列的数据（注意它们在内存上是连续的地址排列，和链表不同），同时它的安全性很好，因为是静态数组的实现，不用担心内存溢出。</p>
+</li>
+<li><p>缺点：查询、插入、删除的操作繁琐（需要挪动大半个数组），O(n)复杂度，访问起来不如链表那样方便</p>
+</li>
+</ul>
+<h2 id="第三章-表、栈和队列"><a href="#第三章-表、栈和队列" class="headerlink" title="第三章 表、栈和队列"></a>第三章 表、栈和队列</h2><h3 id="本章内容"><a href="#本章内容" class="headerlink" title="本章内容"></a>本章内容</h3><ul>
+<li>ADT的概念</li>
+<li>阐述如何对表进行有效的操作</li>
+<li>介绍栈ADT及其在实现递归方面的应用</li>
+<li>介绍队列ADT及其在操作系统和算法设计中的应用</li>
+</ul>
+<h3 id="抽象数据类型"><a href="#抽象数据类型" class="headerlink" title="抽象数据类型"></a>抽象数据类型</h3><ul>
+<li>抽象数据类型ADT是一些操作的集合，抽象数据类型是数学的抽象：在ADT的定义中不涉及如何实现操作的集合，这可以看作是模块化设计的扩充</li>
+</ul>
+<h4 id="表的简单数组实现"><a href="#表的简单数组实现" class="headerlink" title="表的简单数组实现"></a>表的简单数组实现</h4><ul>
+<li>因为插入和删除的运行时间是如此的慢以及表的大小还必须事先已知，所以简单数组一般不用来实现表结构</li>
+</ul>
+<h4 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h4><ul>
+<li>链表由一系列不存在内存中相连的结构组成，每个结构均含有表元素和指向包含该元素后继元的结构的指针，即Next指针，最后一个单元的Next指针指向NULL</li>
+</ul>
+<h4 id="链表的实现"><a href="#链表的实现" class="headerlink" title="链表的实现"></a>链表的实现</h4><h4 id="常见的错误"><a href="#常见的错误" class="headerlink" title="常见的错误"></a>常见的错误</h4><ul>
+<li>声明指向一个结构的指针并不创建该结构，而只是给出足够的空间，容纳可能会使用的地址</li>
+<li>malloc函数奇迹般地使系统创建一个新的结构并返回该结构的指针</li>
+<li>当有些空间不再需要时，用free来释放它。虽然指向的地址还在，但该地址处的数据已经无定义了（因此在删除表的时候，要先令指针指向NULL，再free删除地址处的数据）</li>
+</ul>
+<h4 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h4><h4 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h4><h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><ul>
+<li>多项式ADT：用单链表来描述多项式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct Node *PtrToNode;</span><br><span class="line"></span><br><span class="line">struct Node&#123;</span><br><span class="line">    int Coefficient;</span><br><span class="line">    int Exponent;</span><br><span class="line">    PrtToNode Next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef PtrToNode Polynomial;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>基数排序/卡式排序：O(N)复杂度</li>
+</ul>
+<ol>
+<li>按照数据从最低位到最高位的顺序，依次排列</li>
+<li>例如，输入是64,8,216,512,27,729,0,1,343,125,按照最低位的排序依次是0,1,512,343,64,125,216,27,8,729,再按照倒数第二个最低位的顺序依次排列下去，即可实现基数排序</li>
+</ol>
+<ul>
+<li>多重表</li>
+</ul>
+<ol>
+<li>把两个表合成为一个表（用矩阵的形式表示）</li>
+</ol>
+<h4 id="链表的游标实现"><a href="#链表的游标实现" class="headerlink" title="链表的游标实现"></a>链表的游标实现</h4><h3 id="栈ADT"><a href="#栈ADT" class="headerlink" title="栈ADT"></a>栈ADT</h3><h4 id="栈模型"><a href="#栈模型" class="headerlink" title="栈模型"></a>栈模型</h4><ul>
+<li>栈是限制插入和删除只能在一个位置上进行的表，该位置是表的末端，称为栈顶</li>
+<li>进栈push、出栈pop</li>
+<li>LIFO后进先出表</li>
+</ul>
+<h4 id="栈的实现"><a href="#栈的实现" class="headerlink" title="栈的实现"></a>栈的实现</h4><h4 id="栈的链表实现"><a href="#栈的链表实现" class="headerlink" title="栈的链表实现"></a>栈的链表实现</h4><ul>
+<li>建立空栈：声明一个头结点，先malloc，然后声明s-&gt;next=NULL</li>
+<li>Push入栈操作：向链表插入实现</li>
+<li>Pop通过删除表的元素实现（套一个壳，然后free掉这个壳）</li>
+</ul>
+<h4 id="栈的数组实现"><a href="#栈的数组实现" class="headerlink" title="栈的数组实现"></a>栈的数组实现</h4><ul>
+<li><p>当你可以确保空间大小不被破坏时，选择数组实现栈是一种比链表更好的方式（因为栈的链表实现中，malloc和free的开销是巨大的）</p>
+</li>
+<li><p>建立空栈：栈顶指针TopofStack = -1</p>
+</li>
+<li>入栈：topofstack+1，然后Stack[topofstack]=x</li>
+<li>出栈：返回Stack[topofstack] = x，然后topofstack-1</li>
+<li>现代化的计算机将数组实现的栈操作作为它指令系统的一部分，因为这些操作只需要很短的常数时间</li>
+<li>Stack是一个指向结构体的指针，结构体包含topofstack域和capacity域</li>
+</ul>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>平衡符号</li>
+</ul>
+<ol>
+<li>编译器在检查程序的语法错误时会使用到</li>
+<li>检验每个符号、每件事情能否成对出现的程序中会用到栈，通过入栈和出栈，来检测符号是否配对</li>
+</ol>
+<ul>
+<li>后缀表达式</li>
+</ul>
+<ol>
+<li>用栈来实现后缀表达式的计算</li>
+<li>计算一个后缀表达式花费的时间是O(N)</li>
+<li>优点：当一个表达式以后缀记号给出时，没有必要知道任何运算的优先级规则，这是一个明显的优点</li>
+</ol>
+<ul>
+<li>中缀（也就是正常顺序）到后缀的转换</li>
+</ul>
+<ol>
+<li>按照优先级的顺序依次进栈、出栈</li>
+<li>区分操作数和操作符，加减优先级最低，括号优先级最高</li>
+<li>新入栈的操作符，与栈顶元素比较，只要优先级不比你低，那么栈顶元素出栈（括号例外），比如栈顶元素是+号，<em>号入栈前先和+号相比，发现栈顶元素优先级不够，那么+号不出栈，然后 </em>号入栈</li>
+<li>括号先入栈，只有在遇到配对的括号时才出栈</li>
+</ol>
+<ul>
+<li>函数调用</li>
+</ul>
+<h3 id="队列ADT"><a href="#队列ADT" class="headerlink" title="队列ADT"></a>队列ADT</h3><ul>
+<li>像栈一样，队列也是表，使用队列时插入在一端，而在另一端进入</li>
+</ul>
+<h4 id="队列模型"><a href="#队列模型" class="headerlink" title="队列模型"></a>队列模型</h4><ul>
+<li>队尾rear插入一个元素，队首front删除一个元素</li>
+</ul>
+<h4 id="队列的数组实现"><a href="#队列的数组实现" class="headerlink" title="队列的数组实现"></a>队列的数组实现</h4><ul>
+<li><p>链表实现很容易，此处略</p>
+</li>
+<li><p>对于每一个队列的数据结构，我们保存一个数组Queue[]以及位置front和rear，代表队列的两端</p>
+</li>
+<li>根据队列是否为循环数组实现，判断队满和队空的条件是不同的，这个自己根据具体情况把握</li>
+<li>入队：rear指针+1，数组赋值</li>
+<li>出队：front指针+1，数组赋值（这里不是减，和栈不一样）</li>
+</ul>
+<h4 id="队列的应用"><a href="#队列的应用" class="headerlink" title="队列的应用"></a>队列的应用</h4><ul>
+<li><p>客户端向服务器发送请求时，是按照先到先得的原则访问文件的，这就在逻辑上构成了一种“排队行为”，因此其数据结构是一个队列</p>
+</li>
+<li><p>如果有k个接线员来面对各种用户打来的骚扰电话，应该如何安排接听这些电话的顺序呢？这也是需要运用到队列的知识</p>
+</li>
+</ul>
+<h2 id="第四章-树"><a href="#第四章-树" class="headerlink" title="第四章 树"></a>第四章 树</h2><blockquote>
+<p>对于大量的输入数据，链表的线性访问时间太慢，不宜使用。本章我们介绍一种简单的数据结构，其大部分操作运行时间平均为O(logN)，此外，通过一定的修改，我们可以保证它对每种操作的运行时间基本上是O(logN)</p>
+</blockquote>
+<ul>
+<li>了解树是如何用于实现几个流行的操作系统中的文件系统的</li>
+<li>看到树如何能够用来计算算术表达式的值</li>
+<li>指出如何利用树支持O(logN)平均时间进行的各种搜索操作</li>
+<li>如何细化得到最坏情况时间界O(logN)</li>
+<li>当数据被存在磁盘上时如何来实现这些操作</li>
+</ul>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ul>
+<li>根、儿子、父亲、兄弟、祖父、孙子、树叶、祖先、后裔</li>
+<li>深度</li>
+<li>高：ni的高是从ni到一片树叶的最长路径的长，所有树叶的高都是0</li>
+<li>一个树的深度等于它的最深的树叶的深度；该深度总是等于这棵树的高</li>
+</ul>
+<h4 id="树的实现"><a href="#树的实现" class="headerlink" title="树的实现"></a>树的实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct TreeNode *PtrToNode;</span><br><span class="line"></span><br><span class="line">struct TreeNode&#123;</span><br><span class="line">    ElementType Element;</span><br><span class="line">    PtrToNode FirstChild;</span><br><span class="line">    PtrToNode NextSibling;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一个指针指向第一儿子</li>
+<li>一个指针指向第一兄弟</li>
+<li>用树节点的链表实现</li>
+</ul>
+<h4 id="树的遍历及应用"><a href="#树的遍历及应用" class="headerlink" title="树的遍历及应用"></a>树的遍历及应用</h4><ul>
+<li>应用：UNIX/DOS系统在内的目录结构都是用的树结构</li>
+<li>遍历文件目录算法的核心为递归过程ListDir，每次Depth+1</li>
+<li>先序和后序遍历的时间复杂度都是O(N)</li>
+</ul>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>二叉树是一棵树，其中每个节点都不能有多于两个的儿子</li>
+<li>二叉树的平均深度是O(根号N)</li>
+<li>二叉查找树的平均深度是O(logN)</li>
+</ul>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">typedef struct TreeNode *PtrToNode;</span><br><span class="line">typedef struct PtrToNode Tree;</span><br><span class="line"></span><br><span class="line">struct TreeNode&#123;</span><br><span class="line">    ElementType Element;</span><br><span class="line">    Tree Left;</span><br><span class="line">    Tree Right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="表达式树"><a href="#表达式树" class="headerlink" title="表达式树"></a>表达式树</h4><ul>
+<li><p>二叉树有许多与搜索无关的重要应用。主要用处之一就是编译器的设计领域，即表达式树</p>
+</li>
+<li><p>表达式树的树叶是操作数（常数、变量），其他节点为操作符</p>
+</li>
+<li>用中序遍历表达式树可以得到中缀表达式</li>
+</ul>
+<h4 id="表达式树的实现"><a href="#表达式树的实现" class="headerlink" title="表达式树的实现"></a>表达式树的实现</h4><ul>
+<li>符号是操作数：建立一个单节点树并将一个指向它的指针推入栈中</li>
+<li>符号是操作符：从栈中依次弹出树T1和T2的两个指针，形成一颗新的树，根结点就是操作符，左儿子指向T2，右儿子指向T1，然后将指向这颗新树的指针压入栈中</li>
+</ul>
+<h3 id="查找树ADT——二叉查找树"><a href="#查找树ADT——二叉查找树" class="headerlink" title="查找树ADT——二叉查找树"></a>查找树ADT——二叉查找树</h3><ul>
+<li>对于树中的每个节点X：</li>
+</ul>
+<ol>
+<li>左子树中所有关键字的值小于X的关键字值</li>
+<li>右子树中所有关键字的值大于X的关键字值</li>
+</ol>
+<h4 id="MakeEmpty"><a href="#MakeEmpty" class="headerlink" title="MakeEmpty"></a>MakeEmpty</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MakeEmpty(SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    if (T != NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        MakeEmpty(T-&gt;left);</span><br><span class="line">        MakeEmpty(T-&gt;right);</span><br><span class="line">        free(T);/*将指向根结点的指针干掉,形成一颗空树*/</span><br><span class="line">    &#125;</span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Find"><a href="#Find" class="headerlink" title="Find"></a>Find</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Find (ElementType X, SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    if (T == NULL)</span><br><span class="line">        return NULL;</span><br><span class="line">    if (X &lt; T-&gt;Element)</span><br><span class="line">        return Find(X,T-&gt;left);</span><br><span class="line">    if (X &gt; T-&gt;Element)</span><br><span class="line">        return Find(X,T-&gt;right);</span><br><span class="line">    if (X == T-&gt;Element)</span><br><span class="line">        return T-&gt;Element;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="FindMin和FindMax"><a href="#FindMin和FindMax" class="headerlink" title="FindMin和FindMax"></a>FindMin和FindMax</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FindMin (SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    if (T == NULL)</span><br><span class="line">        return NULL;</span><br><span class="line">    else </span><br><span class="line">    if (T-&gt;left == NULL)</span><br><span class="line">        return T-&gt;Element;</span><br><span class="line">    else</span><br><span class="line">        return FindMin(T-&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FindMax (SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    if (T == NULL)</span><br><span class="line">        return NULL;</span><br><span class="line">    else </span><br><span class="line">    if (T-&gt;right == NULL)</span><br><span class="line">        return T-&gt;Element;</span><br><span class="line">    else </span><br><span class="line">        return FindMax(T-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Insert"><a href="#Insert" class="headerlink" title="Insert"></a>Insert</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Insert (ElementType x, SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    if (T == NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        T = malloc(sizeof(struct TreeNode));</span><br><span class="line">        if (T == NULL)</span><br><span class="line">            FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            T-&gt;Element = x;</span><br><span class="line">            T-&gt;left = T-&gt;right = NULL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    if (x &lt; T-&gt;Element)</span><br><span class="line">        T-&gt;left = Insert(x,T-&gt;left);</span><br><span class="line">    else</span><br><span class="line">    if (x &gt; T-&gt;Element)</span><br><span class="line">        T-&gt;right = Insert(x,T-&gt;right);</span><br><span class="line">    return T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>由于T指向该树的根，而根又在第一次插入时变化，因此Insert被写成一个返回指向新树根指针的函数</li>
+</ul>
+<h4 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h4><ul>
+<li>删除的三种情况</li>
+</ul>
+<ol>
+<li>树叶：立即删除</li>
+<li>一个儿子：该节点可以在其父节点调整指针，绕过该节点后被删除</li>
+<li>两个儿子：用右子树的最小的数据代替该节点，并递归地删除那个节点（保证被删除的节点一定没有左儿子）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Delete(ElementType x, SearchTree T)</span><br><span class="line">&#123;</span><br><span class="line">    Position TmpCell;</span><br><span class="line">    </span><br><span class="line">    if (T == NULL)</span><br><span class="line">        Error(&quot;Element not found&quot;);</span><br><span class="line">    else</span><br><span class="line">    if (x &lt; T-&gt;element)</span><br><span class="line">        T-&gt;left = Delete(x,T-&gt;left);</span><br><span class="line">    else</span><br><span class="line">    if (x &gt; T-&gt;element)</span><br><span class="line">        T-&gt;right = Delete(x,T-&gt;right);</span><br><span class="line">    else</span><br><span class="line">    /*找到了被删除的元素*/</span><br><span class="line">    if (T-&gt;left &amp;&amp; T-&gt;right)</span><br><span class="line">    /*处理有两个儿子的情形*/</span><br><span class="line">    &#123;</span><br><span class="line">        TmpCell = FindMin(T-&gt;right);</span><br><span class="line">        T-&gt;element = Tmpcell-&gt;element;</span><br><span class="line">        Delete(T-&gt;element,T-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        Tmpcell = T;</span><br><span class="line">        if (T-&gt;left == NULL)</span><br><span class="line">            T = T-&gt;right;</span><br><span class="line">        else</span><br><span class="line">        if (T-&gt;right == NULL)</span><br><span class="line">            T = T-&gt;left;</span><br><span class="line">        free(Tmpcell);</span><br><span class="line">    &#125;</span><br><span class="line">    return T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="平均情形分析"><a href="#平均情形分析" class="headerlink" title="平均情形分析"></a>平均情形分析</h4><ul>
+<li>如果向一颗预先排序的树输入数据，那么一连串Insert操作将花费二次时间，而链表实现的代价会非常巨大，因为此时的树将只有那些没有左儿子的节点组成</li>
+</ul>
+<ol>
+<li>一种解决办法就是要有一个称为“平衡”的附加结构条件</li>
+<li>“任何节点的深度均不得过深”</li>
+<li>平衡查找树eg: AVL树</li>
+</ol>
+<ul>
+<li>另一种解决办法是允许有任意的深度，但是每次操作后按照某一规则进行调整，使得后面的操作效率更高。即伸展树</li>
+</ul>
+<ol>
+<li>伸展树对任意单次运算不保证O(logN)的复杂度</li>
+<li>伸展树保证任意连续M次操作下的最坏情景中花费时间为O(MlogN)</li>
+</ol>
+<h3 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a>AVL树</h3><ul>
+<li><p>Adelson-Velskii &amp; Landis Tree是带有平衡条件的二叉查找树</p>
+</li>
+<li><p>定义：每个节点的左子树和右子树的高度最多差1的二叉查找树（空树的高度为-1）</p>
+</li>
+<li><p>除去可能的插入外，所有树操作都可以以时间O(logN)执行</p>
+</li>
+<li><p>But！在插入一个元素后，由于情况不确定，AVL树的平衡条件可能会被破坏掉，因此我们需要做一些调整</p>
+</li>
+</ul>
+<ol>
+<li>发生在“外边”的情况，即左-左和右-右。通过一次单旋转完成</li>
+<li></li>
+<li>发生在“内部”的情况，即左-右和右-左，通过一次双旋转完成</li>
+</ol>
+<ul>
+<li>AVL树的声明</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">struct AvlNode</span><br><span class="line">&#123;</span><br><span class="line">    ElementType Element;</span><br><span class="line">    AvlTree Left;</span><br><span class="line">    AvlTree Right;</span><br><span class="line">    int Height;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Insert (ElementType x, AvlTree T)</span><br><span class="line">&#123;</span><br><span class="line">	if (T == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		/Create and return a one-node tree/</span><br><span class="line">		T = malloc(sizeof(struct AvlTree))</span><br><span class="line">		if (T == NULL)</span><br><span class="line">			FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			T-&gt;elment = x;</span><br><span class="line">			T-&gt;height = 0;</span><br><span class="line">			T-&gt;left = T-&gt;right = NULL;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		if (x &lt; T-&gt;elment)</span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;left = Insert(x,T-&gt;left);</span><br><span class="line">		if ((Height(T-&gt;left)) - Height(T-&gt;right) ==2)</span><br><span class="line">			if (x &lt; T-&gt;left-&gt;elment)</span><br><span class="line">				T = SingleRotateWithLeft(T);</span><br><span class="line">			else</span><br><span class="line">				T = DoubleRotateWiehLeft(T);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		if (x &gt; T-&gt;element)</span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;right = Insert(x,T-&gt;right);</span><br><span class="line">		if ((Height(T-&gt;right) - Height(T-&gt;left) ==2))</span><br><span class="line">			if (x &gt; T-&gt;right-&gt;element)</span><br><span class="line">				T = SingleRotateWithRight(T);</span><br><span class="line">			else</span><br><span class="line">				T = DoubleRotateWiehRight(T);</span><br><span class="line">	&#125; </span><br><span class="line">	T-&gt;height = Max(Height(T-&gt;left),Height(T-&gt;right))+1</span><br><span class="line">	return T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向AVL树插入节点的函数</li>
+</ul>
+<h4 id="单旋转"><a href="#单旋转" class="headerlink" title="单旋转"></a>单旋转</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static Position</span><br><span class="line"></span><br><span class="line">SingleRotateWithLeft(Position k2)</span><br><span class="line">&#123;</span><br><span class="line">	Position k1;</span><br><span class="line">	k1 = k2-&gt;left;</span><br><span class="line">	k2-&gt;left = k1-&gt;right;</span><br><span class="line">	k1-&gt;right = k2;</span><br><span class="line">	k2-&gt;height = Max(Height(K2-&gt;left),Height(k2-&gt;right))+1;</span><br><span class="line">	k1-&gt;height = Max(Height(K1-&gt;left),Height(k2))+1;</span><br><span class="line">	return k1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双旋转"><a href="#双旋转" class="headerlink" title="双旋转"></a>双旋转</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">static Position</span><br><span class="line">DoubleRotateWiehLeft(Position k3)</span><br><span class="line">&#123;</span><br><span class="line">	/*Rotate between k1 and k2*/</span><br><span class="line">	k3-&gt;left = SingleRotateWithRight(k3-&gt;left);</span><br><span class="line">	/*Rotate between k3 and k2*/</span><br><span class="line">	return SingleRotateWithLeft(k3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一定要用画图来帮助自己理解！！！</li>
+</ul>
+<h3 id="伸展树"><a href="#伸展树" class="headerlink" title="伸展树"></a>伸展树</h3><ul>
+<li><p>基本思想：虽然一系列访问整体都有可能发生不良操作，但是很罕见。此时，累计的运行时间就很重要。</p>
+</li>
+<li><p>当一个节点被访问后，经过一系列的AVL树的旋转被放到根上。</p>
+</li>
+</ul>
+<h4 id="一个简单的想法"><a href="#一个简单的想法" class="headerlink" title="一个简单的想法"></a>一个简单的想法</h4><ul>
+<li>通过旋转将加入的节点k1一直推向树根，使得对k1的进一步访问变得容易起来。但是这个策略也可能存在复杂度为O(MN)的问题，因此需要进一步改正</li>
+</ul>
+<h4 id="展开"><a href="#展开" class="headerlink" title="展开"></a>展开</h4><ul>
+<li>分为之字形和一字形的情况，进行不同类型的变化</li>
+<li>这样展开操作不仅将被访问的节点移到根处，而且还有把访问路径上大部分节点的深度大致减少一半的效果</li>
+<li>但是每个操作绝不会落后对数N的时间，即使偶尔有些不良操作</li>
+</ul>
+<h3 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h3><h3 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h3><ul>
+<li>阶为M的B-树是一颗具有下列结构特性的树</li>
+</ul>
+<ol>
+<li>树的根或者是一片树叶，或者其儿子在2~M之间（不包括M）</li>
+<li>除根外，所有非树叶节点的儿子树在[M/2]~M之间</li>
+<li>所有树叶都在相同的深度上</li>
+</ol>
+<ul>
+<li>B树的深度最多是以[M/2]为底的N的对数</li>
+<li>对B-数的搜索复杂度约为logM</li>
+<li><p>插入、删除的复杂度约为M</p>
+</li>
+<li><p>B-树实际用于数据库系统，在那里树被存储在物理的磁盘上而不是主存中</p>
+</li>
+</ul>
+<ol>
+<li>磁盘上的B-树的M一般在32~256之间</li>
+<li>好处是，一个记录总可以在很少的磁盘访问中被找到，因为典型的B-树的深度只有2或3，而根可以放在主存里面</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>我们已经看到树在操作系统、编译器设计以及查找中的应用</p>
+</li>
+<li><p>分析树是编译器设计中的核心数据结构。分析树不是二叉树，而是表达式树的相对简单的扩充</p>
+</li>
+<li><p>查找树在算法设计中是非常重要的。它们几乎支持所有有用的操作，而对数的平均开销很小。查找树的非递归实现多少要快一些，但是递归实现更讲究、更精彩，而且易于理解和除错。</p>
+</li>
+<li><p>查找树的问题在于，其性能严重地依赖于输入，而输入是随机的，如果情况不是这样，则运行时间会显著增加，查找树会成为昂贵的链表</p>
+</li>
+<li><p>我们见到了处理这个问题的几个方法：</p>
+</li>
+</ul>
+<ol>
+<li>AVL树要求所有节点的左子树和右子树的高度相差最多是1。这就保证了树不至于太深。</li>
+<li>改变树的操作必须将树通过旋转的方式恢复。</li>
+<li>我们叙述了在logN复杂度的时间插入后如何将树恢复</li>
+</ol>
+<ul>
+<li><p>我们还考察了伸展树。在伸展树中的结点可以达到任意深度，但是在每次访问之后树以多少有些神秘的方式被调整。实际效果是任意连续M次操作花费MlogN时间，它们与平衡树花费的时间相同</p>
+</li>
+<li><p>B-树是平衡M-路树，它能很好地匹配磁盘。特殊情形是2-3树（3阶B-树），它是实现平衡查找树的另一种常用方法</p>
+</li>
+<li><p>在实践中，所有平衡树方案的运行时间都不如简单二叉查找树省时，但一般来说这也不错，它防止轻易得到最坏情形的输入</p>
+</li>
+</ul>
+<ul>
+<li>此外，通过将一些元素插入到查找树然后执行一次中序遍历，我们得到的是排过序的元素。这就给出排序的一种NlogN算法。如果使用任何成熟的查找树，则它就是最坏的情况。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/10/3-react/" rel="next" title="「React官方文档学习笔记」 3. React高级指南（二）">
+                <i class="fa fa-chevron-left"></i> 「React官方文档学习笔记」 3. React高级指南（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/12/8-algo/" rel="prev" title="「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树">
+                「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构与算法分析：C语言实现"><span class="nav-number">1.</span> <span class="nav-text">数据结构与算法分析：C语言实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-算法分析"><span class="nav-number">1.1.</span> <span class="nav-text">第二章 算法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度的计算"><span class="nav-number">1.1.1.</span> <span class="nav-text">时间复杂度的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度的排序"><span class="nav-number">1.1.2.</span> <span class="nav-text">时间复杂度的排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大子序列和问题"><span class="nav-number">1.1.3.</span> <span class="nav-text">最大子序列和问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#估算运行时间的技巧"><span class="nav-number">1.1.4.</span> <span class="nav-text">估算运行时间的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#whu版数据结构复习（12-18）"><span class="nav-number">1.1.5.</span> <span class="nav-text">whu版数据结构复习（12.18）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-表、栈和队列"><span class="nav-number">1.2.</span> <span class="nav-text">第三章 表、栈和队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本章内容"><span class="nav-number">1.2.1.</span> <span class="nav-text">本章内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象数据类型"><span class="nav-number">1.2.2.</span> <span class="nav-text">抽象数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#表的简单数组实现"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">表的简单数组实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链表"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链表的实现"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">链表的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的错误"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">常见的错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双链表"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">双链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#循环链表"><span class="nav-number">1.2.2.6.</span> <span class="nav-text">循环链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子"><span class="nav-number">1.2.2.7.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链表的游标实现"><span class="nav-number">1.2.2.8.</span> <span class="nav-text">链表的游标实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈ADT"><span class="nav-number">1.2.3.</span> <span class="nav-text">栈ADT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#栈模型"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">栈模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#栈的实现"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">栈的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#栈的链表实现"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">栈的链表实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#栈的数组实现"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">栈的数组实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列ADT"><span class="nav-number">1.2.4.</span> <span class="nav-text">队列ADT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#队列模型"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">队列模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#队列的数组实现"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">队列的数组实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#队列的应用"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">队列的应用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-树"><span class="nav-number">1.3.</span> <span class="nav-text">第四章 树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预备知识"><span class="nav-number">1.3.1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#树的实现"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">树的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#树的遍历及应用"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">树的遍历及应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">1.3.2.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表达式树"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">表达式树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表达式树的实现"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">表达式树的实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找树ADT——二叉查找树"><span class="nav-number">1.3.3.</span> <span class="nav-text">查找树ADT——二叉查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MakeEmpty"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">MakeEmpty</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Find"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">Find</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FindMin和FindMax"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">FindMin和FindMax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Insert"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Delete"><span class="nav-number">1.3.3.5.</span> <span class="nav-text">Delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平均情形分析"><span class="nav-number">1.3.3.6.</span> <span class="nav-text">平均情形分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVL树"><span class="nav-number">1.3.4.</span> <span class="nav-text">AVL树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单旋转"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">单旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双旋转"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">双旋转</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伸展树"><span class="nav-number">1.3.5.</span> <span class="nav-text">伸展树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个简单的想法"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">一个简单的想法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#展开"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">展开</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树的遍历"><span class="nav-number">1.3.6.</span> <span class="nav-text">树的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-树"><span class="nav-number">1.3.7.</span> <span class="nav-text">B-树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.3.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

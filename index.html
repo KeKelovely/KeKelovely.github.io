@@ -946,1278 +946,12 @@
   
   <div class="post-date">
 			<div class="post-month">08月</div>
-			<div class="post-day">10</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/3-react/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/10/3-react/" itemprop="url">「React官方文档学习笔记」 3. React高级指南（二）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-10T00:00:00+08:00">
-                2018-08-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="优化性能"><a href="#优化性能" class="headerlink" title="优化性能"></a>优化性能</h2><h3 id="使用生产版本"><a href="#使用生产版本" class="headerlink" title="使用生产版本"></a>使用生产版本</h3><ul>
-<li>开发应用时使用开发模式，部署应用时换为生产模式</li>
-</ul>
-<h3 id="构建生产用应用的流程"><a href="#构建生产用应用的流程" class="headerlink" title="构建生产用应用的流程"></a>构建生产用应用的流程</h3><h4 id="create-React-App"><a href="#create-React-App" class="headerlink" title="create React App"></a>create React App</h4><ul>
-<li>使用npm run build命令在build/文件夹内创建一个生产版本的应用</li>
-</ul>
-<h4 id="单文件构建"><a href="#单文件构建" class="headerlink" title="单文件构建"></a>单文件构建</h4><ul>
-<li>可以使用CDN外链的形式加载react.min.js以及react-dom.min.js</li>
-</ul>
-<h4 id="Brunch"><a href="#Brunch" class="headerlink" title="Brunch"></a>Brunch</h4><ul>
-<li>若你需要创建最高效的Brunch生产版本，先安装uglify-js-brunch插件：npm install –save-dev uglify-js-brunch</li>
-<li>在build命令后添加-p参数：brunch build -p</li>
-<li>不要在开发环境中使用这个插件</li>
-</ul>
-<h4 id="Browserify"><a href="#Browserify" class="headerlink" title="Browserify"></a>Browserify</h4><ul>
-<li>安装插件，然后执行命令，了解即可</li>
-</ul>
-<h4 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h4><ul>
-<li>同样安装各种插件</li>
-</ul>
-<h4 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h4><ul>
-<li>需要在webpack中进行如下配置：（当你不使用create react app的情况下）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new webpack.DefinePlugin(&#123;</span><br><span class="line">	&apos;process.env&apos;:&#123;</span><br><span class="line">		NODE_ENV:</span><br><span class="line">			JSON.stringify(&apos;production&apos;)</span><br><span class="line">	&#125;</span><br><span class="line">	&#125;),</span><br><span class="line">new webpack.optimize.UglifyJsPlugin()</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="使用Chrome性能分析工具，分析组件性能"><a href="#使用Chrome性能分析工具，分析组件性能" class="headerlink" title="使用Chrome性能分析工具，分析组件性能"></a>使用Chrome性能分析工具，分析组件性能</h4><ul>
-<li>参考React官方文档</li>
-</ul>
-<h3 id="避免重新渲染"><a href="#避免重新渲染" class="headerlink" title="避免重新渲染"></a>避免重新渲染</h3><h4 id="React中对Virtual-DOM的处理"><a href="#React中对Virtual-DOM的处理" class="headerlink" title="React中对Virtual DOM的处理"></a>React中对Virtual DOM的处理</h4><ul>
-<li>React构建并维护渲染UI的内部表示，这些内部状态使得React只有在必要的情况下，才会创建DOM节点和访问存在的DOM节点，因为，对JavaScript对象的操作比对DOM的操作更快。</li>
-<li>原理：当组件的props和state改变时，React通过比较新返回的元素和之前渲染的元素，来决定是否有必要更新DOM元素。当二者不相等时，则更新DOM元素</li>
-<li>你可以使用Chrome Browser Extension插件来可视化这些重新渲染的虚拟DOM</li>
-</ul>
-<h4 id="使用shouldComponentUpdate来阻止重新渲染"><a href="#使用shouldComponentUpdate来阻止重新渲染" class="headerlink" title="使用shouldComponentUpdate来阻止重新渲染"></a>使用shouldComponentUpdate来阻止重新渲染</h4><ul>
-<li><p>即使React只更新更改的DOM节点，重新渲染仍然需要花费时间。你可以通过重写生命周期函数shouldComponentUpdate来优化性能，这是在重新渲染过程开始之前触发的，该函数默认返回是true，使React执行更新操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate(nextProps,nextState)&#123;</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>你可以返回false，来跳过整个渲染过程，包括在这个组件及之后调用的render()</p>
-</li>
-<li>如果你确保组件不需要更新，那么可以直接让自定义的组件从React.PureComponent继承，实现props和state的浅比较，从而提高性能</li>
-</ul>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><ul>
-<li>如果你想要你的组件仅当props.color或state.count发生改变时需要更新，你可以通过shouldComponentUpdate函数来检查：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shouldComponentUpdate(nextProps,nextState)&#123;</span><br><span class="line">	if(this.props.color !== nextProps.color)&#123;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	if(this.state.count !== nextState.count)&#123;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>你也可以让组件继承自React.PureComponent来实现上面的逻辑，即仅仅检查props.color或者state.count（对props和state浅检查的意思就是只检查在组件中显式地传入和使用的props和state，而不会检查所有的props和states）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class CounterButton extends React.PureComponent &#123;</span><br><span class="line">	constructor(props)&#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.state=&#123;count: 1&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	render()&#123;</span><br><span class="line">		return (&lt;button</span><br><span class="line">			color=&#123;this.props.color&#125;</span><br><span class="line">			onClick=&#123;()=&gt;this.setState(state =&gt; (&#123;</span><br><span class="line">				count: state.count+1</span><br><span class="line">			&#125;))&#125;&gt;</span><br><span class="line">			Count: &#123;this.state.count&#125;</span><br><span class="line">			&lt;/button&gt;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>如果props和state属性存在更复杂的数据结构（例如不是简单的字面量，而是以数组的形式存在），就可能会导致浅比较失败，因此这时就不能使用React.PureComponent</li>
-</ul>
-<h4 id="防止突变（mutate）"><a href="#防止突变（mutate）" class="headerlink" title="防止突变（mutate）"></a>防止突变（mutate）</h4><ul>
-<li><p>如果你要使用React.PureComponent，最好的代码风格是尽量避免让state或props发生突变，即不要直接setState后重置整个数据，如下面的例子中，就直接将words的数据修改了，我们只是修改了words的数组，这样purecomponent有可能无法检测到新旧数据间的变化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 不好的代码风格</span><br><span class="line">handleClick()&#123;</span><br><span class="line">	const words = this.state.words;</span><br><span class="line">	words.push(&apos;marklar&apos;);</span><br><span class="line">	this.setState(&#123;words:words&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>为了避免数据mutate后带来的PureComponent无法更新的问题，React官方建议使用concat或展开语法等方式重写，换言之，我们返回的是一个新的数据，而不是修改原来的数据,从而避免让数据修改时的mutate（上面的例子中，我们只是修改了words的数组，因此我们需要返回一个船新的数据）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">handleClick()&#123;</span><br><span class="line">	this.setState(prevState =&gt; (&#123;</span><br><span class="line">		words: prevState.words.concat([&apos;marklar&apos;])</span><br><span class="line">	&#125;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleClick()&#123;</span><br><span class="line">	this.setState(prevState =&gt; (&#123;</span><br><span class="line">		words: [...prevState.words,&apos;marklar&apos;]</span><br><span class="line">	&#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="不使用ES6"><a href="#不使用ES6" class="headerlink" title="不使用ES6"></a>不使用ES6</h2><h3 id="class的写法"><a href="#class的写法" class="headerlink" title="class的写法"></a>class的写法</h3><ul>
-<li>通常情况下你可以用普通的JavaScript类定义一个组件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Greeting extends React.Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return &lt;h1&gt;Hello, &#123;this.props.name&#125; &lt;/h1&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="不使用es6的写法（不建议）"><a href="#不使用es6的写法（不建议）" class="headerlink" title="不使用es6的写法（不建议）"></a>不使用es6的写法（不建议）</h3><ul>
-<li>如果不使用es6，你可以用create-react-class代替：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var createReactClass = require(&apos;create-react-class&apos;);</span><br><span class="line"></span><br><span class="line">var Greeting = createReactClass(&#123;</span><br><span class="line">	render: function()&#123;</span><br><span class="line">		return &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;/h1&gt;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="显式绑定"><a href="#显式绑定" class="headerlink" title="显式绑定"></a>显式绑定</h3><ul>
-<li>在以es6 classes（类）方式声明的React组件中，方法遵循与普通es6的class中相同的语义。</li>
-<li>也就是说，方法不会自动绑定this到实例中，你必须在构造函数中显式地使用.bind(this)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class SayHello extends React.Component &#123;</span><br><span class="line">	constructor(props)&#123;</span><br><span class="line">		super(props);</span><br><span class="line">		this.state = &#123;</span><br><span class="line">			msg: &apos;Hello!&apos;</span><br><span class="line">		&#125;;</span><br><span class="line">		// This is important</span><br><span class="line">		this.handleClick = this.handleClick.bind(this);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	handleClick()&#123;</span><br><span class="line">		alert(this.state.message);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	render()&#123;</span><br><span class="line">		return (</span><br><span class="line">			&lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">				Say Hello</span><br><span class="line">			&lt;/button&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="不使用JSX"><a href="#不使用JSX" class="headerlink" title="不使用JSX"></a>不使用JSX</h2><h3 id="JSX的语法糖"><a href="#JSX的语法糖" class="headerlink" title="JSX的语法糖"></a>JSX的语法糖</h3><ul>
-<li>每一个JSX元素都是调用React.createElement(component,props,…children)的语法糖</li>
-<li><p>因此，任何你使用JSX来做事都可以通过纯JavaScript来实现~</p>
-</li>
-<li><p>例如，下面代码是通过JSX实现的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Hello extends React.Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return (</span><br><span class="line">			&lt;div&gt;Hello, &#123;this.props.name&#125;&lt;/div&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;Hello name=&apos;World!&apos; /&gt;,document.getElementById(&apos;root&apos;));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以被编译成不使用JSX的语法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Hello extends React.Component &#123;</span><br><span class="line">	render() &#123;</span><br><span class="line">		return React.createElement(&apos;div&apos;,null,`Hello $&#123;this.props.name&#125;`);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">	React.createElement(Hello,&#123;name:World!&#125;,null),</span><br><span class="line">	document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/10/3-react/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">08月</div>
-			<div class="post-day">07</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/2-react/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/07/2-react/" itemprop="url">「React官方文档学习笔记」 2. React高级指南（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-07T00:00:00+08:00">
-                2018-08-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="React高级指南"><a href="#React高级指南" class="headerlink" title="React高级指南"></a>React高级指南</h1><h2 id="深入JSX"><a href="#深入JSX" class="headerlink" title="深入JSX"></a>深入JSX</h2><h3 id="JSX语法糖"><a href="#JSX语法糖" class="headerlink" title="JSX语法糖"></a>JSX语法糖</h3><ul>
-<li>从本质上讲，JSX只是为React.createElement(component,props,…children)函数提供的语法糖</li>
-<li>例如，下面JSX代码会被编译为一个React.createElement函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyButton color=&quot;blue&quot; shadowSize=&#123;2&#125;&gt;</span><br><span class="line">	Click Me</span><br><span class="line">&lt;/MyButton&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">React.createElement(</span><br><span class="line">	MyButton,</span><br><span class="line">	&#123;color:&apos;blue&apos;, shadowSize: 2&#125;,</span><br><span class="line">	&apos;Click Me&apos;	</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h3 id="用户定义组件必须以大写字母开头"><a href="#用户定义组件必须以大写字母开头" class="headerlink" title="用户定义组件必须以大写字母开头"></a>用户定义组件必须以大写字母开头</h3><ul>
-<li>当一个React元素类型以小写字母开头，它表示引用一个类似于<div>或者<span>的内置组件，并给React.createElement方法传递’div’或’span’字符串</span></div></li>
-<li>以大写字母开头的类型，类似于<foo>，会被编译成React.createElement(Foo)，对应于自定义组件，或者在JavaScript文件中导入组件</foo></li>
-</ul>
-<h3 id="JS表达式作为props"><a href="#JS表达式作为props" class="headerlink" title="JS表达式作为props"></a>JS表达式作为props</h3><ul>
-<li>可以用{}包裹的JavaScript表达式作为props属性，并传入给React组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent foo=&#123;1+2+3+4&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="字符串字面量"><a href="#字符串字面量" class="headerlink" title="字符串字面量"></a>字符串字面量</h3><ul>
-<li><p>可以传入一个字符串字面量作为一个props属性，例如下面两个JSX表达式是等价的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent message=&quot;hello world&quot; /&gt;</span><br><span class="line">&lt;MyComponent message=&#123;&apos;hello world&apos;&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>个人认为，沿用花括号的js表达式的语法形式比较好，能够使代码风格一致</p>
-</li>
-</ul>
-<h3 id="属性扩展"><a href="#属性扩展" class="headerlink" title="属性扩展"></a>属性扩展</h3><ul>
-<li>如果你已经有一个Object类型的props，并且希望在JSX中传入，那么可以使用扩展操作符传入整个props对象,例如如下两个组件是等价的：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function App1()&#123;</span><br><span class="line">	return &lt;Greeting firstName=&quot;Ben&quot; lastName=&quot;Hector&quot; /&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function App2()&#123;</span><br><span class="line">	const props = &#123;firstName:&apos;Ben&apos;,lastName:&apos;Hector&apos;&#125;;</span><br><span class="line">	return &lt;Greeting &#123;...props&#125; /&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>但这非常容易使一些不相关的、组件可能用不到的props属性传递给组件，因此建议谨慎使用！</li>
-</ul>
-<h3 id="JSX中的children"><a href="#JSX中的children" class="headerlink" title="JSX中的children"></a>JSX中的children</h3><ul>
-<li><p>你可以在开放标签和闭合标签中放入一些内容，这些内容会被传递给一个特殊的props属性，即props.children</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent&gt; Hello World! &lt;/MyComponent&gt; // props.children = &apos;Hello World!&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>你也可以提供多个JSX元素作为children</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyContainer&gt;</span><br><span class="line">	&lt;MyFirstComponent /&gt;</span><br><span class="line">	&lt;MySecondComponent /&gt;</span><br><span class="line">&lt;/MyContainer&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>React组件不能返回多个React元素，但是单个JSX表达式可以有多个子元素，因此如果你想要同时渲染多个元素，可以把它们打包放在1个div中</p>
-</li>
-</ul>
-<h3 id="JS表达式作为children"><a href="#JS表达式作为children" class="headerlink" title="JS表达式作为children"></a>JS表达式作为children</h3><ul>
-<li>js表达式可以和其他类型的子元素混用，这对于字符串模板而言十分有用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MyComponent&gt;&#123;props.message&#125;&lt;/MyComponent&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="Functions作为Children"><a href="#Functions作为Children" class="headerlink" title="Functions作为Children"></a>Functions作为Children</h3><ul>
-<li>props.children类似于其他的props属性，可以被传入任何数据，甚至自定义组件的props.children的值可以是一个回调函数</li>
-</ul>
-<h3 id="被忽略的元素"><a href="#被忽略的元素" class="headerlink" title="被忽略的元素"></a>被忽略的元素</h3><ul>
-<li>false、null、undefined和true都是有效的children子元素，但是并不会被渲染</li>
-</ul>
-<h2 id="使用PropTypes进行类型检查"><a href="#使用PropTypes进行类型检查" class="headerlink" title="使用PropTypes进行类型检查"></a>使用PropTypes进行类型检查</h2><ul>
-<li>React内置了类型检测的功能，（例如判断输入的是数字还是字符串），要在组件中进行类型检测，你可以赋值propTypes属性</li>
-<li><p>下面是一个小栗子，用来确保组件接收到的参数是有效的~</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import PropTypes from &apos;prop-types&apos;;</span><br><span class="line"></span><br><span class="line">class Greeting extends React.Component&#123;</span><br><span class="line">	render()&#123;</span><br><span class="line">		return (</span><br><span class="line">			&lt;h1&gt;Hello, &#123;this.props.name&#125; &lt;/h1&gt;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 定义propTypes函数进行类型检查</span><br><span class="line">Greeting.propTypes = &#123;</span><br><span class="line">	name: PropTypes.string // 要求props.name必须是字符串类型</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>从React v15.5开始，React.PropTypes助手函数已被弃用，建议使用prop-types库来定义contextTypes</p>
-</li>
-</ul>
-<h2 id="静态类型检查"><a href="#静态类型检查" class="headerlink" title="静态类型检查"></a>静态类型检查</h2><h2 id="静态类型检查-1"><a href="#静态类型检查-1" class="headerlink" title="静态类型检查"></a>静态类型检查</h2><ul>
-<li>Flow和TypeScript作为静态类型检查器可以在运行代码之前识别某些类型的问题，注释代码或发现问题。</li>
-</ul>
-<h3 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h3><h4 id="在项目中添加Flow"><a href="#在项目中添加Flow" class="headerlink" title="在项目中添加Flow"></a>在项目中添加Flow</h4><ul>
-<li>用Yarn或npm安装flow-bin，然后使用yarn/npm run flow init来初始化Flow配置文件</li>
-<li>最后将flow添加到package.json的script部分：”script”:{“flow”:”flow”}</li>
-</ul>
-<h4 id="从编译过的代码中剥离Flow语法"><a href="#从编译过的代码中剥离Flow语法" class="headerlink" title="从编译过的代码中剥离Flow语法"></a>从编译过的代码中剥离Flow语法</h4><ul>
-<li>flow使用特殊的语法为类型注释扩展了js语言，但你需要让浏览器在编译时忽略掉</li>
-<li>如果你使用create react app，则flow被默认剥离，不需要任何操作</li>
-<li>如果单独使用babel，那么需要安装babel-preset-flow，同时在.babelrc文件中配置flow（和react）</li>
-</ul>
-<h4 id="运行flow"><a href="#运行flow" class="headerlink" title="运行flow"></a>运行flow</h4><ul>
-<li>yarn flow / npm run flow</li>
-<li>输出：no errors！（说明你的类型检查没有错误）</li>
-</ul>
-<h4 id="添加Flow类型注释"><a href="#添加Flow类型注释" class="headerlink" title="添加Flow类型注释"></a>添加Flow类型注释</h4><ul>
-<li>在文件顶部添加批注：//@flow，flow只会检查这类文件</li>
-</ul>
-<h4 id="flow的具体用法，请参考flow文档"><a href="#flow的具体用法，请参考flow文档" class="headerlink" title="flow的具体用法，请参考flow文档"></a>flow的具体用法，请参考flow文档</h4><h3 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h3><ul>
-<li>TypeScript是由微软开发的编程语言，是JavaScript的一种类型语言，包含它自己的编译器</li>
-</ul>
-<h4 id="在一个项目中添加TypeScript"><a href="#在一个项目中添加TypeScript" class="headerlink" title="在一个项目中添加TypeScript"></a>在一个项目中添加TypeScript</h4><ul>
-<li>yarn add –dev typescript</li>
-<li>npm install –save-dev typescript</li>
-<li>将tsc命令添加到package.json中： “scripts”:{“build”:”tsc”}</li>
-</ul>
-<h4 id="配置TypeScript编译器"><a href="#配置TypeScript编译器" class="headerlink" title="配置TypeScript编译器"></a>配置TypeScript编译器</h4><ul>
-<li>运行tsc –init命令新建一个tsconfig.json配置文件</li>
-<li>在tsconfig.json中进行配置rootDir和outDir路径，然后，编译器就会将rootDir中的typescript代码输出到outDir路径中去</li>
-<li>使用yarn build / npm run build命令，运行typescript编译器</li>
-</ul>
-<h4 id="在create-react-app中使用ts"><a href="#在create-react-app中使用ts" class="headerlink" title="在create react app中使用ts"></a>在create react app中使用ts</h4><ul>
-<li>create-react-app my-app –scripts-version=react-scripts-ts，注意这是额外添加的一个第三方项目，不是create react app的一部分</li>
-</ul>
-<h2 id="Refs和DOM"><a href="#Refs和DOM" class="headerlink" title="Refs和DOM"></a>Refs和DOM</h2><h3 id="早期版本的React-ref形式：使用对象引入"><a href="#早期版本的React-ref形式：使用对象引入" class="headerlink" title="早期版本的React ref形式：使用对象引入"></a>早期版本的React ref形式：使用对象引入</h3><ul>
-<li><p>例如，可以为JSX的元素中引入一个ref属性(ref所引用的属性名是任取的，开心就好)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; ref=&quot;inputElement&quot;&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后，你可以通过this.refs.inputElement访问该DOM节点（即给该组件的refs对象上绑定了对该DOM节点的引用）</p>
-</li>
-<li>不过，string类型的refs存在一些bug，（也就是向上面这样直接绑定到refs对象上）已经过时了，在未来的React版本中有可能被移除，请谨慎使用。</li>
-</ul>
-<h3 id="16-3版本前的React-ref形式：使用回调函数"><a href="#16-3版本前的React-ref形式：使用回调函数" class="headerlink" title="16.3版本前的React ref形式：使用回调函数"></a>16.3版本前的React ref形式：使用回调函数</h3><ul>
-<li>React支持给任何组件添加特殊属性，ref属性接受回调函数，当组件mounted或unmounted之后，回调函数会立刻执行</li>
-<li><p>ref回调接受底层的DOM元素（如下列代码中的input元素）作为参数，例如，下面的代码使用ref回调来存储DOM节点的引用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; ref=&#123;(input) =&gt; &#123;this.textInput = input;&#125;&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>上述代码相当于为input建立了一个引用，这样就可以直接在React组件中使用this.textInput属性来找到input这一DOM节点</p>
-</li>
-<li><p>为什么要使用ref回调函数？：使用ref回调可以在类上设置一个属性，这是React中访问DOM元素的常见模式</p>
-</li>
-</ul>
-<h3 id="16-3版本后的React-ref形式：使用React-createRef-函数"><a href="#16-3版本后的React-ref形式：使用React-createRef-函数" class="headerlink" title="16.3版本后的React ref形式：使用React.createRef()函数"></a>16.3版本后的React ref形式：使用React.createRef()函数</h3><ul>
-<li><p>React最新的官方文档中这样描述React.createRef()的用法：</p>
-<ul>
-<li>this code use a ref to store a reference to a DOM node</li>
-<li>React will assign the current property with the DOM element when the component mounts,</li>
-<li>and assign it back to null when it unmounts.</li>
-<li>ref updates happen before componentDidMount or ComponentDidUpdate lifecycle hooks.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props);</span><br><span class="line">	this.textInput = React.createRef(); // 创建一个名为textInput的react的ref引用</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">focusTextInput()&#123;</span><br><span class="line">	this.textInput.current.focus(); // 使用current来get the DOM Node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;input type=&quot;text&quot; ref=&#123;this.textInput&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>同样，对于你自定义的类组件来说，也可以使用类似的方法来定义（注意在函数组件中是没有办法引入ref的）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;CustomTextInput ref=&#123;this.textInput&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="不受控组件"><a href="#不受控组件" class="headerlink" title="不受控组件"></a>不受控组件</h2><h3 id="回顾：什么是受控组件？"><a href="#回顾：什么是受控组件？" class="headerlink" title="回顾：什么是受控组件？"></a>回顾：什么是受控组件？</h3><ul>
-<li>其值由React控制的输入表单元素称为“受控组件”，例如我们将表单的输入值value存储在React的this.state属性中</li>
-<li>好处是，渲染表单的React组件可以控制用户在输入之后的行为（例如只允许用户输入小写字母）</li>
-</ul>
-<p>###不受控组件：ref的实现</p>
-<ul>
-<li><p>要实现一个不受控组件，你可以使用ref属性来从DOM中获取表单值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; ref=&#123;(input)=&gt;&#123;this.input = input&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>实践：如果你希望的是快速开发、不要求代码质量，不受控组件可以在一定程度上减少代码量。否则，你应该使用受控组件。</p>
-</li>
-</ul>
-<h3 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h3><ul>
-<li>在不受控组件中，你可能希望React有初始值，但保留后续更新不受控制，此时请使用defaultValue方法，如<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input defaultValue=&quot;Bob&quot; type=&quot;text&quot; ref=&#123;(input)=&gt;&#123;this.input = input&#125;&#125; /&gt;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/07/2-react/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">08月</div>
-			<div class="post-day">05</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/1-react/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/05/1-react/" itemprop="url">「React官方文档学习笔记」 1. React快速入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-05T00:00:00+08:00">
-                2018-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h3><h3 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h3><ul>
-<li>React通过使用JSX的扩展语法，更容易地在JavaScript中创建UI</li>
-</ul>
-<h4 id="JSX（标签）的属性值"><a href="#JSX（标签）的属性值" class="headerlink" title="JSX（标签）的属性值"></a>JSX（标签）的属性值</h4><ul>
-<li><p>使用双引号来指定字符串字面量作为属性值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;div tabIndex=&quot;0&quot;&gt;&lt;/div&gt;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>用花括号嵌入一个JavaScript表达式作为属性值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const element = &lt;img src=&#123;user.avatarUrl&#125;&gt;&lt;/img&gt;;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="JSX是React-createElement-的语法糖"><a href="#JSX是React-createElement-的语法糖" class="headerlink" title="JSX是React.createElement()的语法糖"></a>JSX是React.createElement()的语法糖</h4><ul>
-<li>下面两个代码完全等价，第二种是React读取并构建VirtualDOM的方式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const element = (</span><br><span class="line">        &lt;h1 className=&quot;greeting&quot;&gt;</span><br><span class="line">            Hello World</span><br><span class="line">        &lt;/h1&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const element = React.createElement(</span><br><span class="line">        &apos;h1&apos;,</span><br><span class="line">        &#123;className: &apos;greeting&apos;&#125;,</span><br><span class="line">        &apos;Hello world!&apos;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h4 id="编码规范"><a href="#编码规范" class="headerlink" title="编码规范"></a>编码规范</h4><ul>
-<li>推荐用括号将JSX包裹起来，好处是避免分号自动插入的陷阱</li>
-<li>JSX要求使用驼峰(camelCase)命名，如class为className, tabindex为tabIndex</li>
-</ul>
-<h3 id="元素渲染"><a href="#元素渲染" class="headerlink" title="元素渲染"></a>元素渲染</h3><ul>
-<li>使用ReactDOM.render()方法渲染一个React元素到一个root DOM节点中</li>
-<li>React元素是不可突变（Immutable）的，一旦元素被创建，就不能再修改其子元素或任何属性，除非重新渲染</li>
-<li>React DOM会将元素及其子元素与之前版本逐一对比，并只对有必要更新的DOM进行更新（部分更新），以达到DOM所需的状态</li>
-</ul>
-<h3 id="组件和属性"><a href="#组件和属性" class="headerlink" title="组件和属性"></a>组件和属性</h3><ul>
-<li>React中有两种组件：函数组件和类组件</li>
-</ul>
-<h4 id="一个好的经验准则"><a href="#一个好的经验准则" class="headerlink" title="一个好的经验准则"></a>一个好的经验准则</h4><ul>
-<li>如果你UI的一部分需要用多次，或者本身足够复杂，最好的做法是使其成为可复用组件</li>
-</ul>
-<h4 id="编码规范-1"><a href="#编码规范-1" class="headerlink" title="编码规范"></a>编码规范</h4><ul>
-<li>组件名称总是以大写字母开头</li>
-<li>组件必须返回一个单独的根元素，有时需要添加一个div元素来包含多个组件</li>
-<li>所有React组件必须是纯函数，并禁止修改其自身的props</li>
-</ul>
-<h3 id="状态和生命周期"><a href="#状态和生命周期" class="headerlink" title="状态和生命周期"></a>状态和生命周期</h3><ul>
-<li>状态和生命周期是类组件的专有特性</li>
-</ul>
-<h4 id="正确地使用state状态"><a href="#正确地使用state状态" class="headerlink" title="正确地使用state状态"></a>正确地使用state状态</h4><ul>
-<li>不要直接修改state状态，即使你改了，也不会重新渲染一个组件</li>
-<li>用setState()更新state</li>
-</ul>
-<h4 id="state更新可能是异步的"><a href="#state更新可能是异步的" class="headerlink" title="state更新可能是异步的"></a>state更新可能是异步的</h4><ul>
-<li>React为了优化性能，有可能会将多个setState()调用合并为一次更新</li>
-<li>this.props和this.state可能是异步更新，你不能依赖它们的值计算下一个state（状态）</li>
-<li>要解决这个问题，应使用另一种setState()形式，它接受一个函数而不是一个对象，前一个状态作为参数，应用更新时的props作为第二个参数：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this.setState((prevState, props)=&gt;(&#123;</span><br><span class="line">    counter: prevState.counter + props.increment</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="从上到下，单向的数据流"><a href="#从上到下，单向的数据流" class="headerlink" title="从上到下，单向的数据流"></a>从上到下，单向的数据流</h4><ul>
-<li>任何state始终由某个特定组件所有，不能被其他以外的任何组件访问</li>
-<li>从该state导出的任何数据和UI只能影响其DOM树中下方的组件</li>
-<li>即使如此，所有的组件相互之间都是完全独立的，不受影响</li>
-</ul>
-<h3 id="处理事件"><a href="#处理事件" class="headerlink" title="处理事件"></a>处理事件</h3><ul>
-<li>React事件使用驼峰命名，如onClick</li>
-<li>JSX传递一个函数而不是字符串，作为事件处理程序</li>
-<li>React中不能通过返回false来阻止默认行为，而是需要明确调用preventDefault</li>
-<li>注意this的指向：在JavaScript中，类方法默认没有绑定的对象，（因为还未实例化），因此需要使用bind来绑定，如this.handeleClick.bind(this)</li>
-</ul>
-<h4 id="将参数传递给事件处理程序"><a href="#将参数传递给事件处理程序" class="headerlink" title="将参数传递给事件处理程序"></a>将参数传递给事件处理程序</h4><ul>
-<li>下列两行代码是等价的，分别使用arrow functions和Function.prototype.bind</li>
-<li>第一个例子中，参数e作为React事件对象将被作为第二个参数进行显式地传递<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;(e)=&gt;this.deleteRow(id,e)&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;this.deleteRow.bind(this,id)&#125;&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><ul>
-<li><p>使用逻辑&amp;&amp;操作符的内联if用法：在JSX中嵌入表达式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;unreadMessages.length &gt; 0 &amp;&amp; </span><br><span class="line">	&lt;h2&gt;</span><br><span class="line">		You have messages!</span><br><span class="line">	&lt;/h2&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用条件操作符condition ? true : false</p>
-</li>
-<li><p>通过return null，来隐藏一个组件，不让其渲染输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function WarningBanner(props)&#123;</span><br><span class="line">	if(!props.warn)&#123;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>从组件的render方法返回null不会影响组件生命周期方法的触发，componentWillUpdate以及componentDidUpdate仍将被调用</p>
-</li>
-</ul>
-<h3 id="列表和键"><a href="#列表和键" class="headerlink" title="列表和键"></a>列表和键</h3><ul>
-<li><p>多组件渲染：例如，创建一个数组集合，并包含到一个ul元素中，再渲染到DOM</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(&lt;ul&gt;&#123;listItems&#125;&lt;/ul&gt;,document.getElementById(&apos;root&apos;));</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>应当为列表元素（例如ul元素中的li元素）提供一个key，key是一个你需要包含的特殊字符串属性</p>
-</li>
-</ul>
-<h4 id="为什么要添加key值"><a href="#为什么要添加key值" class="headerlink" title="为什么要添加key值"></a>为什么要添加key值</h4><ul>
-<li>key帮助React标识哪个项被修改、添加或移除，数组中的每一个元素都应该有一个唯一不变的键来标识</li>
-<li>key只在数组的上下文中存在意义，而不要在return的渲染部分将key作为属性传入到组件中</li>
-<li>key必须在同辈之间唯一，但不需要全局唯一</li>
-<li>key是React的一个内部映射，但不会传递给组件内部，组件也无法读取</li>
-</ul>
-<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><ul>
-<li><p>示例一：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function NumberList(props)&#123;</span><br><span class="line">	const numbers = props.numbers;</span><br><span class="line">	const listItems = numbers.map((number)=&gt;</span><br><span class="line">	&lt;ListItem key=&#123;number.toString()&#125; value=&#123;number&#125;/&gt;</span><br><span class="line">);</span><br><span class="line">return (</span><br><span class="line">		&lt;ul&gt;</span><br><span class="line">		&#123;listItems&#125; // 批量传入组件</span><br><span class="line">		&lt;/ul&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>示例二：也可以直接将map方法内联</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function NumberList(props)&#123;</span><br><span class="line">	const numbers = props.numbers;</span><br><span class="line">	return(</span><br><span class="line">		&lt;ul&gt;</span><br><span class="line">		&#123;numbers.map((number)=&gt;&lt;ListItem key=&#123;number.toString()&#125; value=&#123;number&#125; /&gt;)&#125;</span><br><span class="line">		&lt;/ul&gt;</span><br><span class="line">		);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h3><ul>
-<li>在React中允许表单的默认行为，例如提交表单，上传数据等</li>
-<li>但是But！也可以将表单中的数据和值交给React中的state来存储，将表单与React结合，这种，其值由React控制的输入表单元素称为受控组件</li>
-<li><p>相应的，不受控组件就是其值由DOM元素来控制，如input元素中的value属性，在react中可以使用ref与refs来引用非受控组件的值，用ref从DOM获得表单值，而不是为每个状态更新编写一个事件处理程序~</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">this.state = &#123;value : &apos;&apos;&#125;;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.state.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;input type=&quot;text&quot; value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置表单元素的value属性之后，其显示值将由this.state.value决定，以满足React状态的同一数据理念，每次键盘敲击后会执行handleChange方法以更新React状态，显示值也将随着用户的输入改变</p>
-</li>
-<li><p>对于受控组件来说，每一次状态state的变化都会伴有相关联的处理函数(onChange={function})，这使得可以直接修改或验证用户的输入</p>
-</li>
-</ul>
-<h4 id="textarea标签"><a href="#textarea标签" class="headerlink" title="textarea标签"></a>textarea标签</h4><ul>
-<li><p>HTML中，textarea元素通过它的子节点定义它的文本值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;textarea&gt;</span><br><span class="line"> Hello, I am kekelovely!~</span><br><span class="line">&lt;/textarea&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>React中，textarea的赋值使用value属性代理，类似于input的方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props)</span><br><span class="line">	this.state = &#123;</span><br><span class="line">		value: &apos; Please Write Something here~! &apos;</span><br><span class="line">	&#125;</span><br><span class="line">	this.handleChange = this.handleChange.bind(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.target.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;textarea value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="select标签"><a href="#select标签" class="headerlink" title="select标签"></a>select标签</h4><ul>
-<li><p>类似的，React并不用selected属性，而是在根select标签中使用一个value属性，这样你只需更新value属性即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props);</span><br><span class="line">	this.state = &#123;value :&apos;coconut&apos;&#125;;</span><br><span class="line">	this.handleChange = this.handleChange.bind(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleChange(event)&#123;</span><br><span class="line">	this.setState(&#123;value:event.target.value&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;select value=&#123;this.state.value&#125; onChange=&#123;this.handleChange&#125;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>总结：input，textarea和select都可以以类似的方式工作：接受一个value属性以实现受控组件</p>
-</li>
-</ul>
-<h4 id="file-input标签"><a href="#file-input标签" class="headerlink" title="file input标签"></a>file input标签</h4><ul>
-<li>在React中，一个<input type="file">是只读的(read-only)，不能设置值，只能用File API与文件交互<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">handleSubmit(event)&#123;</span><br><span class="line">	event.preventDefault();</span><br><span class="line">	alert(this.fileInput.files[0].name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render()&#123;</span><br><span class="line">	&lt;input type=&quot;file&quot; ref=&#123;input =&gt; &#123;this.fileInput = input;&#125;&#125;&gt; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="状态提升"><a href="#状态提升" class="headerlink" title="状态提升"></a>状态提升</h3><ul>
-<li>通常情况下，同一个数据的变化需要几个不同的组件来反映。我们建议提升共享的状态到它们最近的祖先组件中</li>
-<li>在React中，共享state状态，是通过将其移动到需要它的组件的最近的共同祖先组件来实现的，这被称为状态提升</li>
-<li>具体来说，可以在祖先组件中编辑处理函数，再以props属性的方式传入给子组件（注意传入的函数的this仍然绑定在当前组件上），交由子组件去处理，不过子组件已经实现了对父组件中state的共享<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">constructor(props)&#123;</span><br><span class="line">	super(props);</span><br><span class="line">	this.state = &#123;temperature:&apos;&apos;,scale:&apos;c&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleCelsiusChange(temperature)&#123;</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		scale:&apos;c&apos;,</span><br><span class="line">		temperature</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleFahrenheitChange(temperature)&#123;</span><br><span class="line">	this.setState(&#123;</span><br><span class="line">		scale:&apos;f&apos;,</span><br><span class="line">		temperature</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br><span class="line">&lt;TemperatureInput temperature=&#123;celsius&#125; onTemperatureChange=&#123;this.handleCelsiusChange&#125; /&gt;</span><br><span class="line">&lt;TemperatureInput temperature=&#123;fahrenheit&#125; onTemperatureChange=&#123;this.handleFahrenheitChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="组合VS继承"><a href="#组合VS继承" class="headerlink" title="组合VS继承"></a>组合VS继承</h3><ul>
-<li><p>使用自定义的props属性，来实现组件的组合搭配。如<contacts>和<chat>等React元素本质上也是对象，所以可以像其他数据一样作为props属性传递使用</chat></contacts></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function SplitPane(props)&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;div className=&quot;SplitPane&quot;&gt;</span><br><span class="line">			&lt;div className=&quot;SplitPane-left&quot;&gt;</span><br><span class="line">				&#123;props.left&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">			&lt;div className=&quot;SplitPane-right&quot;&gt;</span><br><span class="line">				&#123;props.right&#125;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function App()&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;SplitPane left=&#123;&lt;Contacts /&gt;&#125; right=&#123;&lt;Chat /&gt;&#125;/&gt;</span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在React中，也可以使用组合的方式（组合就是使用props属性传值）来从一个偏通用的组件渲染出一个偏特殊的组件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function Dialog(props)&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;FancyBorder color=&quot;blue&quot;&gt;</span><br><span class="line">			&lt;h1 className=&quot;Dialog-title&quot;&gt;</span><br><span class="line">				&#123;props.title&#125;</span><br><span class="line">			&lt;/h1&gt;</span><br><span class="line">			&lt;p className=&quot;Dialog-message&quot;&gt;</span><br><span class="line">				&#123;props.message&#125;</span><br><span class="line">			&lt;/p&gt;</span><br><span class="line">		&lt;/FancyBorder&gt;</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function WelcomDialog()&#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;Dialog title=&quot;Welcome&quot; message=&quot;Thank you for visiting us!&quot; /&gt; </span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="组合与继承的取舍"><a href="#组合与继承的取舍" class="headerlink" title="组合与继承的取舍"></a>组合与继承的取舍</h4><ul>
-<li>在facebook，我们还没有发现任何用例，值得我们建议你用继承层次结构来创建组件（即class extends）</li>
-<li>使用props属性和组合已经足够灵活来明确、安全地定制一个组件的外观和行为，组件可以接受任意的props属性，包括原始值，React元素或函数</li>
-</ul>
-<h3 id="React的编程思想"><a href="#React的编程思想" class="headerlink" title="React的编程思想"></a>React的编程思想</h3><ul>
-<li>步骤1：将UI拆解到组件层次结构中</li>
-<li>步骤2：用React构建一个静态版本</li>
-<li>步骤3：确定UI state的最小完整表示</li>
-<li>步骤4：确定state的位置</li>
-<li>步骤5：添加反向数据流</li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/05/1-react/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">31</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/vue-cli2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/31/vue-cli2/" itemprop="url">vue-cli构建博客项目中遇到的坑（二）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-31T00:00:00+08:00">
-                2018-07-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h1><ul>
-<li>博客常用配置样式总结： nprogress/normalize.css/evanyou.js</li>
-</ul>
-<h1 id="1-使用nprogress添加页面进度条"><a href="#1-使用nprogress添加页面进度条" class="headerlink" title="1 使用nprogress添加页面进度条"></a>1 使用nprogress添加页面进度条</h1><ol>
-<li><p>效果演示<br><img src="http://cdn.xuanfengge.com/wp-content/uploads/2014/04/nprogress.gif" alt="nprogress"></p>
-</li>
-<li><p>nprogress是一款轻量级的进度条组件，用于页面刚打开时的页面加载进度显示（不过在大多数情况下确实很少显示…）</p>
-</li>
-<li>安装：npm install nprogress</li>
-<li>使用：需在main.js（入口文件处）加载，引入css文件即可，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;nprogress/nprogress.css&apos;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="2-使用normalize-css初始化页面"><a href="#2-使用normalize-css初始化页面" class="headerlink" title="2 使用normalize.css初始化页面"></a>2 使用normalize.css初始化页面</h1><ol>
-<li>normalize.css就是用来初始化页面默认样式的css文件，相比于一些重设样式（如compass框架中的reset.sass）而言更加“温和”，<br>不会对一些浏览器默认样式进行暴力地全部重置，而是更好地考虑跨浏览器的兼容性，使页面更优雅地呈现</li>
-<li>安装：npm install normalize.css</li>
-<li>使用：需在main.js（入口文件处）加载，引入css文件，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;normalize.css&apos;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="3-evanyou-js实现彩色三角条"><a href="#3-evanyou-js实现彩色三角条" class="headerlink" title="3 evanyou.js实现彩色三角条"></a>3 evanyou.js实现彩色三角条</h1><ol>
-<li>彩色三角条的背景样式，最早是EvanYou大神的作品，效果请参考<a href="evanyou.me">evanyou</a>，这个博客的背景也是这个样式哦</li>
-<li>具体的实现过程及源代码，请参考<a href="https://blog.csdn.net/fen747042796/article/details/76574058" target="_blank" rel="noopener">绘制随机不规则三角彩条</a></li>
-<li>其中的<strong>取色算法</strong>非常有意思，可以反复参照</li>
-<li>引入：我的做法是将生成背景的evanyou.js文件放在src/util文件夹下，并在index.html中引入canvas元素。</li>
-<li>为了更好地将Canvas元素作为背景（浮动在博客主页面的下方），有两种处理方式：其一是设置position为absolute，同时将z-index设置为-9999，其二是设置背景，即：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.getElementsByTagName(&apos;body&apos;).style.backgroundImage=&quot;url(&apos;&quot;+myCanvas.toDataURL()+&quot;&apos;)&quot;;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/31/vue-cli2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">30</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/vue-cli-md/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/30/vue-cli-md/" itemprop="url">vue-cli构建博客项目中遇到的坑（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-30T00:00:00+08:00">
-                2018-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h1><ul>
-<li>在Vue中使用Font Awesome5</li>
-<li>Vue-router的组件按需加载</li>
-<li>一些踩过的坑</li>
-</ul>
-<h1 id="1-Vue使用-Font-Awesome-5"><a href="#1-Vue使用-Font-Awesome-5" class="headerlink" title="1 Vue使用 Font Awesome 5"></a>1 Vue使用 Font Awesome 5</h1><p><a href="https://fontawesome.com/" target="_blank" rel="noopener">Font Awesome官网</a></p>
-<h2 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h2><ol>
-<li><p>Font Awesome是一个强大的前端icon库，要想在vue项目中使用，首先需安装依赖：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 安装基础依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome -S</span><br><span class="line">$ npm i @fortawesome/vue-fontawesome -S</span><br><span class="line">// 安装样式依赖</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-solid</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-regular</span><br><span class="line">$ npm i @fortawesome/fontawesome-free-brands</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>其中免费版支持三种样式：solid/regular/brands，请按需下载</p>
-</li>
-</ol>
-<h2 id="1-2-配置与使用"><a href="#1-2-配置与使用" class="headerlink" title="1.2 配置与使用"></a>1.2 配置与使用</h2><ol>
-<li><p>在vue-cli构建的项目文件夹的main.js文件中配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 必须加载的项</span><br><span class="line">import fontawesome from &apos;@fortawesome/fontawesome&apos;</span><br><span class="line">import FontAwesomeIcon from &apos;@fortawesome/vue-fontawesome&apos;</span><br><span class="line">// 根据你需要的样式，按需引入</span><br><span class="line">import solid from &apos;@fortawesome/fontawesome-free-solid&apos;</span><br><span class="line">import regular from &apos;@fortawesome/fontawesome-free-regular&apos;</span><br><span class="line">import brands from &apos;@fortawesome/fontawesome-free-brands&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将样式添加到fontawesome库中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fontawesome.library.add(solid)</span><br><span class="line">fontawesome.library.add(regular)</span><br><span class="line">fontawesome.library.add(brands)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后将font-awesome-icon定义为全局组件（使用Vue.component方法）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;font-awesome-icon&apos;, FontAwesomeIcon)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="1-3-使用"><a href="#1-3-使用" class="headerlink" title="1.3 使用"></a>1.3 使用</h2><ol>
-<li><p>在vue中使用的基本语法格式为：（向icon属性传入数组参数，第一个参数是样式，如fas，可参考官网，第二个参数是名称，如user）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;font-awesome-icon :icon=&quot;[style,iconName]&quot;/&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>示例：在App.vue中引入user图标：，注意传入的参数应当以字符串字面量的形式表示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;font-awesome-icon :icon=&quot;[&apos;fas&apos;,&apos;user&apos;]&quot;/&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="2-按需加载Vue组件"><a href="#2-按需加载Vue组件" class="headerlink" title="2 按需加载Vue组件"></a>2 按需加载Vue组件</h1><p><a href="https://blog.csdn.net/qq_27626333/article/details/76228578" target="_blank" rel="noopener">参考资料</a></p>
-<ol>
-<li><p>默认情况下，当我们执行npm run build时，会将所有的js代码打包为一个整体，如下所示：该路由文件引入了多个vue组件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import Hello from &apos;@/components/Hello&apos;</span><br><span class="line">import Province from &apos;@/components/Province&apos;</span><br><span class="line">import Segment from &apos;@/components/Segment&apos;</span><br><span class="line">import User from &apos;@/components/User&apos;</span><br><span class="line">import Loading from &apos;@/components/Loading&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>问题在于，打包后的js文件可能非常大（尤其当你的单页面应用非常复杂时），加载起来会很慢</p>
-</li>
-</ol>
-<h2 id="2-1-webpack中利用require-ensure-实现按需-懒加载"><a href="#2-1-webpack中利用require-ensure-实现按需-懒加载" class="headerlink" title="2.1 webpack中利用require.ensure()实现按需/懒加载"></a>2.1 webpack中利用require.ensure()实现按需/懒加载</h2><ol>
-<li><p>示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const Province = r =&gt; require.ensure([], () =&gt; r(require(&apos;@/components/Province.vue&apos;)), &apos;chunkname1&apos;)</span><br><span class="line">const Segment = r =&gt; require.ensure([], () =&gt; r(require(&apos;@/components/Segment.vue&apos;)), &apos;chunkname2&apos;)</span><br><span class="line">const Loading = r =&gt; require.ensure([], () =&gt; r(require(&apos;@/components/Loading.vue&apos;)), &apos;chunkname3&apos;)</span><br><span class="line">const User = r =&gt; require.ensure([], () =&gt; r(require(&apos;@/components/User.vue&apos;)), &apos;chunkname3&apos;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>效果：根据不同的chunkname，上面的四个组件将会被分成3个块打包，最终打包后与组件相关的js文件会分为3个。从而将一个大的js文件拆分为多个小js文件，并让客户端去按需加载，最终的效果和直接import是一样的，但加载起来会更流畅</p>
-</li>
-</ol>
-<h2 id="2-2-require-ensure-的原理"><a href="#2-2-require-ensure-的原理" class="headerlink" title="2.2 require.ensure()的原理"></a>2.2 require.ensure()的原理</h2><ol>
-<li><p>webpack 在编译时，会静态地解析代码中的 require.ensure()，同时将模块添加到一个分开的 chunk 当中。这个新的 chunk 会被 webpack 通过 jsonp 来按需加载：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require.ensure(dependencies: String[], callback: function(require), chunkName: String)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>第一个参数是字符串数组，在里面可以声明所有需要用到的模块，第二个参数是回调函数，所有依赖加载完后，webpack会执行这个回调函数，require对象的一个实现将作为参数传递给这个回调函数，chunkname就是用来区分不同的加载块</p>
-</li>
-</ol>
-<h1 id="3-使用Vue中遇到的坑"><a href="#3-使用Vue中遇到的坑" class="headerlink" title="3 使用Vue中遇到的坑"></a>3 使用Vue中遇到的坑</h1><h2 id="3-1-忘记写component"><a href="#3-1-忘记写component" class="headerlink" title="3.1 忘记写component"></a>3.1 忘记写component</h2><ol>
-<li><p>在index.vue中引入局部组件headerBar，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import headerBar from &apos;./common/headerBar&apos;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后在template中使用header-bar元素，发现页面无法正确渲染，Vue报错提示component没有被正确地声明，后来发现是自己忘记在Vue实例中显式地声明组件，应加上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">	name: &apos;index&apos;,</span><br><span class="line">	data () &#123;</span><br><span class="line">		return &#123;</span><br><span class="line">			//</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	components: &#123;</span><br><span class="line">		headerBar // 不要忘了加上components声明</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>反思：除了在script中正确使用import加载局部组件外，要想在template中使用子组件，必须在components属性中声明需要加载的组件。不然Vue无法正确将该元素解析（你不说，我咋知道这是个组件？）</p>
-</li>
-</ol>
-<hr>
-<h2 id="更新于：-2018-6-5-作者：kekelovely"><a href="#更新于：-2018-6-5-作者：kekelovely" class="headerlink" title="更新于： 2018/6/5  作者：kekelovely"></a>更新于： 2018/6/5  作者：kekelovely</h2>
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/30/vue-cli-md/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">19</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/19/19-vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/19/19-vue/" itemprop="url">「Vue学习笔记」 19. VueX</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-19T00:00:00+08:00">
-                2018-07-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Vue2-x的状态管理-VueX"><a href="#Vue2-x的状态管理-VueX" class="headerlink" title="Vue2.x的状态管理-VueX"></a>Vue2.x的状态管理-VueX</h1><h2 id="什么是状态管理器？"><a href="#什么是状态管理器？" class="headerlink" title="什么是状态管理器？"></a>什么是状态管理器？</h2><ul>
-<li>状态管理器：状态事件管理器</li>
-<li><p>出现VueX的理由：各级组件间的数据传递十分麻烦，不妨使用一个专门的状态池，来对数据/状态进行统一的管理和处理</p>
-</li>
-<li><p>安装：cnpm i vuex -S</p>
-</li>
-</ul>
-<h2 id="VueX的核心概念"><a href="#VueX的核心概念" class="headerlink" title="VueX的核心概念"></a>VueX的核心概念</h2><ol>
-<li>state：数据，所有的原始数据</li>
-<li>getter：计算属性（computed），和state相关。同时getter与module相关联</li>
-<li>mutation：内部的事件，也可以控制state</li>
-<li>action：事件，与module连接</li>
-<li>module：外部的模板/组件，如”App.vue””header.vue”</li>
-<li>关系：Module -&gt; Getter -&gt; State</li>
-</ol>
-<h2 id="VueX的使用"><a href="#VueX的使用" class="headerlink" title="VueX的使用"></a>VueX的使用</h2><ul>
-<li><p>在脚手架的src目录下建立store.js文件，用来配置VueX，store.js相当于一个状态管理池</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line">const state = &#123;</span><br><span class="line">	count: 10,</span><br><span class="line">	msg : &apos;i am data&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const mutations = &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const actions = &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const getters = &#123;</span><br><span class="line">	count(state)()&#123;</span><br><span class="line">		return state.count;</span><br><span class="line">	&#125;,</span><br><span class="line">	msg(state)&#123;</span><br><span class="line">		return state.msg;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">	state,</span><br><span class="line">	mutations,</span><br><span class="line">	actions,</span><br><span class="line">	getters</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>接下来，在main.js中引入vuex的相关文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">import store from &apos;./store.js&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">	store,</span><br><span class="line">	el: &apos;#app&apos;,</span><br><span class="line">	render: h =&gt; h(App) </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="用state和getters来获取数据"><a href="#用state和getters来获取数据" class="headerlink" title="用state和getters来获取数据"></a>用state和getters来获取数据</h3><ul>
-<li>然后就可以愉快地使用store.js中的数据了，例如，在App.vue(模板文件)中调用：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 用mapGetters获取Vuex中的所有getter</span><br><span class="line">import &#123;mapGetters&#125; from &apos;vuex&apos;;</span><br><span class="line"></span><br><span class="line">// 将获取到的getter输出出去，注意使用computed，getter是类似于计算属性的数据存储</span><br><span class="line">export default &#123;</span><br><span class="line">	name: &apos;app&apos;,</span><br><span class="line">	computed: mapGetters([&apos;count&apos;,&apos;msg&apos;])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="用actions和mutations来控制事件"><a href="#用actions和mutations来控制事件" class="headerlink" title="用actions和mutations来控制事件"></a>用actions和mutations来控制事件</h3><ul>
-<li><p>同理，我们可以先配置store.js文件，在mutations中定义若干事件/处理函数，在actions中用commit方法，加载mutations中的函数进行处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line">const state = &#123;</span><br><span class="line">	count: 10,</span><br><span class="line">	msg : &apos;i am data&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const mutations = &#123;</span><br><span class="line">	// 自定义事件</span><br><span class="line">	myleo()&#123;</span><br><span class="line">		state.count++;</span><br><span class="line">	&#125;,</span><br><span class="line">	mySky()&#123;</span><br><span class="line">		state.count+=2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const actions = &#123;</span><br><span class="line">	add(&#123;commit&#125;)&#123;</span><br><span class="line">		if(state.count % 2 == 1)&#123;</span><br><span class="line">			commit(&apos;myleo&apos;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			commit(&apos;mySky&apos;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const getters = &#123;</span><br><span class="line">	count(state)()&#123;</span><br><span class="line">		return state.count;</span><br><span class="line">	&#125;,</span><br><span class="line">	msg(state)&#123;</span><br><span class="line">		return state.msg;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">	state,</span><br><span class="line">	mutations,</span><br><span class="line">	actions,</span><br><span class="line">	getters</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后在模板文件（xxx.vue）中引入mapActions，用以按需加载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &#123;mapGetters,mapActions&#125; from &apos;vuex&apos;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">	name: &apos;app&apos;,</span><br><span class="line">	computed: mapGetters([&apos;count&apos;,&apos;msg&apos;]),</span><br><span class="line">	methods:mapActions([&apos;add&apos;])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="VueX的好处"><a href="#VueX的好处" class="headerlink" title="VueX的好处"></a>VueX的好处</h2><ul>
-<li>所有的数据、事件都可以按需引入</li>
-<li>让父子级组件间的交互达到最简单的状态</li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/19/19-vue/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
 			<div class="post-day">18</div>
 	</div>
   
 
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/18-vue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/18/7-algo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -2236,7 +970,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/18/18-vue/" itemprop="url">「Vue学习笔记」 18. Vue2.x脚手架UI</a></h1>
+                <a class="post-title-link" href="/2018/08/18/7-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 7. 摊还分析与高级数据结构</a></h1>
         
 
         <div class="post-meta">
@@ -2248,8 +982,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-18T00:00:00+08:00">
-                2018-07-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-18T00:00:00+08:00">
+                2018-08-18
               </time>
             
 
@@ -2288,65 +1022,1332 @@
       
         
           
-            <h1 id="Vue2-x脚手架UI"><a href="#Vue2-x脚手架UI" class="headerlink" title="Vue2.x脚手架UI"></a>Vue2.x脚手架UI</h1><h2 id="在脚手架中使用bootstrap"><a href="#在脚手架中使用bootstrap" class="headerlink" title="在脚手架中使用bootstrap"></a>在脚手架中使用bootstrap</h2><h3 id="以cdn的方式引入"><a href="#以cdn的方式引入" class="headerlink" title="以cdn的方式引入"></a>以cdn的方式引入</h3><ul>
-<li>用vue init webpack-simple boot-demo安装vue脚手架</li>
-<li>用bower安装bootstrap</li>
-<li>在脚手架文件夹中的index.html中用外链的形式引入bootstrap</li>
-<li>缺点：打包本身不会对index.html进行打包，因此外部库等文件无法被打包到dist文件中，需要页面额外加载引入</li>
-</ul>
-<h3 id="以npm-webpack的方式引入并打包"><a href="#以npm-webpack的方式引入并打包" class="headerlink" title="以npm/webpack的方式引入并打包"></a>以npm/webpack的方式引入并打包</h3><ul>
-<li>以下文element-ui的安装及使用为例，见下~</li>
-</ul>
-<h2 id="elment-ui"><a href="#elment-ui" class="headerlink" title="elment-ui"></a>elment-ui</h2><h3 id="elment-ui的配置和使用"><a href="#elment-ui的配置和使用" class="headerlink" title="elment-ui的配置和使用"></a>elment-ui的配置和使用</h3><ol>
-<li>用vue init webpack-simple ele-demo安装vue脚手架</li>
-<li>在安装完预先配置文件后，再使用cnpm i element-ui -S在上线环境中安装element-ui</li>
-<li><p>在main.js中引入如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import ElementUI from &apos;element-ui&apos;</span><br><span class="line">import &apos;element-ui/lib/theme-chalk/index.css&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(ElementUI)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>但是脚手架中webpack的默认配置无法解析.css文件，因此我们需要额外安装style-loader</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cnpm i style-loader -D</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后在webpack.config.js中配置文件信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use: [</span><br><span class="line">	&apos;vue-style-loader&apos;,</span><br><span class="line">	&apos;style-loader&apos;,</span><br><span class="line">	&apos;css-loader&apos;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后…你特么发现编译还是报错…因为无法解析ttf文件的file-loader，所以你需要在webpack.config.js文件中加入ttf，可能还涉及到woff2/eot等文件，请一并加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	test: /\.(png|jpg|gif|svg|ttf|woff|woff2|eot)$/,</span><br><span class="line">	loader: &apos;file-loader&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="使用element-ui组件"><a href="#使用element-ui组件" class="headerlink" title="使用element-ui组件"></a>使用element-ui组件</h3><ol>
-<li>参考官方文档即可，相当于直接引DOM元素/标签</li>
-</ol>
-<h3 id="按需加载element-ui组件"><a href="#按需加载element-ui组件" class="headerlink" title="按需加载element-ui组件"></a>按需加载element-ui组件</h3><ol start="2">
-<li>按需引入：减小项目体积</li>
+            <h1 id="第11章-摊还分析"><a href="#第11章-摊还分析" class="headerlink" title="第11章 摊还分析"></a>第11章 摊还分析</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ol>
+<li>伸展树（splay tree）提供一种可喜的方法，虽然任意操作仍然需要O(N)时间，但这种退化行为不可能反复发生，而且我们可以证明，任意顺序的M次操作总共需要花费O(MlogN)最坏情形时间。因此，在长时期运行中这种数据结构的行为就像是每次操作花费O(logN)时间一样。我们把它称为摊还时间。</li>
+<li>摊还界比对应的<strong>最坏情形界</strong>弱，因为它对任意单次操作提供不了保障。但这个问题一般来说并不重要，因为如果能够对一系列操作保持相同的界同时又简化数据结构，那么我们愿意牺牲单次操作的界。<h1 id="第12章-高级数据结构及其实现"><a href="#第12章-高级数据结构及其实现" class="headerlink" title="第12章 高级数据结构及其实现"></a>第12章 高级数据结构及其实现</h1></li>
+<li>自顶向下伸展树</li>
 </ol>
 <ul>
-<li>安装插件：cnpm i babel-plugin-component -D</li>
-<li><p>修改.babelrc文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;plugins&quot;: [[&quot;component&quot;,[</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;libraryName&quot;: &quot;element-ui&quot;,</span><br><span class="line">			&quot;styleLibraryName&quot;: &quot;theme-chalk&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	]]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>接下来，如果你只希望引入部分组件，比如Button和Select，那么需要在main.js中写入以下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import &#123;Button&#125; from &apos;element-ui&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Button);</span><br><span class="line"></span><br><span class="line">// 或者</span><br><span class="line"></span><br><span class="line">Vue.component(Button.name,Button);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>补充：使用npm run build打包生成dist后，应将资源文件放在http服务器上，有关组件才会正常显示（否则路径指向会不正确），建议用nodejs实现</p>
-</li>
+<li>对伸展树情形的优化：如何在初始访问路径上施行一些旋转，结果得到在实践中更快的过程。</li>
 </ul>
-<h2 id="mint-ui"><a href="#mint-ui" class="headerlink" title="mint-ui"></a>mint-ui</h2><h3 id="什么是mint-ui"><a href="#什么是mint-ui" class="headerlink" title="什么是mint-ui"></a>什么是mint-ui</h3><ul>
-<li>基于vue.js的移动端组件库，设计风格与element-ui一致</li>
-<li>安装：建议使用npm安装，并用webpack的方式引入 npm i mint-ui -S</li>
+<ol start="2">
+<li>红黑树：是具有如下着色性质的二叉查找树（每一个节点或者着成红色，或者着成黑色；根是黑色的；如果一个节点是红色的，那么它的子节点必须是黑色的；从一个节点到一个NULL指针的每一条路径必须包含相同数目的黑色节点）</li>
+</ol>
+<ul>
+<li>自底向上插入</li>
+<li>自顶向下红黑树</li>
+<li>自顶向下删除</li>
 </ul>
-<h3 id="引入mint-ui"><a href="#引入mint-ui" class="headerlink" title="引入mint-ui"></a>引入mint-ui</h3><ul>
-<li><p>完整引入：在main.js中写入以下内容：，注意样式文件需要单独引入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import MintUI from &apos;mint-ui&apos;</span><br><span class="line">import &apos;mint-ui/lib/style.css&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(MintUI)</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;#app&apos;,</span><br><span class="line">	components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>别忘了在Index.html中声明移动端适配的meta元素，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>按需引入：与element-ui相同</p>
-</li>
+<ol start="3">
+<li>确定性跳跃表</li>
+<li>AA-树</li>
+<li>treap树</li>
+<li>k-d树</li>
+<li>配对堆<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
+<li>二叉查找树几种有效的变种（本质都是为了提高查找的效率）</li>
+</ol>
+<ul>
+<li>自顶向下伸展树提供OlogN摊还性能</li>
+<li>treap树给出OlogN随机化的性能</li>
+<li>红黑树、确定性跳跃表和AA-树则均给出对基本操作OlogN最坏情形性能</li>
+<li>k-d树给出了执行范围查找的实际方法</li>
+<li>配对堆似乎是最实际的可合并的优先队列，特别是当需要DecreaseKey操作的时候</li>
 </ul>
 
             <div class="post-button text-center">
-              <a class="btn" href="/2018/07/18/18-vue/#more" rel="contents">
+              <a class="btn" href="/2018/08/18/7-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/17/6-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/17/6-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 6. 算法设计技巧</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-17T00:00:00+08:00">
+                2018-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>这就是青春啊！</p>
+</blockquote>
+<h1 id="第10章-算法设计技巧"><a href="#第10章-算法设计技巧" class="headerlink" title="第10章 算法设计技巧"></a>第10章 算法设计技巧</h1><h2 id="贪婪算法"><a href="#贪婪算法" class="headerlink" title="贪婪算法"></a>贪婪算法</h2><ol>
+<li>“眼下能够拿到的就拿”的策略即是这类算法名称的来源，当算法终止时，我们希望局部最优就是全局最优。如果如此，那么算法就是正确的；否则，算法得到的是一个次最优解。</li>
+<li>实例</li>
+</ol>
+<ul>
+<li>调度问题（N个作业，M个处理器，如何分配使得平均完成时间最少或最终完成时间最小？）</li>
+<li>Huffman编码在压缩文件中的运用</li>
+<li>近似装箱问题（联机算法与脱机算法）<h2 id="分治-divide-and-conquer-算法"><a href="#分治-divide-and-conquer-算法" class="headerlink" title="分治(divide and conquer)算法"></a>分治(divide and conquer)算法</h2></li>
+</ul>
+<ol>
+<li>分治算法由两部分组成：</li>
+</ol>
+<ul>
+<li>分：递归解决较小的问题</li>
+<li>治：从子问题的解建构原问题的解</li>
+<li>一般坚持子问题是不相交的</li>
+</ul>
+<ol start="2">
+<li>实例：</li>
+</ol>
+<ul>
+<li>最近点问题（将可能的情形划分为三种情况，使得复杂度尽可能为ONlogN）</li>
+<li>选择问题（找出含N个元素的表S中的第k个最小的元素）</li>
+<li>一些运算问题的理论改进（整数相乘、矩阵相乘）<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2></li>
+</ul>
+<ol>
+<li>任何数学递归公式都可以直接翻译成递归算法，然而现实是编译器常常不能正确对待递归算法，结果导致低效的算法。当我们怀疑很可能是这种情况时，我们必须再给编译器一些帮助，将递归算法重新写成非递归算法，让后者把那些子问题的答案系统地记录在一个表内。利用这种方法的一种技巧叫做动态规划。</li>
+<li>实例</li>
+</ol>
+<ul>
+<li>用一个表代替递归（每次记录并替换，如斐波那契数列）</li>
+<li>矩阵乘法的顺序安排</li>
+<li>最优二叉查找树</li>
+<li>所有点对最短路径</li>
+</ul>
+<ol start="3">
+<li>关键：动态规划中子问题反复被求解，所以重要的是将它们的解记录在一个表中而不是重新计算它们。<h2 id="随机化算法"><a href="#随机化算法" class="headerlink" title="随机化算法"></a>随机化算法</h2></li>
+<li>在算法期间，随机数至少有一次用于决策，该算法的运行时间不只依赖于特定的输入，而且依赖于所发生的随机数。（一个随机化算法的最坏运行时间几乎总是和非随机化算法的最坏运行时间相同）</li>
+<li>实例</li>
+</ol>
+<ul>
+<li>随机数发生器：伪随机数生成，最简单的实现是线性同余数发生器</li>
+<li>跳跃表：以OlogN期望时间支持查找和插入的数据结构</li>
+<li>素数测试<h2 id="回溯算法"><a href="#回溯算法" class="headerlink" title="回溯算法"></a>回溯算法</h2></li>
+</ul>
+<ol>
+<li>实例：</li>
+</ol>
+<ul>
+<li>收费公路重建问题</li>
+<li>博弈</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/17/6-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">16</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/5-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/5-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 5. 图论</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-16T00:00:00+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="第9章-图论算法"><a href="#第9章-图论算法" class="headerlink" title="第9章 图论算法"></a>第9章 图论算法</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li>介绍几个现实生活中发生的问题，它们可以转化为图论问题</li>
+<li>给出一些算法以解决几个普通的图论问题</li>
+<li>指出适当选择数据结构可以极大地降低这些算法的运行时间</li>
+<li>深度优先搜索的重要技巧，指出它如何能够以线性时间求解若干表面上复杂的问题<h2 id="若干定义"><a href="#若干定义" class="headerlink" title="若干定义"></a>若干定义</h2></li>
+<li>图G = （V,E），V表示顶点集，E表示边集</li>
+<li>连通：如果在一个无向图中从每一个顶点到每个其他顶点都存在一条路径，则称该无向图是连通的。具有这样性质的有向图被称为是强连通的。如果一个有向图去掉了方向后所形成的的图是连通的，那么称为该有向图是弱连通的</li>
+<li>完全图：每对顶点间都存在一条边的图<h3 id="图的表示"><a href="#图的表示" class="headerlink" title="图的表示"></a>图的表示</h3></li>
+<li>邻接表是表示图的标准方法</li>
+<li>对每一个顶点，使用一个表存放所有邻接的顶点。空间需求为O（|E|+|V|）</li>
+<li>顶点存放在一个头单元构成的数组中</li>
+<li>此外，还需要提供顶点的名字到数字的映射，这一工作通过散列表来实现<h2 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h2><h3 id="拓扑排序的基本操作"><a href="#拓扑排序的基本操作" class="headerlink" title="拓扑排序的基本操作"></a>拓扑排序的基本操作</h3></li>
+<li>拓扑排序是对有向无圈图的顶点的一种排序，拓扑排序不是唯一的</li>
+<li>作用：如果存在一条从Vi到Vj的路径，那么在排序中Vj出现在Vi的后面</li>
+<li>算法描述：找出任意一个没有入边的顶点（入度为0），将顶点和它的边一起从图中删除。对图中其余部分做同样的处理，直到所有入度为0的顶点都被干掉</li>
+<li>算法实现:假设Indegree（入度）数组被初始化且图被读入一个邻接表中，则此时我们可以应用如下算法生成拓扑排序：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void Topsort(Graph G)</span><br><span class="line">&#123;</span><br><span class="line">    int Counter;</span><br><span class="line">    Vertex V,W;</span><br><span class="line">    for (Counter = 0; Counter &lt; NumVertex; Counter++)</span><br><span class="line">    &#123;</span><br><span class="line">        V = FindNewVertexOfIndegreeZero();</span><br><span class="line">        if (V == NotAVertex)</span><br><span class="line">        &#123;</span><br><span class="line">            Error(&quot;Graph has a cycle!&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        TopNum[V] = Counter;</span><br><span class="line">        for each W adjacent to V</span><br><span class="line">            Indegree[W]--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>算法运行时间为O(N^2)，因为FindNewVertexOfIndegreeZero需要遍历整个数组<h3 id="拓扑排序的优化"><a href="#拓扑排序的优化" class="headerlink" title="拓扑排序的优化"></a>拓扑排序的优化</h3></li>
+<li>将所有入度为0的顶点放在一个特殊的盒子中（栈or队列）</li>
+<li>FindNewVertexOfIndegreeZero函数返回并删除盒子中的任一顶点</li>
+<li>当我们降低这些邻接顶点的入度时，检查每一个顶点并在它的入度降为0是把它放入盒子中</li>
+<li>算法所用时间为O（|E|+|V|）<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><h3 id="解决最短路径问题四种形态的算法"><a href="#解决最短路径问题四种形态的算法" class="headerlink" title="解决最短路径问题四种形态的算法"></a>解决最短路径问题四种形态的算法</h3></li>
+</ul>
+<ol>
+<li>无权最短路径求解：O(|E|+|V|)</li>
+<li>赋权最短路径求解（无负值）：O(|E|log|V|)</li>
+<li>负边图最短路径求解：O(|E|*|V|)</li>
+<li>负边图最短路径优化：线性时间（只限于特定情形）</li>
+</ol>
+<h3 id="无权最短路径"><a href="#无权最短路径" class="headerlink" title="无权最短路径"></a>无权最短路径</h3><ul>
+<li>广度优先搜索：</li>
+</ul>
+<ol>
+<li>按层处理顶点</li>
+<li>距开始点最近的那些顶点首先被赋值，而最远的那些顶点最后被赋值</li>
+<li>起初，所有的顶点都不是Known，包括开始顶点。当一个顶点被标记为已知时，我们确定不会再找到更便宜的路径</li>
+<li>对于不可达的顶点Dw，将距离d（Dw）标记为无穷</li>
+</ol>
+<h3 id="Dijkstra算法"><a href="#Dijkstra算法" class="headerlink" title="Dijkstra算法"></a>Dijkstra算法</h3><ul>
+<li>核心是一种贪婪算法</li>
+<li>Dijkstra算法像无权最短路径算法一样，按阶段进行。在每个阶段，Dijkstra算法选择一个顶点，它在所有未知顶点中具有最小的d，同时算法声明从s到v的最短路径是已知的。阶段的其余部分则由dw值的更新工作组成</li>
+<li>每一步都取局部最优解</li>
+</ul>
+<ol>
+<li>只要没有边的值为负，该算法总能顺利完成。如果任何一边出现负值，则该算法可能得出错误的答案。</li>
+<li>优化：把更新处理成DecreaseKey操作，时间复杂度为O(|E|log|V|)</li>
+</ol>
+<h3 id="具有负边值的图"><a href="#具有负边值的图" class="headerlink" title="具有负边值的图"></a>具有负边值的图</h3><ul>
+<li>把赋权的和无权的算法结合起来，穷举所有的可能性，通过比较来找到最短路径</li>
+</ul>
+<h3 id="无圈图"><a href="#无圈图" class="headerlink" title="无圈图"></a>无圈图</h3><ul>
+<li>如果我们知道图是无圈的，那么可以改变声明顶点为已知的顺序，改进Dijkstra算法。</li>
+<li>新算法以拓扑顺序选择顶点，所以选择和更新可以在拓扑排序执行的时候进行，算法能够一趟完成</li>
+<li>使用这种法则不需要优先队列，选择花费常数时间，运行时间为O(|E|+|V|)</li>
+</ul>
+<ol>
+<li>无圈图的一个重要用途是关键路径分析法</li>
+</ol>
+<h2 id="网络流问题"><a href="#网络流问题" class="headerlink" title="网络流问题"></a>网络流问题</h2><ul>
+<li>有两个顶点，一个是s，称为发点（source），一个是t，称为收点（sink）</li>
+<li>在既不是发点s又不是收点t的任一顶点v，总的进入的流必须等于总的发出的流</li>
+<li>最大流问题就是确定从s到t可以通过的最大流量<h3 id="一个简单的最大流算法"><a href="#一个简单的最大流算法" class="headerlink" title="一个简单的最大流算法"></a>一个简单的最大流算法</h3></li>
+</ul>
+<ol>
+<li>从图G开始构造一个流图Gf，Gf表示在算法的任意阶段已经达到的流</li>
+<li>构造一个图Gr，称为残余图，对于每一条边，从容量中减去当前的流而计算出残余的流，Gr的边叫做残余边</li>
+<li>随意选取一条路径，使用贪婪算法</li>
+<li>如果算法得不到最优解，稍作修正：在残余图中添加一条容量为f(v,w)的相反边(w,v)，再进行下一步增长通路的选择</li>
+</ol>
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><ul>
+<li>一个无向图的最小生成树T就是由该图的那些连接G的所有顶点的边构成的树，且其总价值最低</li>
+<li>最小生成树存在当且仅当G是连通的，最小生成树不一定是唯一的</li>
+<li>最小生成树中边的条数为|V|-1,即图的顶点数减去1</li>
+<li>实现最小生成树的算法依然是贪婪<h3 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h3></li>
+<li>使其连续地一步步长成。在每一步，都要把一个节点当作根并往上加边，这样也就把相关联的顶点加到增长中的树上</li>
+<li>算法在每一阶段都可以通过选择边(u,v)，使得(u,v)的值是所有u在树上但v不在树上的边的值中的最小者，从而找出一个新的顶点并把它添加到这棵树中</li>
+<li>该算法整个的实现实际上和Dijkstra算法是一样的</li>
+<li>使用二叉堆的运行时间是O(|E|log|V|)<h3 id="Kruskal算法"><a href="#Kruskal算法" class="headerlink" title="Kruskal算法"></a>Kruskal算法</h3></li>
+<li>连续地按照最小权选边，并且当所选的边不产生圈时就把它作为选定的边</li>
+<li>当添加到森林中的边足够多时算法终止，实际上，算法就是要决定边（u,v）应该添加还是放弃</li>
+<li>使用二叉堆的运行时间是O(|E|log|V|),最坏为O(|E|log|E|)</li>
+</ul>
+<h2 id="深度优先搜索的应用"><a href="#深度优先搜索的应用" class="headerlink" title="深度优先搜索的应用"></a>深度优先搜索的应用</h2><ul>
+<li>深度优先搜索是对先序遍历的推广，我们从某个顶点v开始处理v，然后往深处一层层递归地遍历所有与v邻接的顶点</li>
+<li>该方法保证每一条边只访问一次，所以只要使用邻接表，执行遍历的总时间就是O(|E|+|V|)</li>
+<li>模板<h3 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void Dfs(Vertex V)</span><br><span class="line">&#123;</span><br><span class="line">    Visited[V] = True;</span><br><span class="line">    for each W adjacent to V</span><br><span class="line">        if (!Visited[W])</span><br><span class="line">            Dfs(W);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="双连通性"><a href="#双连通性" class="headerlink" title="双连通性"></a>双连通性</h3><ul>
+<li>概念：</li>
+</ul>
+<ol>
+<li>如果一个连通的无向图中的任一顶点删除之后，剩下的图仍然连通，那么这样的无向连通图就称为是双连通的。</li>
+<li>如果一个图不是双连通的，那么，将其删除后图将不再连通的那些顶点叫做“割点”（articulation point）</li>
+<li>深度优先搜索提供一种找出连通图中的所有割点的线性时间算法</li>
+</ol>
+<ul>
+<li>实现：</li>
+</ul>
+<ol>
+<li>对于每一个顶点v我们称其先序编号为Num(v)</li>
+<li>对于深度优先搜索生成树上的每一个顶点v，计算与它临近的编号最低的顶点，称之为Low(v)</li>
+<li>对于除了根节点外的其他顶点v，它是割点当且仅当它有某个儿子w使得Low(w)&gt;=Num(v)</li>
+</ol>
+<h3 id="欧拉回路"><a href="#欧拉回路" class="headerlink" title="欧拉回路"></a>欧拉回路</h3><ul>
+<li>欧拉问题：找到一个圈，使得该圈恰好经过每条边一次</li>
+<li>所有顶点的度均为偶数的任何连通图必然有欧拉回路，我们还可以以线性时间找出这样一条回路</li>
+<li>问题：</li>
+</ul>
+<ol>
+<li>我们可能只访问了图的一部分而提前返回到起点</li>
+<li>最容易的补救方法是找出所有尚未访问的边的路径上的第一个顶点，并执行另外一次深度优先搜索，这将给出另外一个回路，把它拼接到原来的回路上</li>
+<li>继续该过程直到所有的边都被遍历到为止</li>
+</ol>
+<ul>
+<li><p>使用适当的数据结构，算法的运行时间为O(|E|+|V|)</p>
+</li>
+<li><p>哈密尔顿圈问题：在无向图中寻找一个简单的圈，该圈通过图的每一个顶点</p>
+</li>
+</ul>
+<h3 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h3><ul>
+<li>在某个未作标记的节点处开始，反复执行深度优先搜索，直到所有的节点都被访问到</li>
+</ul>
+<h3 id="查找强分支"><a href="#查找强分支" class="headerlink" title="查找强分支"></a>查找强分支</h3><ul>
+<li>通过执行两次深度优先搜索，我们可以检测一个有向图是否是强连通的</li>
+<li>如果不是，那么实际上可以得到顶点的一些子集，它们到其自身是强连通的，这可以只用一次深度优先搜索做到</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/16/5-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">15</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/15/4-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/15/4-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-15T00:00:00+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第7章-排序"><a href="#第7章-排序" class="headerlink" title="第7章 排序"></a>第7章 排序</h2><ul>
+<li><p>这一章讨论的是元素的数组排序问题</p>
+</li>
+<li><p>内部排序与外部排序</p>
+</li>
+</ul>
+<ol>
+<li>整个排序工作能在主存中完成，元素个数相对少（10^6），称为内部排序</li>
+<li>整个排序必须在磁盘或磁带上完成，称为外部排序</li>
+</ol>
+<ul>
+<li>本章对内部排序的考查将指出：</li>
+</ul>
+<ol>
+<li>存在几种容易的算法以O(N^2)排序，如插入排序</li>
+<li>希尔排序的复杂度也是N^2，但编程实现简单，实践中也十分有效</li>
+<li>有一些稍微复杂的O(NlogN)排序算法</li>
+<li>任何通用的排序算法均需要最少Ω(NlogN)次比较</li>
+</ol>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ul>
+<li>每个排序算法都将接收一个含有元素的数组和一个包含元素个数的正数</li>
+<li>对于所有的排序，数据都将在位置0处开始</li>
+</ul>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
+<li>Insertion sort:由(N-1)趟排序组成，位置0到位置P-1上的元素是已排过序的</li>
+<li>插入排序的本质是将有序序列不断扩大的过程</li>
+</ul>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void InsertionSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int j,p;</span><br><span class="line">	ElementType tmp;</span><br><span class="line">	for (p=1; p&lt;n; p++)</span><br><span class="line">	&#123;</span><br><span class="line">		tmp = a[p];</span><br><span class="line">		for (j=p; j&gt;0 &amp;&amp; a[j-1]&gt;tmp; j--)</span><br><span class="line">			a[j] = a[j-1];</span><br><span class="line">		a[j] = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入排序分析"><a href="#插入排序分析" class="headerlink" title="插入排序分析"></a>插入排序分析</h4><ul>
+<li>O(N^2)</li>
+<li>如果输入数据已预先排序，那么最好的运行时间是O(N)</li>
+</ul>
+<h3 id="一些简单排序算法的下界"><a href="#一些简单排序算法的下界" class="headerlink" title="一些简单排序算法的下界"></a>一些简单排序算法的下界</h3><ul>
+<li><p>定理：通过交换相邻元素进行排序的任何算法平均需要Ω(N^2)的时间</p>
+</li>
+<li><p>对于插入排序、冒泡排序、选择排序等都是一样的</p>
+</li>
+</ul>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><ul>
+<li>核心原理：缩小增量排序，利用增量序列进行排序操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void ShellSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j,increment;</span><br><span class="line">	ElementType tmp;</span><br><span class="line"></span><br><span class="line">	for (increment = n/2; increment&gt;0;  increment /=2)</span><br><span class="line">		for(i = increment; i&lt;n; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			tmp = a[i];</span><br><span class="line">			for (j = i; j &gt;= increment; j -= increment)</span><br><span class="line">				if (a[j-increment] &gt; tmp)</span><br><span class="line">					a[j] = a[j-increment];</span><br><span class="line">				else</span><br><span class="line">					break;</span><br><span class="line">			a[j] = tmp;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="希尔排序的最坏情景分析"><a href="#希尔排序的最坏情景分析" class="headerlink" title="希尔排序的最坏情景分析"></a>希尔排序的最坏情景分析</h4><ul>
+<li><p>最坏情形运行时间恒为N^2</p>
+</li>
+<li><p>希尔排序的性能在实践中是完全可以接受的，即使是对数以万计的N来说仍是如此。编程的简单特点使得它成为对适度的大量输入数据经常使用的算法</p>
+</li>
+</ul>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><ul>
+<li>首先我们建立一个二叉堆，并输入待排序的数据。</li>
+<li>执行N次DeleteMin操作，按照顺序，最小的元素先离开该堆</li>
+<li>通过将这些元素记录到堆的最后的空单元中，最后就可以得到一个递减排序的数组</li>
+<li>所以，我们可以将DeleteMin改为DeleteMax，重复上述操作就可以得到一个递增排序的数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#define LeftChild(i) (2*(i))</span><br><span class="line"></span><br><span class="line">void PercDown(ElementType a[], int i, int n)</span><br><span class="line">&#123;</span><br><span class="line">	int Child;</span><br><span class="line">	ElementType tmp;</span><br><span class="line"></span><br><span class="line">	for ( tmp = a[i]; LeftChild(i)&lt;n; i = Child)</span><br><span class="line">	&#123;</span><br><span class="line">		Child = LeftChild[i];</span><br><span class="line">		if (Child != n-1 &amp;&amp; a[Child+1] &gt; a[Child])</span><br><span class="line">			Child++;</span><br><span class="line">		if (tmp &lt; a[Child])</span><br><span class="line">			a[i] = a[Child];</span><br><span class="line">		else</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line">	a[i] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void HeapSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	for (i = n/2; i&gt;=0; i--) /* BuildHeap */</span><br><span class="line">		PercDown(a,i,n);</span><br><span class="line">	for (i = n-1; i&gt;0; i--) /* DeleteMax */</span><br><span class="line">	&#123;</span><br><span class="line">		Swap(&amp;a[0],&amp;a[i]);</span><br><span class="line">		PercDown(a,0,i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="堆排序的分析"><a href="#堆排序的分析" class="headerlink" title="堆排序的分析"></a>堆排序的分析</h4><ul>
+<li><p>复杂度为O(NlogN)，堆排序是一个非常稳定的算法，它平均使用的比较只比最坏情形下的略少</p>
+</li>
+<li><p>定理：对N个互异项的随机排列进行堆排序，所用的比较平均次数为2NlogN - O(NlogN)</p>
+</li>
+</ul>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><ul>
+<li>归并排序以O(NlogN)最坏情形运行时间运行，而比较次数几乎是最优的，它是递归算法的一个很好的例子</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">void Msort(ElementType a[], ElementType TmpArray[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int center;</span><br><span class="line"></span><br><span class="line">	if (Left &lt; Right)</span><br><span class="line">	&#123;</span><br><span class="line">		center = (Left + Right)/2;</span><br><span class="line">		Msort(a,TmpArray,Left,center);</span><br><span class="line">		Msort(a,TmpArray,center+1,Right);</span><br><span class="line">		Merge(a,TmpArray,Left,center+1,Right);	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void MergeSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	ElementType *TmpArray;</span><br><span class="line">	TmpArray = malloc(N * sizeof(ElementType));</span><br><span class="line">	if (TmpArray != NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		Msort(a,TmpArray,0,n-1)</span><br><span class="line">		free(TmpArray);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		FatalError(&quot;No Space for tmp array!&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* Lpos = start of left half, Rpos = start of right half */</span><br><span class="line">void Merge(ElementType a[], ElementType TmpArray[], int Lpos, int Rpos, int RightEnd)</span><br><span class="line">&#123;</span><br><span class="line">	int i,LeftEnd,NumElements,TmpPos;</span><br><span class="line"></span><br><span class="line">	LeftEnd = Rpos -1;</span><br><span class="line">	TmpPos = Lpos;</span><br><span class="line">	NumElements = RightEnd - Lpos +1;</span><br><span class="line"></span><br><span class="line">	while (Lpos &lt;= LeftEnd &amp;&amp; Rpos &lt;=RightEnd)</span><br><span class="line">		if (a[Lpos] &lt;= a[Rpos])</span><br><span class="line">			TmpArray[TmpPos++] = a[Lpos++];</span><br><span class="line">		else</span><br><span class="line">			TmpArray[TmpPos++] = a[Rpos++];</span><br><span class="line">	while (Lpos &lt;= LeftEnd)</span><br><span class="line">		TmpArray[TmpPos++] = a[Lpos++];</span><br><span class="line">	while (Rpos &lt;= RightEnd)</span><br><span class="line">		TmpArray[TmpPos++] = a[Rpos++];</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;NumElements; i++,RightEnd--)</span><br><span class="line">		a[RightEnd] = TmpArray[RightEnd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="归并排序的分析"><a href="#归并排序的分析" class="headerlink" title="归并排序的分析"></a>归并排序的分析</h4><ul>
+<li>归并排序很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来的一些附加工作，结果是会严重放慢了排序的速度</li>
+<li>不过，合并的例程是大多数外部排序算法的基石</li>
+</ul>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><ul>
+<li><p>外部排序是在实践中最快的已知排序算法，平均运行时间是O(NlogN)，最坏情形为O(N^2)</p>
+</li>
+<li><p>枢纽元的选取：三数中值分割法</p>
+</li>
+<li>对于很小的数组而言，快速排序不如插入排序好</li>
+<li>QuickSort的真正核心是分割和递归调用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">void QuickSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	Qsort(a,0,n-1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ElementType Median3(ElementType a[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int center = (Left + Right)/2;</span><br><span class="line"></span><br><span class="line">	if (a[Left] &gt; a[center])</span><br><span class="line">		Swap(&amp;a[Left],&amp;a[center]);</span><br><span class="line">	if (a[Left] &gt; a[Right])</span><br><span class="line">		Swap(&amp;a[Left],&amp;a[Right]);</span><br><span class="line">	if (a[center] &gt; a[Right])</span><br><span class="line">		Swap(&amp;a[center],&amp;a[Right]);</span><br><span class="line"></span><br><span class="line">	Swap(&amp;a[center],&amp;a[Right-1]);</span><br><span class="line">	return a[Right-1];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define Cutoff(3)</span><br><span class="line"></span><br><span class="line">void Qsort(ElementType a[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	ElementType pivot;</span><br><span class="line"></span><br><span class="line">	if (Left + Cutoff &gt; Right)</span><br><span class="line">		InsertionSort(a,Right - Left+1);</span><br><span class="line">	if (Left + Cutoff &lt;= Right)</span><br><span class="line">	&#123;</span><br><span class="line">		pivot = Median3(a,Left,Right);</span><br><span class="line">		i = Left; j = Right-1;</span><br><span class="line">		for (;;)</span><br><span class="line">		&#123;</span><br><span class="line">			while (a[++i] &lt; pivot)&#123;&#125;</span><br><span class="line">			while (a[--j] &gt; pivot)&#123;&#125;</span><br><span class="line">				if (i &lt; j)</span><br><span class="line">					Swap(&amp;a[i],&amp;a[j])</span><br><span class="line">				else</span><br><span class="line">					break;</span><br><span class="line">		&#125;</span><br><span class="line">		Swap(&amp;a[i], &amp;a[Right-1]);</span><br><span class="line">		Qsort(a,Left,i-1);</span><br><span class="line">		Qsort(a,i+1,Right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Qselect(ElementType a[], int k, int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	ElementType pivot;</span><br><span class="line"></span><br><span class="line">	if (Left + Cutoff &gt; Right)</span><br><span class="line">		InsertionSort(a,Right-Left+1);</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		pivot = Median3(a,Left,Right);</span><br><span class="line">		i = Left; j = Right-1;</span><br><span class="line">		for(;;)</span><br><span class="line">		&#123;</span><br><span class="line">			while(a[++i] &lt; pivot)&#123;&#125;</span><br><span class="line">			while(a[--j] &gt; pivot)&#123;&#125;</span><br><span class="line">			if (i &lt; j)</span><br><span class="line">				Swap(&amp;a[i],&amp;a[j]);</span><br><span class="line">			else</span><br><span class="line">				break;</span><br><span class="line">		&#125;</span><br><span class="line">		Swap(&amp;a[i],&amp;a[Right-1]);</span><br><span class="line"></span><br><span class="line">		if (k&lt;=i)</span><br><span class="line">			Qselect(a,k,left,i-1);</span><br><span class="line">		if (k&gt;i+1)</span><br><span class="line">			Qselect(a,k,i+1,Right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="大型结构的排序"><a href="#大型结构的排序" class="headerlink" title="大型结构的排序"></a>大型结构的排序</h3><ul>
+<li>让输入数组包含指向结构的指针</li>
+<li>通过比较指针指向的关键字，并在必要时交换指针来进行排序</li>
+</ul>
+<h3 id="排序的一般下界"><a href="#排序的一般下界" class="headerlink" title="排序的一般下界"></a>排序的一般下界</h3><h3 id="桶式排序"><a href="#桶式排序" class="headerlink" title="桶式排序"></a>桶式排序</h3><h3 id="外部排序"><a href="#外部排序" class="headerlink" title="外部排序"></a>外部排序</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>对于最一般的内部排序应用程序，主要使用插入排序、希尔排序、快速排序就可以了。</p>
+</li>
+<li><p>如果需要对一些大型的文件排序，那么快速排序则是应该选用的办法。但是，在QuickSort中，永远不要为了省事而轻易把第一个元素用作枢纽元</p>
+</li>
+<li>如果你不想过多地考虑这个问题，那么最好使用希尔排序。</li>
+<li>堆排序比希尔排序慢。</li>
+<li>插入排序只用在小的或是非常接近有序的输入数据上，我们一般不那么考虑归并排序，因为它的性能对于主存来说，没有快速排序那么好，而且编程起来很麻烦。</li>
+<li>但是，归并排序中的合并却是外部排序的中心思想。</li>
+</ul>
+<h2 id="第8章-不相交集ADT"><a href="#第8章-不相交集ADT" class="headerlink" title="第8章 不相交集ADT"></a>第8章 不相交集ADT</h2><h2 id="等价关系"><a href="#等价关系" class="headerlink" title="等价关系"></a>等价关系</h2><ul>
+<li>等价关系是满足下列三个性质的关系R：</li>
+</ul>
+<ol>
+<li>自反性：对于所有的a∈S，aRa</li>
+<li>对称性：aRb当且仅当bRa</li>
+<li>传递性：若aRb且bRc，则aRc<h2 id="动态等价性问题"><a href="#动态等价性问题" class="headerlink" title="动态等价性问题"></a>动态等价性问题</h2></li>
+</ol>
+<ul>
+<li>一个元素a∈S的等价类是S的一个子集，它包含所有与a有关系的元素。等价类形成对S的一个划分，S的每一个成员恰好出现在一个等价类中。</li>
+<li><p>因此，为确定是否有a-b，我们只需验证a和b是否都在同一个等价类中</p>
+</li>
+<li><p>最初输入的数据是N个数据的类，每个集合含有一个不同的元素，从而不同集合之间是不相交的</p>
+</li>
+<li>此时有两种运算允许进行</li>
+</ul>
+<ol>
+<li>第一种运算是Find，它返回包含给定元素的集合（即等价类）的名字</li>
+<li>第二种运算是添加关系，首先要看是否a和b已经有关系（通过对a和b执行Find并检验它们是否在同一个等价类中来完成），如果a和b不在同一类中，那么我们使用并运算Union，把含有a和b的两个等价类合并成一个新的等价类<h2 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h2><strong>思路：用树来表示每一个集合，从而用森林来表示整个不相交集ADT</strong></li>
+</ol>
+<ul>
+<li><p>一开始，所有的集合都用一个指向树的根指针实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef int DisjSet[NumSets + 1];</span><br><span class="line">typedef int SetType;</span><br><span class="line">typedef int ElementType;</span><br><span class="line"></span><br><span class="line">void Initilialize(DisjSet S);</span><br><span class="line">void SetUnion(DisjSet S, SetType Root1, SetType Root2);</span><br><span class="line">SetType Find(ElementType X, DisjSet S);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不相交集合的初始化例程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void Initialize(DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    int i;</span><br><span class="line">    for (i = NumSets; i&gt;0; i--)</span><br><span class="line">        S[i] = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对元素X的一次Find(X)操作通过返回包含X的树的根而完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SetType Find(ElementType X, DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    if (S[X] &lt;= 0)</span><br><span class="line">        return X;</span><br><span class="line">    else</span><br><span class="line">        return Find(S[X],S); /* 这里不是找X的指针，而是向上找X的根指针，返回的也是根指针 */</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>两个集合的Union运算，让一个节点的根指针指向另一颗树的根节点，这种操作花费常数时间，当然，这不是最好的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void SetUnion(DisjSet S, SetType Root1, SetType Root2)</span><br><span class="line">&#123;</span><br><span class="line">    S[Root2] = Root1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="灵巧求并算法"><a href="#灵巧求并算法" class="headerlink" title="灵巧求并算法"></a>灵巧求并算法</h2><h3 id="按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树"><a href="#按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树" class="headerlink" title="按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树"></a>按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树</h3><ul>
+<li>好处：保证任何节点的深度均不会超过logN</li>
+<li>实现：让每个根的数组元素包含它的树的大小的负值，初始时树的数组表示就都是-1了<h3 id="按高度合并："><a href="#按高度合并：" class="headerlink" title="按高度合并："></a>按高度合并：</h3></li>
+<li>好处：保证任何节点的深度均不会超过logN</li>
+<li>实现：将每颗树的高度标记位负值，初始时数组表示的元素都是0，这样根指针小者的高度更高</li>
+</ul>
+<h2 id="路径压缩"><a href="#路径压缩" class="headerlink" title="路径压缩"></a>路径压缩</h2><ul>
+<li>效果：从X到根的路径上的每一个节点都使它的父节点变成根</li>
+<li>实现：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SetType Find(ElementType X, DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    if (S[X] &lt;= 0)</span><br><span class="line">        return X;</span><br><span class="line">    else</span><br><span class="line">        return S[X] = Find(S[X],S);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="按秩求并和路径压缩的最坏情形"><a href="#按秩求并和路径压缩的最坏情形" class="headerlink" title="按秩求并和路径压缩的最坏情形"></a>按秩求并和路径压缩的最坏情形</h2><ul>
+<li>连续M次操作最多需要O(MlogN)的时间，不过这只是最坏情形的分析，而不是平均情形的分析</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/15/4-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">14</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/14/3-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/14/3-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 3. 优先队列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-14T00:00:00+08:00">
+                2018-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据结构与算法分析：C语言描述"><a href="#数据结构与算法分析：C语言描述" class="headerlink" title="数据结构与算法分析：C语言描述"></a>数据结构与算法分析：C语言描述</h1><h2 id="第六章-优先队列（堆）"><a href="#第六章-优先队列（堆）" class="headerlink" title="第六章 优先队列（堆）"></a>第六章 优先队列（堆）</h2><ul>
+<li>优先队列是一种特殊的队列，会对待处理的数据进行排序并处理</li>
+</ul>
+<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><ul>
+<li><p>优先队列是至少允许下列两种操作的数据结构：Insert、DeleteMin</p>
+</li>
+<li><p>Insert操作等价于Enqueue，而DeleteMin则是队列中Dequeue在优先队列中的等价操作</p>
+</li>
+<li><p>我们只是把优先队列当作近似队列的一种结构以方便理解，但严格的定义和队列不同，优先队列（或者叫堆）的基本操作只有Insert和Delete</p>
+</li>
+</ul>
+<h3 id="一些简单的实现"><a href="#一些简单的实现" class="headerlink" title="一些简单的实现"></a>一些简单的实现</h3><ul>
+<li><p>方法一：用一个简单链表在表头以O(1)执行插入操作，并遍历该链表以删除最小元，时间为O(N)</p>
+</li>
+<li><p>方法二：使用二叉查找树，其平均运行时间都是O(logN)</p>
+</li>
+<li><p>但是，使用查找树可能有些小题大做了（因为它还支持许多并不需要的操作，而我们只关心insert和deletemin），下面我们将要使用的数据结构不要指针（二叉堆），但仍然可以以最坏情形时间O(logN)支持这两个操作</p>
+</li>
+</ul>
+<h3 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h3><ul>
+<li>二叉堆是最普遍的实现优先队列的数据结构。一般称“堆（heap）时”，默认就是用二叉堆形式实现的优先队列</li>
+</ul>
+<ul>
+<li>二叉堆是一颗完全二叉树（叶子节点只能出现在最下层和次下层，并且最下面一层的节点都集中在该层左边若干位置的二叉树）</li>
+</ul>
+<h4 id="结构性质"><a href="#结构性质" class="headerlink" title="结构性质"></a>结构性质</h4><ul>
+<li><p>因为完全二叉树很有规律，所以它可以用一个数组表示而不需要指针。</p>
+</li>
+<li><p>对数组中任一位置i上的元素，左儿子在位置2i上，右儿子在2i+1上，父亲在[i/2]上</p>
+</li>
+<li><p>一个堆数据结构将由一个数组（不管关键字是什么类型），一个代表最大值的整数，以及当前堆的大小组成</p>
+</li>
+<li><p>为了保证完全二叉树的结构，注意数组的0位置上并不放任何元素，换言之，树的根节点从[1]开始计算起</p>
+</li>
+</ul>
+<h4 id="堆序性质"><a href="#堆序性质" class="headerlink" title="堆序性质"></a>堆序性质</h4><ul>
+<li>堆序性质：在一个堆中，对于每一个节点X，X的父亲中的关键字小于或等于X中的关键字，根节点没有父亲除外</li>
+<li>根据堆序性质，最小元总可以在根处找到。因此FindMin例程只需要常数时间</li>
+</ul>
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li>Insert操作</li>
+</ul>
+<ol>
+<li>在下一个空闲位置创建一个空穴（否则该堆将不是完全树）</li>
+<li>如果X放入空穴中没有破坏该堆的序，那么插入完成</li>
+<li>否则将空穴“不断上移”，直到保持该堆的序为止，然后将X放入到空穴中</li>
+</ol>
+<ul>
+<li>DeleteMin操作</li>
+</ul>
+<ol>
+<li>删除根上的最小元，根节点处产生一个空穴</li>
+<li>将堆中最后一个元素X置入沿着从根开始包含最小儿子的一条路径上的一个正确的位置</li>
+</ol>
+<h4 id="其他堆操作"><a href="#其他堆操作" class="headerlink" title="其他堆操作"></a>其他堆操作</h4><ul>
+<li>BuildHeap：把N个关键字作为输入并把它们放入空堆中，使用N个Insert完成，而每个Insert花费的时间在O(1)-O(logN)之间，因此该算法的总运行时间是O(N)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 堆的声明 */</span><br><span class="line">struct HeapStruct</span><br><span class="line">&#123;</span><br><span class="line">	int Capcity;</span><br><span class="line">	int Size;</span><br><span class="line">	ElementType *Elements;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* 堆的初始化 */</span><br><span class="line">PriorityQueue</span><br><span class="line">Initialize (int MaxElements)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue H;</span><br><span class="line"></span><br><span class="line">	if (MaxElements &lt; MinPQSize)</span><br><span class="line">			Error(&quot;Priority queue size is too small&quot;);</span><br><span class="line"></span><br><span class="line">	H = malloc(sizeof(srtuct HeapStruct));</span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;Elements = malloc((MaxElements+1) * sizeof(ElementType));</span><br><span class="line"></span><br><span class="line">	if (H-&gt;Elements == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	H-&gt;size = 0;</span><br><span class="line">	H-&gt;Elements[0] = MinData;</span><br><span class="line"></span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/* 插入到一个二叉堆的过程 */</span><br><span class="line">void Insert( ElementType X, PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	if (isFull(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Priority queue is full!&quot;);</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for (i = ++H-&gt;size; H-&gt;Elements[i/2] &gt; x; i/=2)</span><br><span class="line">			H-&gt;Elements[i] = H-&gt;Elements[i/2];</span><br><span class="line">	H-&gt;Elements[i] = X;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 在二叉堆中执行DeleteMin函数 */</span><br><span class="line"></span><br><span class="line">ElementType DeleteMin (PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,Child;</span><br><span class="line">	ElementType MinElement,LastElement;</span><br><span class="line"></span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;PriorityQueue is empty!&quot;);</span><br><span class="line">		return H-&gt;Elements[0];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MinElement = H-&gt;Elements[1];</span><br><span class="line">	LastElement = H-&gt;Elements[H-&gt;size--];</span><br><span class="line"></span><br><span class="line">	for (i=1; i*2 &lt;= H-&gt;size; i=Child)</span><br><span class="line">	&#123;</span><br><span class="line">		Child = i*2;</span><br><span class="line">		if (Child != H-&gt;size &amp;&amp; H-&gt;Elements[Child +1] &lt; H-&gt;Elements[Child])</span><br><span class="line">			Child++;</span><br><span class="line"></span><br><span class="line">		if (LastElement &gt; H-&gt;Elements[Child])</span><br><span class="line">			H-&gt;Elements[i] = H-&gt;Elements[Child];</span><br><span class="line">		else</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line">	H-&gt;Elements[i] = LastElement;</span><br><span class="line">	return MinElement;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优先队列的应用"><a href="#优先队列的应用" class="headerlink" title="优先队列的应用"></a>优先队列的应用</h3><h4 id="选择问题"><a href="#选择问题" class="headerlink" title="选择问题"></a>选择问题</h4><h4 id="事件模拟"><a href="#事件模拟" class="headerlink" title="事件模拟"></a>事件模拟</h4><h3 id="d-堆"><a href="#d-堆" class="headerlink" title="d-堆"></a>d-堆</h3><ul>
+<li><p>d-堆是二叉堆的简单推广，它恰像是一个二叉堆，只是所有的节点都由d个儿子（因此，二叉堆是2-堆）</p>
+</li>
+<li><p>d-堆将Insert操作时间改进为O(logdN)，而DeleteMin的时间则变为了O(dlogdN)</p>
+</li>
+</ul>
+<h3 id="左式堆"><a href="#左式堆" class="headerlink" title="左式堆"></a>左式堆</h3><ul>
+<li>左式堆的好处在于它的Merge操作很方便。而二叉堆的Merge操作一般需要O(N)的时间</li>
+<li><p>右路径上有r个节点的左式树必然至少有2^r-1个节点</p>
+</li>
+<li><p>左式堆的类型声明：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* 左式堆类型声明 */</span><br><span class="line">struct TreeNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	PriorityQueue Left;</span><br><span class="line">	PriorityQueue Right;</span><br><span class="line">	int Npl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>左式堆的合并（合并的时间界为logN，比二叉堆的N要低）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/* 合并左式堆的驱动例程 */</span><br><span class="line">PriorityQueue Merge(PriorityQueue H1, PriorityQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	if (H1 == NULL)</span><br><span class="line">		return H2;</span><br><span class="line">	if (H2 == NULL)</span><br><span class="line">		return H1;</span><br><span class="line">	if (H1-&gt;Element &lt; H2-&gt;Element)</span><br><span class="line">		return Merge(H1,H2);</span><br><span class="line">	else</span><br><span class="line">		return Merge(H2,H1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 合并左式堆的实际例程 */</span><br><span class="line">static PriorityQueue </span><br><span class="line">PriorityQueue Mergel(PriorityQueue H1, PriorityQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	if (H1-&gt;left == NULL)</span><br><span class="line">		H1-&gt;left = H2;</span><br><span class="line"></span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		H1-&gt;right = Merge(H1-&gt;right,H2);</span><br><span class="line">		if (H1-&gt;left-&gt;Npl &lt; H1-&gt;right-&gt;Npl)</span><br><span class="line">			SwapChildren(H1);</span><br><span class="line">		H1-&gt;Npl = H1-&gt;right-&gt;Npl +1;</span><br><span class="line">	&#125;</span><br><span class="line">	return H1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>插入的实现：可以把被插入项看成单节点堆并执行一次Merge操作来完成</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/* 左式堆的插入例程 */</span><br><span class="line">PriorityQueue Insert (ElementType X, PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue SingleNode;</span><br><span class="line"></span><br><span class="line">	SingleNode = malloc(sizeof(struct  TreeNode));</span><br><span class="line">	if (SingleNode == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		SingleNode-&gt;Element = X; SingleNode-&gt;Npl = 0;</span><br><span class="line">		SingleNode-&gt;left = SingleNode-&gt;right = NULL;</span><br><span class="line"></span><br><span class="line">		H = Merge(SingleNode,H);</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 左式堆的DeleteMin例程 */</span><br><span class="line">PriorityQueue DeleteMin(PriorityQueue H)</span><br><span class="line">&#123;</span><br><span class="line">	PriorityQueue LeftHeap,RightHeap;</span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Priority queue is empty&quot;);</span><br><span class="line">		return H;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LeftHeap = H-&gt;left;</span><br><span class="line">	RightHeap = H-&gt;right;</span><br><span class="line">	free(H);</span><br><span class="line">	return Merge(LeftHeap,RightHeap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="斜堆"><a href="#斜堆" class="headerlink" title="斜堆"></a>斜堆</h3><ul>
+<li>斜堆是左式堆的自调节形式，斜堆和左式堆的关系类似于伸展树和AVL树间的关系</li>
+<li>斜堆是具有堆序的二叉树，但是不存在对树的结构限制</li>
+<li>与伸展树类似，斜堆每次操作的摊还时间为logN</li>
+</ul>
+<h3 id="二项队列"><a href="#二项队列" class="headerlink" title="二项队列"></a>二项队列</h3><ul>
+<li>虽然左式堆和斜堆每次操作花费logN的时间，但是有效的支持了合并、插入和DeleteMin这三种操作。</li>
+<li>而二项队列是对上述两者的又一改进。二项队列支持合并、插入和DeleteMin，每次操作的最坏时间为logN，插入操作平均花费常数时间</li>
+</ul>
+<h4 id="二项队列结构"><a href="#二项队列结构" class="headerlink" title="二项队列结构"></a>二项队列结构</h4><ul>
+<li>一个二项队列不是一颗堆序的树，而是堆序树的集合，称为森林。堆序树中的每一颗都是有约束的形式，叫做二项树，每个高度上至多存在一颗二项树</li>
+</ul>
+<h4 id="二项队列操作"><a href="#二项队列操作" class="headerlink" title="二项队列操作"></a>二项队列操作</h4><h4 id="二项队列的实现"><a href="#二项队列的实现" class="headerlink" title="二项队列的实现"></a>二项队列的实现</h4><ul>
+<li>二项树的每一个节点将包含数据、第一个儿子以及左兄弟</li>
+<li>二项队列依赖于一般树的表现形式：每个节点的儿子都存在一个链表中，而且每个节点都有一个指向它的第一个儿子（如果有的话）的指针</li>
+<li>并且还要求诸儿子按照它们的子树的大小排序，我们也需要保证能够很容易地合并两棵树</li>
+<li><p>二项队列将是二项树的数组</p>
+</li>
+<li><p>二项队列的类型声明</p>
+</li>
+<li><p>合并同样大小的两颗二项树</p>
+</li>
+<li><p>合并两个二项队列的例程</p>
+</li>
+<li><p>二项队列的DeleteMin</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">/* 二项队列类型声明 */</span><br><span class="line">struct BinNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	Position LeftChild;</span><br><span class="line">	Position NextSibling;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct Collection</span><br><span class="line">&#123;</span><br><span class="line">	int CurrentSize;</span><br><span class="line">	BinTree TheTrees[MaxTrees];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 合并同样大小的两颗二项树的例程 */</span><br><span class="line"></span><br><span class="line">BinTree CombineTrees(BinTree T1, BinTree T2)</span><br><span class="line">&#123;</span><br><span class="line">	if（T1-&gt;Element &gt; T2-&gt;Element）</span><br><span class="line">			return CombineTrees(T2,T1);</span><br><span class="line">	T2-&gt;NextSibling = T1-&gt;LeftChild;</span><br><span class="line">	T1-&gt;LeftChild = T2;</span><br><span class="line">	return T1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 合并两个优先队列的例程 */</span><br><span class="line">/* H1 contains merged result */</span><br><span class="line">BinQueue Merge(BinQueue H1, BinQueue H2)</span><br><span class="line">&#123;</span><br><span class="line">	BinTree T1,T2,Carry = NULL; </span><br><span class="line">	/* Carry means the last result */</span><br><span class="line">	int i,j;</span><br><span class="line"></span><br><span class="line">	if (H1-&gt;CurrentSize + H2-&gt;CurrentSize &gt;Capcity)</span><br><span class="line">		Error(&quot;Merge would exceed Capcity&quot;);</span><br><span class="line"></span><br><span class="line">	H1-&gt;CurrentSize += H2-&gt;CurrentSize;</span><br><span class="line"></span><br><span class="line">	for (i=0,j=1; j&lt;=H1-&gt;CurrentSize; i++,j*=2) </span><br><span class="line">	/* 每两两合并一次，所以这里的循环次数不是以i，而是以j计 */</span><br><span class="line">	&#123;</span><br><span class="line">		T1 = H1-&gt;TheTrees[i];</span><br><span class="line">		T2 = H2-&gt;TheTrees[i];</span><br><span class="line">		switch( !!T1 + 2* !!T2 + 4* !!Carry)</span><br><span class="line">		/* 这里是一个数学糖衣，!!将所有非0值变为1，再进行分类讨论 */</span><br><span class="line">		&#123;</span><br><span class="line">			case 0: /* No Trees */</span><br><span class="line">			case 1: /* Only H1 */</span><br><span class="line">				break;</span><br><span class="line">			case 2: /* Only H2 */</span><br><span class="line">				H1-&gt;TheTrees[i] = T2;</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 4: /* Only Carry*/</span><br><span class="line">				H1-&gt;TheTrees[i] = Carry;</span><br><span class="line">				Carry = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 3: /* H1 and H2 */</span><br><span class="line">				Carry = CombineTrees(T1,T2);</span><br><span class="line">				H1-&gt;TheTrees[i] = H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 5: /* H1 and Carry */</span><br><span class="line">				Carry = CombineTrees(T1,Carry);</span><br><span class="line">				H1-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 6: /* H2 and Carry */</span><br><span class="line">				Carry = CombineTrees(T2,Carry);</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">			case 7: /* All three */</span><br><span class="line">				H1-&gt;TheTrees[i] = Carry;</span><br><span class="line">				Carry = CombineTrees(T1,T2);</span><br><span class="line">				H2-&gt;TheTrees[i] = NULL;</span><br><span class="line">				break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return H1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 二项队列的DeleteMin */</span><br><span class="line">ElementType DeleteMin(BinTree H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	int MinTree;</span><br><span class="line">	BinTree DeleteQueue;</span><br><span class="line">	Position DeletedTree,OldRoot;</span><br><span class="line">	ElementType MinItem;</span><br><span class="line"></span><br><span class="line">	if (isEmpty(H))</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Empty binomial queue&quot;);</span><br><span class="line">		return -Infinity;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MinItem = Infinity;</span><br><span class="line">	for (i=0; i&lt;MaxTrees; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		if (H-&gt;TheTrees[i] &amp;&amp; H-&gt;TheTrees[i]-&gt;Element &lt; MinItem)</span><br><span class="line">		&#123;</span><br><span class="line">			/* Update minimum */</span><br><span class="line">			MinItem = H-&gt;TheTrees[i]-&gt;Element;</span><br><span class="line">			MinTree = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	DeletedTree = H-&gt;TheTrees[MinTree];</span><br><span class="line">	OldRoot = DeletedTree;</span><br><span class="line">	DeletedTree = DeletedTree-&gt;LeftChild;</span><br><span class="line">	free(OldRoot);</span><br><span class="line"></span><br><span class="line">	DeletedQueue = Initialize();</span><br><span class="line">	DeletedQueue-&gt;CurrentSize = ( 1&lt;&lt;MinTree )-1;</span><br><span class="line">	for (j = MinTree -1; j&gt;=0; j--)</span><br><span class="line">	&#123;</span><br><span class="line">		DeletedQueue-&gt;TheTrees[j] = DeletedTree;</span><br><span class="line">		DeletedTree = DeletedTree-&gt;NextSibling;</span><br><span class="line">		DeletedQueue-&gt;TheTrees[j]-&gt;NextSibling = NULL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	H-&gt;TheTrees[MinTree] = NULL;</span><br><span class="line">	H-&gt;CurrentSize -= DeletedQueue-&gt;CurrentSize +1;</span><br><span class="line"></span><br><span class="line">	Merge(H,DeletedQueue);</span><br><span class="line">	return MinItem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>这一章，我们看到了优先队列（堆）ADT的各种实现方法和用途，标准二叉堆实现由于简单和速度快从而是精致的。它不需要指针，只要常数的附加空间，而且有效支持队列的操作</p>
+</li>
+<li><p>我们考虑了另外的合并操作，发展了三种实现方法（左式堆、斜堆、二项队列）</p>
+</li>
+<li>我们还看到优先队列的几个用途，从操作系统的工作调度到模拟，后面几章中将再次看到这些应用。</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/14/3-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">13</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/2-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/13/2-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 2. 散列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-13T00:00:00+08:00">
+                2018-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据结构与算法分析：C语言描述"><a href="#数据结构与算法分析：C语言描述" class="headerlink" title="数据结构与算法分析：C语言描述"></a>数据结构与算法分析：C语言描述</h1><h2 id="第5章-散列"><a href="#第5章-散列" class="headerlink" title="第5章 散列"></a>第5章 散列</h2><ul>
+<li>散列是一种用于以<strong>常数平均时间</strong>执行插入、删除和查找的技术</li>
+<li>但是对排序信息的操作不提供支持，比如FindMin、FindMax等在散列中是不支持的</li>
+</ul>
+<h3 id="本章学习"><a href="#本章学习" class="headerlink" title="本章学习"></a>本章学习</h3><ul>
+<li>实现散列的几种方法，并分析比较它们</li>
+<li>介绍散列的多种应用</li>
+<li>将散列表和二叉查找树进行比较</li>
+</ul>
+<h3 id="一般想法"><a href="#一般想法" class="headerlink" title="一般想法"></a>一般想法</h3><ul>
+<li>散列函数：每个关键字被映射到0到TableSize-1这个范围中的某个数，并且被放到适当的单元中，这个映射就叫做散列函数</li>
+<li>实际情况中，单元的数目有限，关键字却是用不完的，因此我们需要一个散列函数，该函数要在单元之间均匀地分配关键字</li>
+<li>选择一个函数，决定当两个关键字散列到同一个值（发生冲突时）应该怎么做</li>
+</ul>
+<h3 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h3><ul>
+<li>一个相对较好的散列函数：Horner法则</li>
+<li>key的每一位对32求加权赋值(位数越高，加权越高)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while(*key != &apos;\0&apos;)</span><br><span class="line">    HashVal = (HashVal &lt;&lt; 5) * key++;</span><br><span class="line">return HashVal % TableSize;</span><br><span class="line">/*TableSize应是一个素数*/</span><br></pre></td></tr></table></figure>
+<h3 id="分离链接法"><a href="#分离链接法" class="headerlink" title="分离链接法"></a>分离链接法</h3><ul>
+<li>将散列到同一个值的所有元素保留到一个表中。为了方便起见，这些表都有表头</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/*分离链接散列表的类型声明*/</span><br><span class="line"></span><br><span class="line">struct ListNode;</span><br><span class="line">typedef struct ListNode *Position;</span><br><span class="line">struct HashTbl;</span><br><span class="line">typedef struct HashTbl *HashTable;</span><br><span class="line"></span><br><span class="line">struct ListNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	Position Next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef Position List;</span><br><span class="line"></span><br><span class="line">/* List The list will be an array of lists */</span><br><span class="line">/* The lists use headers for simplicity */</span><br><span class="line"></span><br><span class="line">struct Hashtbl</span><br><span class="line">&#123;</span><br><span class="line">	int TableSize;  /* 表示数组中链表的个数 */</span><br><span class="line">	List *Thelists; /* 表示一个链表数组 */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面的散列表结构包括一个链表数组、以及数组中链表的个数，它们在散列表结构初始化时动态分配空间</li>
+<li>此处的Hashtbl类型就是指向该结构的指针类型</li>
+<li>注意Thelists是指向链表数组的指针的指针，用于标记不同的链表数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/* 分离链接散列表的初始化例程 */</span><br><span class="line">HashTable</span><br><span class="line">InitTable(int TabSize)</span><br><span class="line">&#123;</span><br><span class="line">	HashTable H;</span><br><span class="line">	int i;</span><br><span class="line">	if (TableSize &lt; MinTableSize)</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Table size too small!&quot;);</span><br><span class="line">		return NULL;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/* Allocate table */</span><br><span class="line">	</span><br><span class="line">	H = malloc(sizeof(struct HashTbl));</span><br><span class="line">	/* 该结构包含一个整数和指向一个表的指针 */</span><br><span class="line"></span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;TableSize = NextPrime(TableSize); /* 散列表的大小应当是一个素数 */</span><br><span class="line"></span><br><span class="line">	/* Allocate array of lists */</span><br><span class="line"></span><br><span class="line">	H-&gt;thelists = malloc(sizeof( List ) * H-&gt;TableSize);</span><br><span class="line">	if (H-&gt;thelists == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	</span><br><span class="line">	/* Allocate list headers */</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;H-&gt;TableSize; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		H-&gt;thelists[i] = malloc(sizeof(struct ListNode));</span><br><span class="line">		if (H-&gt;thelists[i] == NULL)</span><br><span class="line">			FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">		else</span><br><span class="line">			H-&gt;thelists[i]-&gt;next = NULL;</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意上述代码中的三个malloc函数：第一个是给一个散列表结构分配空间。第二个是试图指定list的一个数组，结果为一个指针的数组。第三个是给每个链表分配了一个表头，并设置它的Next域为NULL</li>
+<li>注意散列表的大小应当是一个素数，这样可以使分配的效率最大化，避免关键字集中堆在一起发生冲突<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/* 分离链接散列表的Find例程 */</span><br><span class="line">Position</span><br><span class="line">Find(ElementType key, HashTable H)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	Position P;</span><br><span class="line">	List L;</span><br><span class="line"></span><br><span class="line">	L = H-&gt;thelists[Hash(key, H-&gt;tablesize)];</span><br><span class="line">	P = L-&gt;next;</span><br><span class="line">	</span><br><span class="line">	while (p != NULL &amp;&amp; P-&gt;element != key)</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line"></span><br><span class="line">	/* 一个数组中可能也含有多个元素哦！ */</span><br><span class="line">	return p;</span><br><span class="line">	/* 返回一个指针，该指针指向包含key的那个单元 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/* 分离链接散列表的Insert例程 */</span><br><span class="line">void Insert(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position Pos,Newcell;</span><br><span class="line">	List L;</span><br><span class="line"></span><br><span class="line">	Pos = Find(key,H);</span><br><span class="line">	/* 如果插入的项已经存在，那么我们什么也不做，否则放到表的前端 */</span><br><span class="line"></span><br><span class="line">	if (Pos == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		Newcell = malloc(sizeof(struct ListNode));</span><br><span class="line">			if (Newcell == NULL)</span><br><span class="line">				FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">				L = H-&gt;thelists[(Hash(key,H-&gt;tablesize))];</span><br><span class="line">				Newcell-&gt;next = L-&gt;next;</span><br><span class="line">				Newcell-&gt;element = key;</span><br><span class="line">				L-&gt;next = Newcell;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>定义散列表的<strong>装填因子</strong>为散列表中的元素个数与散列表大小的比值。在上面的例子中，装填因子为1。表的平均长度为1（每个链表数组中只放一个元素）</p>
+</li>
+<li><p>通过散列函数的变换，在散列表中查找元素，所花的时间与装填因子有关，但至少是一个常数，那么这样也很大地减少了查询的时间</p>
+</li>
+</ul>
+<h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
+<li>如果有冲突发生，那么就要尝试选择另外的单元，直到找出空的单元为止</li>
+<li><p>因为所有的数据都要置入表内，所以开放定址法所需要的表，比分离链接散列用表要大</p>
+</li>
+<li><p>对于开放定址法来说，装填因子一般为0.5，即大小为2的散列表中一般只丢1个元素进去</p>
+</li>
+</ul>
+<h4 id="线性探测法"><a href="#线性探测法" class="headerlink" title="线性探测法"></a>线性探测法</h4><ul>
+<li>一般来说，如果表可以有多余一半被填满的话，那么线性探测就不是个好办法</li>
+<li>如果表填满的不多，那么线性探测的插入操作和查找操作探测的次数花费就是一个较少的常数，只需要1.5-2.5</li>
+</ul>
+<h4 id="平方探测法"><a href="#平方探测法" class="headerlink" title="平方探测法"></a>平方探测法</h4><ul>
+<li>对于平方探测的情况更糟：一旦表被填满超过一半，就不能保证一次找到一个空单元了</li>
+<li>但是，如果使用平方探测，且表的大小是素数，那么当表至少有一半是空的时候，总能够插入一个新的元素</li>
+<li>注意！哪怕表有比一半多一个的位置被填满，那么插入都有可能性失败（虽然可能性很小）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/* 初始化开放定址散列表的例程 */</span><br><span class="line"></span><br><span class="line">HashTable</span><br><span class="line">InitTable(int tablesize)</span><br><span class="line">&#123;</span><br><span class="line">	HashTable H;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	if (tablesize &lt; mintablesize)</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Table Size is too SMALL!&quot;);</span><br><span class="line">		return NULL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* Allocate Table */</span><br><span class="line"></span><br><span class="line">	H = malloc(sizeof(struct HashTbl));</span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;tablesize = NextPrime(tablesize);</span><br><span class="line"></span><br><span class="line">	/* Allocate array of Cells */</span><br><span class="line"></span><br><span class="line">	H-&gt;thecells = malloc(sizeof(cell) * H-&gt;tablesize);</span><br><span class="line">	if (H-&gt;thecells == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;H-&gt;tablesize; i++)</span><br><span class="line">		H-&gt;thecells[i].info = Empty; /* info表示一个索引，类似于链表中的表头 */</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/* 使用平方探测散列法的Find例程 */</span><br><span class="line"></span><br><span class="line">Position</span><br><span class="line">Find(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position CurrentPos;</span><br><span class="line">	int CollisionNum;</span><br><span class="line"></span><br><span class="line">	CollisionNum = 0; /* CollisionNum表示表中的元素个数 */</span><br><span class="line">	CurrentPos = Hash(key,H-&gt;tablesize);</span><br><span class="line"></span><br><span class="line">	while(H-&gt;thecells[CurrentPos].info != Empty &amp;&amp; H-&gt;thecells[CurrentPos].element != key)</span><br><span class="line">	&#123;</span><br><span class="line">		CurrentPos += 2 * ++ CollisionNum -1;</span><br><span class="line">		/* 这里是一个数学糖衣，利用了F(i)=F(i-1)+2i-1,其中F(i)=i^2的变换 */</span><br><span class="line">		if (CurrentPos &gt;= H-&gt;tablesize)</span><br><span class="line">			CurrentPos -= H-&gt;tablesize;</span><br><span class="line">	&#125;</span><br><span class="line">	return CurrentPos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/* 使用平方探测散列表的插入例程 */</span><br><span class="line"></span><br><span class="line">void Insert(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position Pos;</span><br><span class="line"></span><br><span class="line">	Pos = Find(key,H);</span><br><span class="line"></span><br><span class="line">	if (H-&gt;thecells[Pos].Info != Legitimate)</span><br><span class="line">	&#123;</span><br><span class="line">		H-&gt;thecells[Pos].Info = Legitimate;</span><br><span class="line">		H-&gt;thecells[Pos].element = key;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双散列"><a href="#双散列" class="headerlink" title="双散列"></a>双散列</h4><ul>
+<li>F(i) = ihash2(x)</li>
+</ul>
+<h3 id="再散列"><a href="#再散列" class="headerlink" title="再散列"></a>再散列</h3><ul>
+<li>再散列：建立另外一个大约两倍大的表（而且使用一个相关的新散列函数），扫描整个原始散列表，并计算每个（未删除）元素的新散列值并将其插入到新表中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Rehash(HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,OldSize;</span><br><span class="line">	Cell *Oldcells;</span><br><span class="line"></span><br><span class="line">	Oldcells = H-&gt;thecells;</span><br><span class="line">	Oldsize = H-&gt;tablesize;</span><br><span class="line">	/* 声明俩临时变量，不要破坏原有的散列表 */</span><br><span class="line"></span><br><span class="line">	H = InitializeTable( 2*Oldsize );</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;Oldsize; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		if (Oldcells[i].Info == Legitmate)</span><br><span class="line">				Insert(Oldcells[i].element,H);</span><br><span class="line">		free(Oldcells);</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可扩散列"><a href="#可扩散列" class="headerlink" title="可扩散列"></a>可扩散列</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>散列表可以用来以常数的平均时间实现Insert和Find操作。装填因子这样的细节是特别重要的，否则时间界将不再有效。将关键字不是短串或整数时，仔细选择散列函数也是很重要的。</p>
+</li>
+<li><p>对于分离链接散列法，装填因子应尽可能为1。对于开放定址散列算法，装填因子不应该超过0.5。保持合理的装填因子，对于空间紧缺而且不可能声明巨大散列表的情况，这是很重要的。</p>
+</li>
+<li><p>二叉查找树也可以做到Insert和Find例程，虽然平均时间界为logN，但是二叉查找树可以做的事情更多，而使用散列表不可能找出最小元素，除非准确知道一个字符串，否则散列表也不可能有效地找到它。二叉查找树可以迅速找到在一定范围内的所有项，散列表是做不到的。</p>
+</li>
+<li><p>如果不需要序的信息以及对输入是否被排序有怀疑，那么就应该选择散列这种数据结构。</p>
+</li>
+<li><p>散列有着丰富的应用：</p>
+</li>
+</ul>
+<ol>
+<li><p>编译器使用散列表跟踪源代码中声明的变量，这种数据结构叫做符号表。因为只有insert和find，散列函数可以算的很快</p>
+</li>
+<li><p>散列表对于任何图论问题都是有用的。</p>
+</li>
+<li><p>散列表在游戏中也有使用。它跟踪通过计算基于位置的散列函数而看到的一些位置，如果同样的位置再出现，程序通常经过简单移动变换来避免昂贵的重复变换，这在游戏中被称为变换表。</p>
+</li>
+<li><p>散列的另一个用途是在线拼写检验程序。</p>
+</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/13/2-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">12</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/12/8-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/12/8-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T00:00:00+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/12/8-algo/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -2385,7 +2386,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2494,7 +2495,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

