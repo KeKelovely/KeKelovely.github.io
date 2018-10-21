@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第十二章 DOM2和DOM3 DOM2级规范定义了一些模块，用于增强DOM1级。 DOM2级核心为不同的DOM类型引入了一些与XML命名空间有关的方法。这些变化只在使用XML或XHTML文档时才有用；对于HTML文档没有实际意义。 除了与XML命名空间有关的方法外，DOM2级核心还定义了以编程方式创建Document实">
+<meta name="keywords" content="Font-End javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「JavaScript高级程序设计」 第12-20章">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/3-js/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第十二章 DOM2和DOM3 DOM2级规范定义了一些模块，用于增强DOM1级。 DOM2级核心为不同的DOM类型引入了一些与XML命名空间有关的方法。这些变化只在使用XML或XHTML文档时才有用；对于HTML文档没有实际意义。 除了与XML命名空间有关的方法外，DOM2级核心还定义了以编程方式创建Document实">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:40:06.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「JavaScript高级程序设计」 第12-20章">
+<meta name="twitter:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第十二章 DOM2和DOM3 DOM2级规范定义了一些模块，用于增强DOM1级。 DOM2级核心为不同的DOM类型引入了一些与XML命名空间有关的方法。这些变化只在使用XML或XHTML文档时才有用；对于HTML文档没有实际意义。 除了与XML命名空间有关的方法外，DOM2级核心还定义了以编程方式创建Document实">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/3-js/"/>
+
+
+
+
+
+  <title>「JavaScript高级程序设计」 第12-20章 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">05月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/3-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「JavaScript高级程序设计」 第12-20章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头</p>
+</blockquote>
+<h2 id="第十二章-DOM2和DOM3"><a href="#第十二章-DOM2和DOM3" class="headerlink" title="第十二章 DOM2和DOM3"></a>第十二章 DOM2和DOM3</h2><ol>
+<li>DOM2级规范定义了一些模块，用于增强DOM1级。</li>
+<li><strong>DOM2级核心</strong>为不同的DOM类型引入了一些与XML命名空间有关的方法。这些变化只在使用XML或XHTML文档时才有用；对于HTML文档没有实际意义。</li>
+<li>除了与XML命名空间有关的方法外，DOM2级核心还定义了以编程方式创建Document实例的方法，也支持创建DocumentType对象<br>4.<strong> DOM2级样式模块</strong>主要针对操作元素的样式信息而开发，其特性为：</li>
+</ol>
+<ul>
+<li>每个元素都有一个关联的style对象，可以用来确定和修改行内的样式</li>
+<li>要确定某个元素的计算样式（包括应用给它的所有CSS规则），可以使用getComputedStyle()方法</li>
+<li>IE不支持getComputedStyle()方法，但为所有元素都提供了能够返回相同信息的currentStyle属性</li>
+<li>可以通过document.styleSheets集合访问样式表</li>
+<li>除IE之外所有浏览器都支持针对样式表的这个接口，IE也为几乎所有相应的DOM功能提供了自己的一套属性和方法</li>
+</ul>
+<ol start="5">
+<li><strong>DOM2级遍历和范围模块</strong>提供了与DOM结构交互的不同方式：</li>
+</ol>
+<ul>
+<li>遍历即使用NodeIterator或TreeWalker对DOM执行深度优先遍历</li>
+<li>NodeIterator是一个简单的接口，只允许以一个节点的步幅前后移动。而TreeWalker在提供相同功能的同时，还支持在DOM结构的各个方向上移动，包括父节点、同辈节点和子节点等方向</li>
+<li>范围是选择DOM结构中特定部分，然后再执行相应操作的一种手段</li>
+<li>使用范围选取可以在删除文档中某些部分的同时，保持文档结构的格式良好，或者复制文档中的相应部分。</li>
+<li>IE8及更早版本不支持DOM2级遍历和范围模块，但它提供了一个专有的文本范围对象，可以用来完成简单的基于文本的范围操作。IE9完全支持DOM遍历</li>
+</ul>
+<h1 id="JavaScript高级程序设计"><a href="#JavaScript高级程序设计" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第14章-表单脚本"><a href="#第14章-表单脚本" class="headerlink" title="第14章 表单脚本"></a>第14章 表单脚本</h2><h3 id="表单的基础知识"><a href="#表单的基础知识" class="headerlink" title="表单的基础知识"></a>表单的基础知识</h3><h4 id="提交表单"><a href="#提交表单" class="headerlink" title="提交表单"></a>提交表单</h4><h4 id="重置表单"><a href="#重置表单" class="headerlink" title="重置表单"></a>重置表单</h4><h4 id="表单字段"><a href="#表单字段" class="headerlink" title="表单字段"></a>表单字段</h4><h3 id="文本框脚本"><a href="#文本框脚本" class="headerlink" title="文本框脚本"></a>文本框脚本</h3><h4 id="选择文本"><a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h4><ol>
+<li>选择select事件</li>
+<li>取得选择的文本</li>
+<li>选择部分文本<h4 id="过滤输入"><a href="#过滤输入" class="headerlink" title="过滤输入"></a>过滤输入</h4></li>
+<li>屏蔽字符</li>
+<li>操作剪贴板<h4 id="自动切换焦点"><a href="#自动切换焦点" class="headerlink" title="自动切换焦点"></a>自动切换焦点</h4><h4 id="HTML5约束验证API"><a href="#HTML5约束验证API" class="headerlink" title="HTML5约束验证API"></a>HTML5约束验证API</h4></li>
+<li>必填字段</li>
+<li>其他输入类型</li>
+<li>数值范围</li>
+<li>输入模式</li>
+<li>检测有效性</li>
+<li>禁用验证<h3 id="14-3-选择框脚本"><a href="#14-3-选择框脚本" class="headerlink" title="14.3 选择框脚本"></a>14.3 选择框脚本</h3><h4 id="14-3-1-选择选项"><a href="#14-3-1-选择选项" class="headerlink" title="14.3.1 选择选项"></a>14.3.1 选择选项</h4><h4 id="14-3-2-添加选项"><a href="#14-3-2-添加选项" class="headerlink" title="14.3.2 添加选项"></a>14.3.2 添加选项</h4><h4 id="14-3-3-移除选项"><a href="#14-3-3-移除选项" class="headerlink" title="14.3.3 移除选项"></a>14.3.3 移除选项</h4><h4 id="14-3-4-移动和重排选项"><a href="#14-3-4-移动和重排选项" class="headerlink" title="14.3.4 移动和重排选项"></a>14.3.4 移动和重排选项</h4><h3 id="14-4-表单序列化"><a href="#14-4-表单序列化" class="headerlink" title="14.4 表单序列化"></a>14.4 表单序列化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">function serialize(form)&#123; </span><br><span class="line">    var parts = [], </span><br><span class="line">    field = null, </span><br><span class="line">    i, </span><br><span class="line">    len, </span><br><span class="line">    j, </span><br><span class="line">    optLen, </span><br><span class="line">    option, </span><br><span class="line">    optValue; </span><br><span class="line"> </span><br><span class="line"> for (i=0, len=form.elements.length; i &lt; len; i++)&#123; </span><br><span class="line"> field = form.elements[i]; </span><br><span class="line"> </span><br><span class="line"> switch(field.type)&#123; </span><br><span class="line"> case &quot;select-one&quot;: </span><br><span class="line"> case &quot;select-multiple&quot;: </span><br><span class="line"> if (field.name.length)&#123; </span><br><span class="line"> for (j=0, optLen = field.options.length; j &lt; optLen; j++)&#123; option = field.options[j]; </span><br><span class="line"> if (option.selected)&#123; </span><br><span class="line"> optValue = &quot;&quot;; </span><br><span class="line"> if (option.hasAttribute)&#123; </span><br><span class="line"> optValue = (option.hasAttribute(&quot;value&quot;) ? </span><br><span class="line"> option.value : option.text); </span><br><span class="line"> &#125; else &#123; </span><br><span class="line"> optValue = (option.attributes[&quot;value&quot;].specified ? </span><br><span class="line"> option.value : option.text); </span><br><span class="line"> &#125; </span><br><span class="line"> parts.push(encodeURIComponent(field.name) + &quot;=&quot; + </span><br><span class="line"> encodeURIComponent(optValue)); </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> break; </span><br><span class="line"> </span><br><span class="line"> case undefined: //字段集</span><br><span class="line"> case &quot;file&quot;: //文件输入</span><br><span class="line"> case &quot;submit&quot;: //提交按钮</span><br><span class="line"> case &quot;reset&quot;: //重置按钮</span><br><span class="line"> case &quot;button&quot;: //自定义按钮</span><br><span class="line"> break; </span><br><span class="line"> </span><br><span class="line"> case &quot;radio&quot;: //单选按钮</span><br><span class="line"> case &quot;checkbox&quot;: //复选框</span><br><span class="line"> if (!field.checked)&#123; </span><br><span class="line"> break; </span><br><span class="line"> &#125; </span><br><span class="line"> /* 执行默认操作 */ </span><br><span class="line"> default: </span><br><span class="line"> //不包含没有名字的表单字段</span><br><span class="line"> if (field.name.length)&#123; </span><br><span class="line">        parts.push(encodeURIComponent(field.name) + &quot;=&quot; + </span><br><span class="line">    encodeURIComponent(field.value)); </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line"> &#125; </span><br><span class="line">     return parts.join(&quot;&amp;&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="富文本编辑"><a href="#富文本编辑" class="headerlink" title="富文本编辑"></a>富文本编辑</h3><h4 id="使用contenteditable属性"><a href="#使用contenteditable属性" class="headerlink" title="使用contenteditable属性"></a>使用contenteditable属性</h4><h4 id="操作富文本"><a href="#操作富文本" class="headerlink" title="操作富文本"></a>操作富文本</h4><h4 id="富文本选区"><a href="#富文本选区" class="headerlink" title="富文本选区"></a>富文本选区</h4><h4 id="表单与富文本"><a href="#表单与富文本" class="headerlink" title="表单与富文本"></a>表单与富文本</h4><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>使用JS可以增强已有的表单字段，从而创造出新的功能，或者提升表单的易用性。为此，表单、表单字段都引入了相应的属性和方法，以便JS使用</li>
+</ol>
+<ul>
+<li>可使用一些标准或非标准的方法选择文本框中的全部或部分文本</li>
+<li>大多数浏览器都采用了Firefox操作选择文本的方式，但IE仍然坚持自己的实现</li>
+<li>在文本框内容变化时，可以通过侦听键盘事件以及检测插入的字符，来允许或禁止用户输入某些字符</li>
+</ul>
+<ol start="2">
+<li>除Opera之外的所有浏览器都支持剪贴板事件，包括copy、cut和paste，其他浏览器在实现剪贴板事件时也分为几种不同的情况。</li>
+<li>添加选项等操作可以通过标准化的DOM来实现</li>
+<li>富文本编辑功能通过一个包含空HTML文档的iframe元素来实现。通过将空文档的designMode属性设置为on，就可以将该页面转换为可编辑状态。也可将某个元素设置为contenteditable</li>
+</ol>
+<h1 id="JavaScript高级程序设计-1"><a href="#JavaScript高级程序设计-1" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第十五章-使用Canvas绘图"><a href="#第十五章-使用Canvas绘图" class="headerlink" title="第十五章 使用Canvas绘图"></a>第十五章 使用Canvas绘图</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;canvas id = &quot;drawing&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;A drawing of sth&lt;/canvas&gt;</span><br></pre></td></tr></table></figure>
+<p>1.要在画布(canvas)上画图，需要取得绘图上下文对象的引用，调用getContext()方法，传入”2d”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var drawing = document.getElementById(&quot;drawing&quot;);</span><br><span class="line">    if (drawing.getContext)&#123;</span><br><span class="line">    var context = drawing.getContext(&quot;2d&quot;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.导出图像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 取得图像数据URI,并指定为png格式，注意这里不是地址链接</span><br><span class="line">var imgURI = drawing.toDataURL(&quot;image/png&quot;);</span><br><span class="line">// 显示图像</span><br><span class="line">var image = document.createElement(&quot;img&quot;);</span><br><span class="line">image.src = imgURI;</span><br><span class="line">document.body.appendChild(image);</span><br></pre></td></tr></table></figure></p>
+<h3 id="2D上下文"><a href="#2D上下文" class="headerlink" title="2D上下文"></a>2D上下文</h3><h4 id="填充和描边"><a href="#填充和描边" class="headerlink" title="填充和描边"></a>填充和描边</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">context.strokeStyle = &quot;red&quot;;</span><br><span class="line">context.fillStyle = &quot;#0000ff&quot;;</span><br></pre></td></tr></table></figure>
+<h4 id="绘制矩形"><a href="#绘制矩形" class="headerlink" title="绘制矩形"></a>绘制矩形</h4><p>1.fillRect(),strokeRect(),clearRect()<br>2.这三个方法都接收四个参数：矩形的x，y坐标，矩形的宽度和高度</p>
+<h4 id="绘制路径"><a href="#绘制路径" class="headerlink" title="绘制路径"></a>绘制路径</h4><p>1.首先调用beginPath()方法，表示要开始绘制新路径<br>2.再使用其他方法，如.arc,.moveTo等</p>
+<h4 id="绘制文本"><a href="#绘制文本" class="headerlink" title="绘制文本"></a>绘制文本</h4><p>1.fillText(),strokeText()<br>2.这两个方法都接收4个参数：要绘制的文本字符串，x，y坐标，和可选的最大像素宽度</p>
+<h4 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h4><ul>
+<li>rotate(angle)</li>
+<li>scale(scaleX,scaleY)</li>
+<li>translate(x,y)</li>
+<li>transform(m1_1,m1_2,m2_1,m2_2,dx,dy) //实现矩阵变换</li>
+<li>setTransform(m1_1,m1_2,m2_1,m2_2,dx,dy)//重置矩阵变换<h4 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h4>1.最简单的调用方式是传入一个HTML<img>元素，绘制起点的x,y坐标<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var image = document.images[0];</span><br><span class="line">context.drawImage(image,10,10)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2.改变图像大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.drawImage(image,50,10,20,30)</span><br></pre></td></tr></table></figure></p>
+<p>3.绘制到特定上下文中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.drawImage(image,0,10,50,50,0,100,40,60)</span><br></pre></td></tr></table></figure></p>
+<p>4.图像不能来自于其他域（在方法三中），会被判定为非法上下文</p>
+<h4 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h4><ul>
+<li>shadowColor</li>
+<li>shadowOffsetX/shadowOffsetY</li>
+<li>shadowBlur<h4 id="渐变"><a href="#渐变" class="headerlink" title="渐变"></a>渐变</h4>1.用createLinearGradint()方法创建一个线性渐变，接收起点x，y坐标以及终点x，y坐标<br>2.用addColorStop()方法指定色标，接收色标位置和CSS颜色值<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var gradient = context.createLinearGradient(30,30,70,70);</span><br><span class="line">gradient.addColorStop(0,&quot;white&quot;);</span><br><span class="line">gradient.addColorStop(1,&quot;black&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3.用createRadialGradient()方法可以创建径向渐变/放射渐变，前三个参数指定起点圆的圆心和半径，后三个参数指定终点圆的圆心和半径</p>
+<h4 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h4><p>1.模式就是重复的图像，createPattern()方法传入两个参数，一个HTML<img>元素和一个表示如何重复图像的字符串，包括repeat,repeat-X,repeat-Y,no-repeat</p>
+<h4 id="使用图像数据"><a href="#使用图像数据" class="headerlink" title="使用图像数据"></a>使用图像数据</h4><p>1.getImageData()方法接收四个参数，x，y坐标以及目标区域的像素高度和宽度</p>
+<h4 id="合成"><a href="#合成" class="headerlink" title="合成"></a>合成</h4><p>1.globalAlpha用于指定透明度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.globalAlpha = 0.5;</span><br></pre></td></tr></table></figure></p>
+<p>2.gobalCompositionOperation表示后绘制的图像怎样与先绘制的图形结合</p>
+<h3 id="WebGL"><a href="#WebGL" class="headerlink" title="WebGL"></a>WebGL</h3><p>1.WebGL是针对Canvas的3D上下文</p>
+<h4 id="类型化数组"><a href="#类型化数组" class="headerlink" title="类型化数组"></a>类型化数组</h4><p>1.视图<br>2.类型化视图</p>
+<h4 id="WebGL上下文"><a href="#WebGL上下文" class="headerlink" title="WebGL上下文"></a>WebGL上下文</h4><p>1.创建一个<canvas>WebGL对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var drawing = document.getElementById(&quot;drawing&quot;);</span><br><span class="line">if (drawing.getContext)&#123;</span><br><span class="line">        var gl = drawing.getContext(&quot;experimental-webgl1&quot;);</span><br><span class="line">        if (gl)&#123;</span><br><span class="line">            //使用WebGL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></canvas></p>
+<ul>
+<li>常量</li>
+<li>方法命名</li>
+<li>准备绘图</li>
+<li>视口与坐标</li>
+<li>缓冲区</li>
+<li>错误</li>
+<li>着色器</li>
+<li>编写着色器</li>
+<li>编写着色器程序</li>
+<li>为着色器传入值</li>
+<li>调试着色器和程序</li>
+<li>绘图</li>
+<li>纹理</li>
+<li>读取像素<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>HTML的<canvas>元素提供了一组JavaScript API，让我们可以动态地创建图形和图像。图形是在一个特定的上下文中创建的。而上下文对象目前有两种，第一种是2D上下文，可执行原始的绘图操作</canvas></li>
+</ol>
+<ul>
+<li>设置填充、描边颜色和模式</li>
+<li>绘制矩形</li>
+<li>绘制路径</li>
+<li>绘制文本</li>
+<li>创建渐变和模式</li>
+</ul>
+<ol start="2">
+<li>第二种是3D上下文，WebGL是从OpenGL ES2.0移植到浏览器中的</li>
+</ol>
+<ul>
+<li>用GLSL(OPENGL着色语言)编写的顶点和片段着色</li>
+<li>支持类型化数组，即将数组中的数据限定为某种特定的数值类型</li>
+<li>创建和操作纹理</li>
+</ul>
+<h1 id="JavaScript高级程序设计-2"><a href="#JavaScript高级程序设计-2" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第十七章-错误处理与调试"><a href="#第十七章-错误处理与调试" class="headerlink" title="第十七章 错误处理与调试"></a>第十七章 错误处理与调试</h2><h2 id="浏览器报告的错误"><a href="#浏览器报告的错误" class="headerlink" title="浏览器报告的错误"></a>浏览器报告的错误</h2><h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h3 id="try-catch语句"><a href="#try-catch语句" class="headerlink" title="try-catch语句"></a>try-catch语句</h3><p>1.基本语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    //可能导致错误的代码</span><br><span class="line">&#125;catch(error)&#123;</span><br><span class="line">    //错误发生时怎么处理</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.如果try块中的任何代码发生了错误，就会立即退出代码执行过程，然后接着执行catch块。<br>3.error.message对象中包含着与错误有关的信息</p>
+<ul>
+<li>finally子句：一定会执行（因此catch或finally有一个即可）</li>
+<li>错误类型：error,evalerror,rangeerror,referenceerror,syntaxerror,typeerror,urierror<br>4.在跨浏览器编程中，最好使用检查错误类型的方式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    someFunction();</span><br><span class="line">&#125;catch (error)&#123;</span><br><span class="line">    if (error instanceof TypeError)&#123;</span><br><span class="line">        // 处理类型错误</span><br><span class="line">    &#125;else if (error instanceof ReferenceError)&#123;</span><br><span class="line">        // 处理引用错误</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        // 处理其他类型的错误</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="抛出错误"><a href="#抛出错误" class="headerlink" title="抛出错误"></a>抛出错误</h3><ol>
+<li>throw()操作符用于抛出自定义错误，需要给该操作符指定一个值，这个值可以是任何类型</li>
+<li>遇到throw操作符时，代码会立即停止执行，仅当有try-catch语句捕获到被抛出的值时，代码才会继续执行<h3 id="错误事件"><a href="#错误事件" class="headerlink" title="错误事件"></a>错误事件</h3></li>
+<li>任何没有通过try-catch处理的错误都会触发window对象的error事件<h3 id="处理错误的策略"><a href="#处理错误的策略" class="headerlink" title="处理错误的策略"></a>处理错误的策略</h3><h3 id="常见的错误类型"><a href="#常见的错误类型" class="headerlink" title="常见的错误类型"></a>常见的错误类型</h3>1.类型转换错误</li>
+</ol>
+<ul>
+<li>使用全等操作符以避免类型转换，即”===”和”!==”<br>2.数据类型错误<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (typeof url === &quot;string&quot;) // 通过检测类型确保安全 </span><br><span class="line">if (values instanceof Array) // 判断values的类型</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3.通信错误</p>
+<ul>
+<li>对于通信时发送的查询字符串，应记住必须要使用encodeURIComponent()方法<h3 id="区分致命和非致命错误"><a href="#区分致命和非致命错误" class="headerlink" title="区分致命和非致命错误"></a>区分致命和非致命错误</h3><h3 id="保存错误日志"><a href="#保存错误日志" class="headerlink" title="保存错误日志"></a>保存错误日志</h3>1.在服务器上创建一个页面（或者是一个服务器入口点）用于处理错误数据<br>2.这个页面的作用就是从查询字符串中取得数据，然后再将数据写入错误日志中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 这个函数接受三个参数，要追加查询字符串的URL、参数名和参数值</span><br><span class="line">function addQueryStringArg(url,name,value)&#123;</span><br><span class="line">	if (url.indexOf(&quot;?&quot; === -1)&#123;</span><br><span class="line">		url += &quot;?&quot;;</span><br><span class="line">	&#125;else &#123;</span><br><span class="line">		url += &quot;&amp;&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	url += encodeURIComponent(name) + &quot;=&quot; + encodeURIComponent(value);</span><br><span class="line">	return url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var url = &quot;http://www.somedomain.com&quot;;</span><br><span class="line">var newUrl = addQueryStringArg(url,&quot;redir&quot;,&quot;http://www.someotherdomain.com?a=b&amp;c=d&quot;);</span><br><span class="line">alert(newUrl);</span><br></pre></td></tr></table></figure>
+<h2 id="调试技术"><a href="#调试技术" class="headerlink" title="调试技术"></a>调试技术</h2><h3 id="将消息记录到控制台"><a href="#将消息记录到控制台" class="headerlink" title="将消息记录到控制台"></a>将消息记录到控制台</h3><ol>
+<li>用cosole对象向控制台写入消息</li>
+</ol>
+<ul>
+<li>console.error</li>
+<li>console.info</li>
+<li>console.log</li>
+<li>console.warn<h3 id="将消息记录到当前页面"><a href="#将消息记录到当前页面" class="headerlink" title="将消息记录到当前页面"></a>将消息记录到当前页面</h3><h3 id="抛出错误-1"><a href="#抛出错误-1" class="headerlink" title="抛出错误"></a>抛出错误</h3><h2 id="常见的IE错误"><a href="#常见的IE错误" class="headerlink" title="常见的IE错误"></a>常见的IE错误</h2><h3 id="操作终止"><a href="#操作终止" class="headerlink" title="操作终止"></a>操作终止</h3><h3 id="无效字符"><a href="#无效字符" class="headerlink" title="无效字符"></a>无效字符</h3><h3 id="未找到成员"><a href="#未找到成员" class="headerlink" title="未找到成员"></a>未找到成员</h3><h3 id="未知运行时错误"><a href="#未知运行时错误" class="headerlink" title="未知运行时错误"></a>未知运行时错误</h3><h3 id="语法错误"><a href="#语法错误" class="headerlink" title="语法错误"></a>语法错误</h3><h3 id="系统无法找到指定资源"><a href="#系统无法找到指定资源" class="headerlink" title="系统无法找到指定资源"></a>系统无法找到指定资源</h3>## </li>
+</ul>
+<ol>
+<li>下面是几种避免浏览器响应js错误的方法</li>
+</ol>
+<ul>
+<li>在可能发生错误的地方使用try-catch语句</li>
+<li>使用window.onerror事件处理程序，接受try-catch不能处理的所有错误（只限于IE/Firefox/Chrome）</li>
+</ul>
+<ol start="2">
+<li>对任何Web应用程序都应该分析可能的错误来源，并制定方案</li>
+</ol>
+<ul>
+<li>首先明确致命错误与非致命错误</li>
+<li>分析代码，以判断最可能发生的错误：类型转换、未充分检测数据类型、发送给服务器或者从服务器接收到的数据有错误</li>
+</ul>
+<h1 id="JavaScript高级程序设计-3"><a href="#JavaScript高级程序设计-3" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第18章-JavaScript与XML"><a href="#第18章-JavaScript与XML" class="headerlink" title="第18章 JavaScript与XML"></a>第18章 JavaScript与XML</h2><h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>JS对XML以及相关技术有很大的支持，然而，由于缺乏规范，共同的功能却存在一些不同的实现。DOM2级提供了创建空XML文档的API，但没有涉及解析和序列化。为了解决这个问题，IE采取了下列方式：</li>
+</ol>
+<ul>
+<li>用ActiveX对象来支持处理XML，而相同的对象也可以用来构建桌面应用程序。</li>
+<li>windows携带了MSXML库，JS能够访问这个库</li>
+<li>这个库中包含对基本XML解析和序列化的支持，同时也支持Xpath和XSLT等技术</li>
+</ul>
+<ol start="2">
+<li>Firefox实现了两个新类型</li>
+</ol>
+<ul>
+<li>DOMParser类型比较简单，其对象可以将XML字符串解析为DOM文档</li>
+<li>XMLSerializer类型执行相反的操作，将DOM文档序列化为XML字符串</li>
+</ul>
+<ol start="3">
+<li>其他浏览器也实现了Firefox中相同的类型，这些类型也成为Web开发中的事实标准。</li>
+<li>DOM3级引入了一个针对XpathAPI的规范。这些API可以让JS基于DOM文档运行任何Xpath查询，并且能够返回任何数据的结果。IE以自己的方式实现了对Xpath的支持，即selectSingleNode（）和selectNodes（）方法。在DOM文档中能够查找节点或节点集合。</li>
+<li>最后一种相关技术是XSLT，Firefox为此提供了XSLTProcessor类型，其他浏览器陆续实现。IE则针对XSLT提供了自己的方案，一个是简单的transformNode（）方法，另一个是较为复杂的模板/处理器手段。</li>
+</ol>
+<h2 id="第19章-E4X"><a href="#第19章-E4X" class="headerlink" title="第19章 E4X"></a>第19章 E4X</h2><h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>E4X是以ECMA-357标准的形式发布的一个针对ECMAScript的一个扩展。E4X的目的是为操作XML数据提供与标准ECMAScript更相近的语法。</li>
+<li>到2011年底，FireFox还是唯一一个支持E4X的浏览器。<h2 id="第20章-JSON"><a href="#第20章-JSON" class="headerlink" title="第20章 JSON"></a>第20章 JSON</h2></li>
+<li>JSON = JavaScript Object Notation<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3></li>
+<li>JSON语法可以表示以下三种类型的值</li>
+</ol>
+<ul>
+<li>简单值：不支持undefined</li>
+<li>对象：无序键值对</li>
+<li>数组</li>
+<li>不支持变量、函数、对象实例<h4 id="简单值"><a href="#简单值" class="headerlink" title="简单值"></a>简单值</h4></li>
+</ul>
+<ol>
+<li>JSON字符串必须用双引号表示<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello world!&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><ol>
+<li>JSON对象要求给属性加引号，且不用声明变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// JavaScript中的表示方式，有变量，无引号</span><br><span class="line">var object = &#123;</span><br><span class="line">        name : &quot;zhangke&quot;;</span><br><span class="line">        age:22;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// JSON的表示方式，没有结尾分号，也不需要变量，但有双引号</span><br><span class="line">&#123;</span><br><span class="line">        &quot;name&quot; : zhangke;</span><br><span class="line">        &quot;age&quot;:22;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="20-1-3-数组"><a href="#20-1-3-数组" class="headerlink" title="20.1.3 数组"></a>20.1.3 数组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[25,&quot;hi&quot;,true]</span><br></pre></td></tr></table></figure>
+<h3 id="解析与序列化"><a href="#解析与序列化" class="headerlink" title="解析与序列化"></a>解析与序列化</h3><h4 id="JSON对象"><a href="#JSON对象" class="headerlink" title="JSON对象"></a>JSON对象</h4><ol>
+<li>ECMAScript 5对解析JSON的行为进行了规范，定义全局变量JSON</li>
+</ol>
+<ul>
+<li>stringify():将JavaScript对象序列化为JSON字符串</li>
+<li>parse():把JSON字符串解析为原生JavaScript值<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book);</span><br><span class="line">var bookCopy = JSON.parse(jsonText);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="序列化选项"><a href="#序列化选项" class="headerlink" title="序列化选项"></a>序列化选项</h4><ol>
+<li>JSON.stringify()还可以接收另外两个参数，用于指定以不同的方式序列化JavaScript对象</li>
+</ol>
+<ul>
+<li><p>过滤器：可以是数组或函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book,[&quot;title&quot;,&quot;edition&quot;]); // 数组</span><br><span class="line">var jsonText = JSON.stringify(book,function(key,value)&#123;</span><br><span class="line">            //函数</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串缩进</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var jsonText = JSON.stringify(book,null,4); // 缩进4个字符，该值最大为10</span><br><span class="line">var jsonText = JSON.stringify(book,null,&quot;- - &quot;); // 传入特定字符串作为缩进符</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>toJSON()方法：可以为任何对象添加自定义的toJSON（）方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var book = &#123;</span><br><span class="line">        toJSON:function()&#123;</span><br><span class="line">            return this.title;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var jsonText = JSON.stringify(book);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="解析选项"><a href="#解析选项" class="headerlink" title="解析选项"></a>解析选项</h4><ol>
+<li>JSON.parse()方法接收一个还原函数（reviver）起过滤作用</li>
+</ol>
+<ul>
+<li>reviver返回undefined，则表示从结果中删除相应的键</li>
+<li>返回其他值，则将该值插入到结果中<h3 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>JSON是一个轻量级的数据格式，可以简化表示复杂数据结构的工作量。JSON使用JavaScript语法的子集表示对象、数组、字符串、数值、布尔值和null，即使XML也能表示同样复杂的数据结果。但JSON没有那么烦琐，而且在JavaScript中使用更便利</li>
+<li>ECMAScript 5 定义了一个原生的JSON对象，可以用来将对象序列化为JSON字符串或者将JSON数据解析为JavaScript对象。JSON.stringify()和JSON.parse()方法分别用来实现上述两种功能。这两个方法都有一定的选项，通过它们可以改变过滤或序列化的方式</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-javascript/" rel="tag"># Font-End javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/2-js/" rel="next" title="「JavaScript高级程序设计」 第6-11章">
+                <i class="fa fa-chevron-left"></i> 「JavaScript高级程序设计」 第6-11章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/4-js/" rel="prev" title="「JavaScript高级程序设计」 第21-23章">
+                「JavaScript高级程序设计」 第21-23章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十二章-DOM2和DOM3"><span class="nav-number">1.</span> <span class="nav-text">第十二章 DOM2和DOM3</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计"><span class="nav-number"></span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第14章-表单脚本"><span class="nav-number">1.</span> <span class="nav-text">第14章 表单脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表单的基础知识"><span class="nav-number">1.1.</span> <span class="nav-text">表单的基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#提交表单"><span class="nav-number">1.1.1.</span> <span class="nav-text">提交表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重置表单"><span class="nav-number">1.1.2.</span> <span class="nav-text">重置表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表单字段"><span class="nav-number">1.1.3.</span> <span class="nav-text">表单字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文本框脚本"><span class="nav-number">1.2.</span> <span class="nav-text">文本框脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择文本"><span class="nav-number">1.2.1.</span> <span class="nav-text">选择文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤输入"><span class="nav-number">1.2.2.</span> <span class="nav-text">过滤输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动切换焦点"><span class="nav-number">1.2.3.</span> <span class="nav-text">自动切换焦点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML5约束验证API"><span class="nav-number">1.2.4.</span> <span class="nav-text">HTML5约束验证API</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-3-选择框脚本"><span class="nav-number">1.3.</span> <span class="nav-text">14.3 选择框脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#14-3-1-选择选项"><span class="nav-number">1.3.1.</span> <span class="nav-text">14.3.1 选择选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-3-2-添加选项"><span class="nav-number">1.3.2.</span> <span class="nav-text">14.3.2 添加选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-3-3-移除选项"><span class="nav-number">1.3.3.</span> <span class="nav-text">14.3.3 移除选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-3-4-移动和重排选项"><span class="nav-number">1.3.4.</span> <span class="nav-text">14.3.4 移动和重排选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-4-表单序列化"><span class="nav-number">1.4.</span> <span class="nav-text">14.4 表单序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#富文本编辑"><span class="nav-number">1.5.</span> <span class="nav-text">富文本编辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用contenteditable属性"><span class="nav-number">1.5.1.</span> <span class="nav-text">使用contenteditable属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作富文本"><span class="nav-number">1.5.2.</span> <span class="nav-text">操作富文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#富文本选区"><span class="nav-number">1.5.3.</span> <span class="nav-text">富文本选区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表单与富文本"><span class="nav-number">1.5.4.</span> <span class="nav-text">表单与富文本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.6.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计-1"><span class="nav-number"></span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十五章-使用Canvas绘图"><span class="nav-number">1.</span> <span class="nav-text">第十五章 使用Canvas绘图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2D上下文"><span class="nav-number">1.2.</span> <span class="nav-text">2D上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#填充和描边"><span class="nav-number">1.2.1.</span> <span class="nav-text">填充和描边</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制矩形"><span class="nav-number">1.2.2.</span> <span class="nav-text">绘制矩形</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制路径"><span class="nav-number">1.2.3.</span> <span class="nav-text">绘制路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制文本"><span class="nav-number">1.2.4.</span> <span class="nav-text">绘制文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变换"><span class="nav-number">1.2.5.</span> <span class="nav-text">变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制图像"><span class="nav-number">1.2.6.</span> <span class="nav-text">绘制图像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阴影"><span class="nav-number">1.2.7.</span> <span class="nav-text">阴影</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#渐变"><span class="nav-number">1.2.8.</span> <span class="nav-text">渐变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式"><span class="nav-number">1.2.9.</span> <span class="nav-text">模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用图像数据"><span class="nav-number">1.2.10.</span> <span class="nav-text">使用图像数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合成"><span class="nav-number">1.2.11.</span> <span class="nav-text">合成</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebGL"><span class="nav-number">1.3.</span> <span class="nav-text">WebGL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类型化数组"><span class="nav-number">1.3.1.</span> <span class="nav-text">类型化数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebGL上下文"><span class="nav-number">1.3.2.</span> <span class="nav-text">WebGL上下文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计-2"><span class="nav-number"></span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十七章-错误处理与调试"><span class="nav-number">1.</span> <span class="nav-text">第十七章 错误处理与调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器报告的错误"><span class="nav-number">2.</span> <span class="nav-text">浏览器报告的错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理"><span class="nav-number">3.</span> <span class="nav-text">错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#try-catch语句"><span class="nav-number">3.1.</span> <span class="nav-text">try-catch语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抛出错误"><span class="nav-number">3.2.</span> <span class="nav-text">抛出错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误事件"><span class="nav-number">3.3.</span> <span class="nav-text">错误事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理错误的策略"><span class="nav-number">3.4.</span> <span class="nav-text">处理错误的策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的错误类型"><span class="nav-number">3.5.</span> <span class="nav-text">常见的错误类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区分致命和非致命错误"><span class="nav-number">3.6.</span> <span class="nav-text">区分致命和非致命错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存错误日志"><span class="nav-number">3.7.</span> <span class="nav-text">保存错误日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试技术"><span class="nav-number">4.</span> <span class="nav-text">调试技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将消息记录到控制台"><span class="nav-number">4.1.</span> <span class="nav-text">将消息记录到控制台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将消息记录到当前页面"><span class="nav-number">4.2.</span> <span class="nav-text">将消息记录到当前页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抛出错误-1"><span class="nav-number">4.3.</span> <span class="nav-text">抛出错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的IE错误"><span class="nav-number">5.</span> <span class="nav-text">常见的IE错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作终止"><span class="nav-number">5.1.</span> <span class="nav-text">操作终止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无效字符"><span class="nav-number">5.2.</span> <span class="nav-text">无效字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未找到成员"><span class="nav-number">5.3.</span> <span class="nav-text">未找到成员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未知运行时错误"><span class="nav-number">5.4.</span> <span class="nav-text">未知运行时错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法错误"><span class="nav-number">5.5.</span> <span class="nav-text">语法错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统无法找到指定资源"><span class="nav-number">5.6.</span> <span class="nav-text">系统无法找到指定资源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计-3"><span class="nav-number"></span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第18章-JavaScript与XML"><span class="nav-number">1.</span> <span class="nav-text">第18章 JavaScript与XML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-2"><span class="nav-number">1.1.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第19章-E4X"><span class="nav-number">2.</span> <span class="nav-text">第19章 E4X</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-3"><span class="nav-number">2.1.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第20章-JSON"><span class="nav-number">3.</span> <span class="nav-text">第20章 JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">3.1.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单值"><span class="nav-number">3.1.1.</span> <span class="nav-text">简单值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象"><span class="nav-number">3.1.2.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20-1-3-数组"><span class="nav-number">3.1.3.</span> <span class="nav-text">20.1.3 数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析与序列化"><span class="nav-number">3.2.</span> <span class="nav-text">解析与序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON对象"><span class="nav-number">3.2.1.</span> <span class="nav-text">JSON对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#序列化选项"><span class="nav-number">3.2.2.</span> <span class="nav-text">序列化选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解析选项"><span class="nav-number">3.2.3.</span> <span class="nav-text">解析选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-4"><span class="nav-number">3.3.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第一章 JavaScript简介 JS是一种专为与页面交互而设计的脚本语言，由下列三个不同的部分组成   ECMAScript，由ECMA-262定义，提供核心语言功能 文档对象模型（DOM），提供访问和操作网页内容的方法和接口 浏览器对象模型（BOM），提供与浏览器交互的方法和接口第二章 在HTML中使用JavaSc">
+<meta name="keywords" content="Font-End javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「JavaScript高级程序设计」 第1-5章">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/1-js/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第一章 JavaScript简介 JS是一种专为与页面交互而设计的脚本语言，由下列三个不同的部分组成   ECMAScript，由ECMA-262定义，提供核心语言功能 文档对象模型（DOM），提供访问和操作网页内容的方法和接口 浏览器对象模型（BOM），提供与浏览器交互的方法和接口第二章 在HTML中使用JavaSc">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:37:01.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「JavaScript高级程序设计」 第1-5章">
+<meta name="twitter:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  第一章 JavaScript简介 JS是一种专为与页面交互而设计的脚本语言，由下列三个不同的部分组成   ECMAScript，由ECMA-262定义，提供核心语言功能 文档对象模型（DOM），提供访问和操作网页内容的方法和接口 浏览器对象模型（BOM），提供与浏览器交互的方法和接口第二章 在HTML中使用JavaSc">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/1-js/"/>
+
+
+
+
+
+  <title>「JavaScript高级程序设计」 第1-5章 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">05月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/1-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「JavaScript高级程序设计」 第1-5章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头</p>
+</blockquote>
+<h2 id="第一章-JavaScript简介"><a href="#第一章-JavaScript简介" class="headerlink" title="第一章 JavaScript简介"></a>第一章 JavaScript简介</h2><ol>
+<li><strong>JS是一种专为与页面交互而设计的脚本语言，由下列三个不同的部分组成</strong></li>
+</ol>
+<ul>
+<li>ECMAScript，由ECMA-262定义，提供核心语言功能</li>
+<li>文档对象模型（DOM），提供访问和操作网页内容的方法和接口</li>
+<li>浏览器对象模型（BOM），提供与浏览器交互的方法和接口<h2 id="第二章-在HTML中使用JavaScript"><a href="#第二章-在HTML中使用JavaScript" class="headerlink" title="第二章 在HTML中使用JavaScript"></a>第二章 在HTML中使用JavaScript</h2></li>
+</ul>
+<ol>
+<li><strong>把JS插入到HTML页面中要使用<script>元素。使用这个元素可以把JS嵌入到HTML页面中，让脚本和标记混合在一起，也可以包含外部的JS文件，需要注意的是</strong></li>
+</ol>
+<ul>
+<li>在包含外部script文件时，必须将src属性设置为指向相应文件的URL，这个文件既可以是包含它的页面位于同一个服务器上的文件，也可以是其他任何域中的文件</li>
+<li>所有<script>元素都会按照它们在页面中出现的先后顺序依次被解析，在不使用defer和async属性的情况下，只有在解析完前面<script>元素中的代码之后，才会开始解析后面<script>元素中的代码</li>
+<li>由于浏览器会先解析完不使用defer属性的<script>元素中的代码，然后再解析后面的内容，所以一般应该把<script>元素放在页面最后，即主要内容后面，<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script>标签前面</strong></li>
+<li>使用defer属性可以让脚本在文档完全呈现之后再执行。延迟脚本总是按照指定它们的顺序执行</li>
+<li>使用async属性可以表示当前脚本不必等待其他脚本，也不必阻塞文档呈现。不能保证异步脚本按照它们在页面中出现的顺序执行</li>
+<li>使用<noscript>元素可以指定在不支持脚本的浏览器中显示的替代内容。在启用了脚本的情况下，浏览器不会显示该元素中的任何内容<h2 id="第三章-基本概念"><a href="#第三章-基本概念" class="headerlink" title="第三章 基本概念"></a>第三章 基本概念</h2></noscript></li>
+
+<ol>
+<li><strong>JS的核心语言特性在ECMA-262中是以名为ECMAScript的伪语言的形式来定义的。ECMAScript中包含了所有基本的语法、操作符、数据类型以及完成基本的计算任务所必需的对象，但没有对取得输入和产生输出的机制作出规定。理解ECMAScript及其纷繁复杂的各种细节，是理解其在Web浏览器中的实现——JS的关键。以下简要总结了ECMAScript中基本的要素</strong></li>
+</ol>
+<ul>
+<li>ECMAScript中的基本数据类型包括Undefined、Null、Boolean、Number和String</li>
+<li>与其他语言不通，ECMAScript没有为整数和浮点数值分别定义不同的数据类型，Number类型可以用于表示所有数值</li>
+<li>ECMAScript中也有一种复杂的数据类型，即Object类型，该类型是这门语言中所有对象的基础类型</li>
+<li>严格模式为这门语言中容易出错的地方施加了限制</li>
+<li>ECMAScript提供了很多与C及其他类C语言中相同的基本操作符，包括算术操作符、布尔操作符、关系操作符、相等操作符以及赋值操作符等</li>
+<li>ECMAScript从其他语言中借鉴了很多流控制语句，例如if、for和switch</li>
+</ul>
+<ol start="2">
+<li><strong>ECMAScript中的函数与其他语言中的函数有诸多不同之处</strong></li>
+</ol>
+<ul>
+<li>无需指定函数的返回值，因为任何ECMAScript函数都可以在任何时候返回任何值</li>
+<li>未指定返回值的函数返回的是一个特殊的undefined值</li>
+<li>ECMAScript中没有函数签名的感念，因为其函数参数是以一个包含零或多个值的数组的形式传递的</li>
+<li>可以向ECMAScript函数传递任意数量的参数，并且可以通过arguments对象来访问这些参数</li>
+<li>由于不存在函数签名的特性，ECMAScript函数不能重载<h2 id="第四章-变量、作用域和内存问题"><a href="#第四章-变量、作用域和内存问题" class="headerlink" title="第四章 变量、作用域和内存问题"></a>第四章 变量、作用域和内存问题</h2></li>
+</ul>
+<ol>
+<li><strong>JS变量可以用来保存两种类型的值：基本类型值和引用类型值。基本类型值源自于以下5种基本数据类型：Undefined、Null、Boolean、Number和String。基本类型值和引用类型值具有如下特点</strong>：</li>
+</ol>
+<ul>
+<li>基本类型值在内存中占据固定大小的空间，因此被保存在栈内存中。</li>
+<li>从一个变量向另一个变量复制基本类型的值，会创建这个值的一个副本</li>
+<li>引用类型的值是对象，保存在堆内存中</li>
+<li>包含引用类型值的变量实际上包含的并不是对象本身，而是一个指向该对象的指针</li>
+<li>从一个变量向另一个变量复制引用类型的值，复制的其实是指针，因此两个变量最终都指向同一个对象</li>
+<li>确定一个值是哪种基本类型可以使用typeof操作符，而确定一个值是哪种引用类型可以使用instanceof操作符</li>
+</ul>
+<ol start="2">
+<li><strong>所有变量都存在于一个执行环境（也称为作用域）当中，这个执行环境决定了变量的生命周期，以及哪一部分代码可以访问其中的变量。以下是关于执行环境的几点总结</strong></li>
+</ol>
+<ul>
+<li>执行环境有全局执行环境（全局环境）和函数执行环境之分</li>
+<li>每次进入一个新执行环境，都会创建一个用于搜索变量和函数的作用域</li>
+<li>函数的局部环境不仅有权访问函数作用域中的变量，而且有权访问其包含（父）环境，乃至全局环境</li>
+<li>全局环境只能访问在全局环境中定义的变量和函数，而不能直接访问局部环境中的任何数据</li>
+<li>变量的执行环境有助于确定应该何时释放内存</li>
+</ul>
+<ol start="3">
+<li><strong>JS是一门具有自动垃圾收集机制的编程语言，开发人员不必关心内存分配和回收问题，可以对JS的垃圾收集例程作如下总结：</strong></li>
+</ol>
+<ul>
+<li>离开作用域的值将被自动标记为可以回收，因此在垃圾收集期间被删除</li>
+<li>“标记清除”是目前主流的垃圾收集算法，这种算法的思想是给当前不使用的值加上标记，然后再回收其内存</li>
+<li>另一种垃圾收集算法是“引用计数”，这种算法的思想是跟踪记录所有的值被引用的次数。JS引擎目前都不在使用这种算法。但在IE中访问非原生JS对象（如COM元素）时，这种算法仍可能会导致问题</li>
+<li>当代码中存在循环引用现象时，“引用计数”算法就会导致问题</li>
+<li>解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处。为了确保有效回收内存，应该及时解除不再使用的全局对象、全局对象属性以及循环引用变量的引用。</li>
+</ul>
+<h1 id="JavaScript高级程序设计"><a href="#JavaScript高级程序设计" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第五章-引用类型"><a href="#第五章-引用类型" class="headerlink" title="第五章 引用类型"></a>第五章 引用类型</h2><ol>
+<li><strong>对象在JavaScript中被称为引用类型的值，而且有一些内置的引用类型可以用来创建特定的对象，现简要总结如下：</strong></li>
+</ol>
+<ul>
+<li>引用类型与传统面向对象程序设计中的类相似，但实现不同</li>
+<li>Object是一个基础类型，其他所有类型都从Object继承了基本的行为</li>
+<li>Array类型是一组值的有序列表，同时还提供了操作和转换这些值的功能</li>
+<li>Date类型提供了有关日期和时间的信息，包括当前日期和时间以及相关的计算功能</li>
+<li>RegExp类型是ECMAScript支持正则表达式的一个接口，提供了最基本的和一些高级的正则表达式功能</li>
+</ul>
+<ol start="2">
+<li><strong>函数实际上是Function类型的实例，因此函数也是对象；而这一点正是JavaScript最有特色的地方。由于函数是对象，所以函数也拥有方法，可以用来增强其行为</strong></li>
+<li><strong>因为有了基本包装类型，所以JavaScript中的基本类型值可以被当作对象来访问，三种基本包装类型分别是Boolean、Number和String，以下是它们共同的特征</strong></li>
+</ol>
+<ul>
+<li>每个包装类型都映射到同名的基本类型</li>
+<li>在读取模式下访问基本类型值时，就会创建对应的基本包装类型的一个对象，从而方便了数据操作</li>
+<li>操作基本类型值的语句一经执行完毕，就会立即销毁新创建的包装对象</li>
+</ul>
+<ol start="4">
+<li>在所有代码执行之前，作用域中就已经存在两个内置对象：Global和Math，在大多数ECMAScript实现中都不能直接访问Global对象；不过，Web浏览器实现了承担该角色的window对象。全局变量和函数都是Global对象的属性，Math对象提供了很多属性和方法，用于辅助完成复杂的数学计算任务。</li>
+</ol>
+</ol>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-javascript/" rel="tag"># Font-End javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/Hello-World-0/" rel="next" title="Hello World!">
+                <i class="fa fa-chevron-left"></i> Hello World!
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/2-js/" rel="prev" title="「JavaScript高级程序设计」 第6-11章">
+                「JavaScript高级程序设计」 第6-11章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章-JavaScript简介"><span class="nav-number">1.</span> <span class="nav-text">第一章 JavaScript简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-在HTML中使用JavaScript"><span class="nav-number">2.</span> <span class="nav-text">第二章 在HTML中使用JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-基本概念"><span class="nav-number">3.</span> <span class="nav-text">第三章 基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-变量、作用域和内存问题"><span class="nav-number">4.</span> <span class="nav-text">第四章 变量、作用域和内存问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计"><span class="nav-number"></span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">1.</span> <span class="nav-text">第五章 引用类型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

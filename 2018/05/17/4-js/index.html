@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  JavaScript高级程序设计第21章 Ajax与Comet Ajax = Asynchronous JavaScipt + XML 核心是XMLHttpRequest对象，简称XHR 好处是能够向服务器请求额外的数据而无需卸载页面XMLHttpRequest对象 老版本IE中可能存在三种不同版本的XHR对象：MSX">
+<meta name="keywords" content="Font-End javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「JavaScript高级程序设计」 第21-23章">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/4-js/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  JavaScript高级程序设计第21章 Ajax与Comet Ajax = Asynchronous JavaScipt + XML 核心是XMLHttpRequest对象，简称XHR 好处是能够向服务器请求额外的数据而无需卸载页面XMLHttpRequest对象 老版本IE中可能存在三种不同版本的XHR对象：MSX">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:41:37.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「JavaScript高级程序设计」 第21-23章">
+<meta name="twitter:description" content="主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头  JavaScript高级程序设计第21章 Ajax与Comet Ajax = Asynchronous JavaScipt + XML 核心是XMLHttpRequest对象，简称XHR 好处是能够向服务器请求额外的数据而无需卸载页面XMLHttpRequest对象 老版本IE中可能存在三种不同版本的XHR对象：MSX">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/4-js/"/>
+
+
+
+
+
+  <title>「JavaScript高级程序设计」 第21-23章 | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">05月</div>
+			<div class="post-day">17</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/4-js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「JavaScript高级程序设计」 第21-23章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>主要是把原来做的笔记放在博客上保存归档，供以后使用，正所谓好记性不如烂笔头</p>
+</blockquote>
+<h1 id="JavaScript高级程序设计"><a href="#JavaScript高级程序设计" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第21章-Ajax与Comet"><a href="#第21章-Ajax与Comet" class="headerlink" title="第21章 Ajax与Comet"></a>第21章 Ajax与Comet</h2><ol>
+<li>Ajax = Asynchronous JavaScipt + XML</li>
+<li>核心是XMLHttpRequest对象，简称XHR</li>
+<li>好处是能够向服务器请求额外的数据而无需卸载页面<h3 id="XMLHttpRequest对象"><a href="#XMLHttpRequest对象" class="headerlink" title="XMLHttpRequest对象"></a>XMLHttpRequest对象</h3></li>
+<li>老版本IE中可能存在三种不同版本的XHR对象：MSXML2.XMLHttp、MSXML2.XMLHttp.3.0、MSXML2.XMLHttp.6.0</li>
+<li>IE7及其他浏览器中均支持原生的XHR对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var xhr = new XMLHttpRequest();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="XHR的用法"><a href="#XHR的用法" class="headerlink" title="XHR的用法"></a>XHR的用法</h4><ol>
+<li><p>调用和发送请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(&quot;get&quot;,&quot;example.php&quot;,false); // 布尔值表示是否异步发送请求</span><br><span class="line">xhr.send(null); // send()方法接收一个参数，即要作为请求主体发送的数据</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>收到响应后，响应的数据会自动填充XHR对象的属性</p>
+</li>
+</ol>
+<ul>
+<li>responseText</li>
+<li>responseXML</li>
+<li>status</li>
+<li>statusText</li>
+</ul>
+<ol start="3">
+<li>收到响应前可以使用abort()方法取消异步请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.about();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="HTTP头部信息"><a href="#HTTP头部信息" class="headerlink" title="HTTP头部信息"></a>HTTP头部信息</h4><ol>
+<li><p>setRequestHeader()方法可以设置自定义的请求头部信息，接收两个参数，头部字段的名称和头部字段的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.setRequestHeader(&quot;MyHeader&quot;,&quot;MyValue&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>响应头部信息的取得</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var myHeader = xhr.getResponseHeader(&quot;MyHeader&quot;);</span><br><span class="line">var allHeaders = xhr.getAllResponseHeaders();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h4><ol>
+<li>GET是最常见的请求类型，用于向服务器查询某些信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 初始化请求</span><br><span class="line">xhr.open(&quot;get&quot;,url,false);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="POST请求"><a href="#POST请求" class="headerlink" title="POST请求"></a>POST请求</h4><ol>
+<li>使用频率仅次于GET的是POST请求，用于向服务器发送应该被保存的数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 初始化请求</span><br><span class="line">xhr.open(&quot;post&quot;,&quot;example.php&quot;,true);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="XHR2级"><a href="#XHR2级" class="headerlink" title="XHR2级"></a>XHR2级</h3><h4 id="FormData"><a href="#FormData" class="headerlink" title="FormData"></a>FormData</h4><ol>
+<li><p>FormData为序列化表单以及创建与表单格式相同的数据（用于通过XHR传输）提供了便利</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var data = new FormData();</span><br><span class="line">data.append(&quot;name&quot;,&quot;Nicholas&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>或者用表单元素的数据预先向其中填入键值对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var data = new FormData(document.forms[0]);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建FormData实例后，可以将它直接传给XHR的send()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var form = document.getElementById(&quot;user-info&quot;);</span><br><span class="line">xhr.send(new FormData(form));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="超时设定"><a href="#超时设定" class="headerlink" title="超时设定"></a>超时设定</h4><ol>
+<li>IE8为XHR对象添加了一个timeout属性，表示请求在等待响应多少毫秒之后就终止。如果规定时间内服务器没有接收到响应，那么就触发timeout事件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xhr.timeout = 1000; // 超时设置为1秒钟</span><br><span class="line">xhr.ontimeout = function()&#123;</span><br><span class="line">    alert(&quot;Request did not return in a second.&quot;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="overrideMimeType-方法"><a href="#overrideMimeType-方法" class="headerlink" title="overrideMimeType()方法"></a>overrideMimeType()方法</h4><ol>
+<li>Firefox等浏览器引入了overrideMimeType()方法，用于重写XHR响应的MIME类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.overrideMimeType(&quot;text/xml&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="进度事件"><a href="#进度事件" class="headerlink" title="进度事件"></a>进度事件</h3><ul>
+<li>loadstart</li>
+<li>progress</li>
+<li>error</li>
+<li>abort</li>
+<li>load</li>
+<li>loadend</li>
+</ul>
+<ol>
+<li>每个请求都从触发loadstart事件开始，接下来是一个或多个progress事件，然后触发error/abort/load事件中的一个，最后以触发loadend事件结束<h4 id="load事件"><a href="#load事件" class="headerlink" title="load事件"></a>load事件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xhr.onload = function()&#123;</span><br><span class="line">        //</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="progress事件"><a href="#progress事件" class="headerlink" title="progress事件"></a>progress事件</h4><ol>
+<li>onprogress事件处理程序会接收到一个event对象，其target属性是XHR对象，但包含额外的三个属性</li>
+</ol>
+<ul>
+<li>lengthComputable：进度信息是否可用的布尔值</li>
+<li>position：已经接收的字节数</li>
+<li>totalSize：根据Content-Length响应头部确定的预期字节数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 为用户创建一个进度指示器</span><br><span class="line">xhr.onprogress = function(event)&#123;</span><br><span class="line">    var divStatus = document.getElementById(&quot;status&quot;);</span><br><span class="line">    if (event.lengthComputable)&#123;</span><br><span class="line">        divStatus.innerHTML = &quot;Received&quot; + event.position + &quot;of&quot; + event.totalSize + &quot;bytes&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="跨域资源共享"><a href="#跨域资源共享" class="headerlink" title="跨域资源共享"></a>跨域资源共享</h3><ol>
+<li>CORS（Cross-Origin Resouce Sharing，跨域资源共享）定义了在必须访问跨域资源时，浏览器与服务器应该如何沟通。即使用自定义的HTTP头部，决定请求或响应应该成功还是失败。</li>
+<li><p>在发送请求时，需要附加一个额外的Origin头部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http:// www.nczonline.net</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果服务器接收这个请求，就在Access-Control-Allow-Origin头部中回发相同信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://www.nczonline.net</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="IE对CORS的实现"><a href="#IE对CORS的实现" class="headerlink" title="IE对CORS的实现"></a>IE对CORS的实现</h4><ol>
+<li>引入了XDR类型实现跨域通信，操作方式与XHR基本类似<h4 id="其他浏览器对CORS的实现"><a href="#其他浏览器对CORS的实现" class="headerlink" title="其他浏览器对CORS的实现"></a>其他浏览器对CORS的实现</h4></li>
+<li>要请求位于另一个域中的资源，使用标准的XHR对象，并在open()方法中传入绝对URL即可：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.open(&quot;get&quot;,&quot;http://www.somewhere-else.com/page/&quot;,true);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Preflighted-Requests"><a href="#Preflighted-Requests" class="headerlink" title="Preflighted Requests"></a>Preflighted Requests</h4><ol>
+<li>CORS通过一种叫做Preflighted Requests的透明服务器验证机制支持开发人员使用自定义的头部信息：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Request-Headers:NCZ</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="带凭据的请求"><a href="#带凭据的请求" class="headerlink" title="带凭据的请求"></a>带凭据的请求</h4><ol>
+<li>默认情况下，跨域请求不提供凭据（cookie，HTTP认证以及客户端SSL证明）</li>
+<li>通过将withCredentials属性设置为true，可以指定某个请求应该发送凭据。<h4 id="跨浏览器的CORS"><a href="#跨浏览器的CORS" class="headerlink" title="跨浏览器的CORS"></a>跨浏览器的CORS</h4></li>
+<li>检查是否存在withCredentials属性</li>
+<li>再结合检测XDomainRequest对象是否存在<h3 id="其他跨域技术"><a href="#其他跨域技术" class="headerlink" title="其他跨域技术"></a>其他跨域技术</h3><h4 id="图像ping"><a href="#图像ping" class="headerlink" title="图像ping"></a>图像ping</h4></li>
+<li>与服务器进行简单、单向跨域通信，常用于跟踪用户点击页面或动态广告曝光次数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">img.src = &quot;http://www.example.com/test?name=Nicolas&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><ol>
+<li>JSON with padding，由回调函数和数据组成。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var script = document.createElement(&quot;script);</span><br><span class="line">// 回调函数是handleResponse()</span><br><span class="line">script.src = &quot;http://freegeoip.net/json/?callback=handleResponse&quot;;</span><br><span class="line">document.body.insertBefore(script,document.body.firstChild);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ol>
+<li>Comet是一种服务器向页面推送数据的技术</li>
+<li>长轮询实现</li>
+<li>HTTP流实现<h4 id="服务器发送事件"><a href="#服务器发送事件" class="headerlink" title="服务器发送事件"></a>服务器发送事件</h4></li>
+<li>SSE = Server-Sent Event是围绕只读Comet交互推出的API或模式</li>
+</ol>
+<ul>
+<li><p>SSE API:要预定新的事件流，首先要创建一个新的EventSource对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var source = new EventSource(&quot;myevents.php&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事件流：服务器事件会通过一个持久的HTTP响应发送，这个响应的MIME类型为text/event-stream</p>
+<h4 id="Web-Sockets"><a href="#Web-Sockets" class="headerlink" title="Web Sockets"></a>Web Sockets</h4></li>
+</ul>
+<ol>
+<li>在一个单独的持久连接上提供全双工、双向通信，建立的连接会从HTTP协议交换为Web Sockets协议</li>
+<li>Web Sockets API</li>
+</ol>
+<ul>
+<li><p>创建一个实例对象并传入要连接的URL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 创建WebSocket对象</span><br><span class="line">var socket = new WebSocket(&quot;ws://www.example.com/server.php&quot;);</span><br><span class="line">// 关闭连接</span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送和接收数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">socket.send(&quot;Hello World!&quot;);</span><br><span class="line">// 对于非纯文本数据，在发送前应当序列化为JSON字符串</span><br><span class="line">socket.send(JSON.stringify(message));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理数据。服务器返回的数据保存在event.data属性中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">socket.onmessage = function(event)&#123;</span><br><span class="line">    var data = event.data;</span><br><span class="line">    // 处理data</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他事件：open/error/close</p>
+<h4 id="SSE与Web-Sockets"><a href="#SSE与Web-Sockets" class="headerlink" title="SSE与Web Sockets"></a>SSE与Web Sockets</h4><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>Ajax是无需刷新页面就能从服务器取得数据的一种方法</li>
+</ol>
+<ul>
+<li>核心对象是XHR-XMLHttpRequest对象</li>
+<li>同源策略是对XHR的一个主要约束，除非使用CORS或IE中的XDomainRequest对象实现跨域资源访问</li>
+</ul>
+<ol start="2">
+<li>Comet是对Ajax的进一步扩展，让服务器几乎能实时向客户端推送数据，实现Comet可通过长轮询和HTTP流做到，SSE是一种实现Comet交互的浏览器AIP，支持长轮询，也支持HTTP流</li>
+<li>Web Sockets是一种与服务器进行全双工、双向通信的信道</li>
+</ol>
+<h1 id="JavaScript高级程序设计-1"><a href="#JavaScript高级程序设计-1" class="headerlink" title="JavaScript高级程序设计"></a>JavaScript高级程序设计</h1><h2 id="第22章-高级技巧-小结"><a href="#第22章-高级技巧-小结" class="headerlink" title="第22章 高级技巧 小结"></a>第22章 高级技巧 小结</h2><ol>
+<li>创建作用域安全的构造函数，确保在缺少new操作符时调用构造函数不会改变错误的环境对象</li>
+</ol>
+<ul>
+<li>使用惰性载入函数，将任何代码分支推迟到第一次调用函数的时候</li>
+<li>函数绑定可让你创建始终在指定环境中运行的函数，同时函数柯里化让你创建已经填写了某些参数的函数</li>
+<li>绑定与柯里化结合，允许你在一种任意环境中以任意参数执行任意函数</li>
+</ul>
+<ol start="2">
+<li>ECMAScript 5 允许通过以下方式来创建防篡改对象</li>
+</ol>
+<ul>
+<li>不可扩展的对象：不允许添加新的属性或方法</li>
+<li>密封的对象：不允许删除已有的属性和方法</li>
+<li>冻结的对象，不允许重写对象成员</li>
+</ul>
+<ol start="3">
+<li>js中可以用setTimeout()和setInterval()创建定时器</li>
+</ol>
+<ul>
+<li>定时器代码放在一个等待区域，待时间间隔到了之后，将代码添加到js的处理队列中，等待下一次js进程空闲时被执行</li>
+<li>每次一段代码执行结束之后，都会有一小段空闲时间进行其他浏览器处理</li>
+<li>可以用定时器将长时间运行的脚本分为一小块可以在以后运行的代码段，这种做法有助于Web应用对用户交互有更积极的响应</li>
+</ul>
+<ol start="4">
+<li>js中经常以事件的形式应用观察者模式，虽然事件常常和DOM一起使用，但你也可通过自定义事件在自己的代码中应用。</li>
+<li>拖放在js中可以用鼠标事件和一些简单的计算来实现。<h2 id="第23章-离线应用与客户端存储"><a href="#第23章-离线应用与客户端存储" class="headerlink" title="第23章   离线应用与客户端存储"></a>第23章   离线应用与客户端存储</h2><h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3></li>
+<li>目的：属于某个特定用户的信息应该直接存在于该用户的机器上。时至今日，cookie只是在客户端存储数据的其中一种选项。<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4></li>
+<li><p>服务器对任意HTTP请求发送Set-Cookie HTTP头作为响应的一部分，其中包含会话信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 服务器的响应，名称和值必须都是URL编码</span><br><span class="line">Set-Cookie: name=value</span><br><span class="line">// 浏览器将信息发回</span><br><span class="line">Cookie:name=value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cookie的构成</p>
+</li>
+</ol>
+<ul>
+<li>名称：必须URL编码</li>
+<li>值：必须URL编码</li>
+<li>域</li>
+<li>路径</li>
+<li>失效时间</li>
+<li>安全标志：指定后，只有使用SSL链接时才能发送到服务器，即只能发送到<a href="https://www.wrox.com，而不能发送到http://www.wrox.com" target="_blank" rel="noopener">https://www.wrox.com，而不能发送到http://www.wrox.com</a></li>
+</ul>
+<ol start="3">
+<li><p>在JavaScript中处理Cookie值时，必须经过URL解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.cookie = encodeURIComponent(&quot;name&quot;)+&quot;=&quot;+encodeURIComponent(&quot;Nicolas&quot;)+&quot;;domain=.wrox.com;path=/&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cookie的性质和它的局限使得其并不能作为存储大量信息的理想手段，所以又出现了其他方法。</p>
+<h4 id="IE用户数据"><a href="#IE用户数据" class="headerlink" title="IE用户数据"></a>IE用户数据</h4><h4 id="Web存储机制"><a href="#Web存储机制" class="headerlink" title="Web存储机制"></a>Web存储机制</h4></li>
+<li>Storage类型</li>
+<li>sessionStorage对象</li>
+<li>globalStorage对象</li>
+<li>localStorage对象</li>
+<li>storage事件</li>
+<li>限制<h4 id="IndexedDB"><a href="#IndexedDB" class="headerlink" title="IndexedDB"></a>IndexedDB</h4></li>
+<li>是在浏览器中保存结构化数据的一种数据库，思想是创建一套API，方便保存和读取JavaScript对象，同时还支持查询及搜索</li>
+</ol>
+<ul>
+<li>数据库</li>
+<li>对象存储空间</li>
+<li>事务</li>
+<li>使用游标查询</li>
+<li>键范围</li>
+<li>设定游标方向</li>
+<li>索引</li>
+<li>并发问题</li>
+<li>限制<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ol>
+<li>本书讨论了客户端存储的以下内容</li>
+</ol>
+<ul>
+<li>以前，这种存储只能用cookie完成。cookie是一小块可以在客户端也可以在服务器端设置的信息，每次发起请求时都会传送它</li>
+<li>在js中通过document.cookie可以访问cookie</li>
+<li>cookie的限制使其可以存储少量数据，然而对大量数据效率很低</li>
+</ul>
+<ol start="2">
+<li>IE发明了一种叫用户数据的行为，可以应用到页面的某个元素上</li>
+</ol>
+<ul>
+<li>该元素可从一个命名数据空间中载入数据，通过getAttribute()，setAttribute()，removeAttribute()访问</li>
+<li>数据必须明确使用save()方法保存到命名数据空间中，以便在会话间持久化数据</li>
+</ul>
+<ol start="3">
+<li>Web Storage定义了两种用于存储数据的对象：sessionStorage和localStorage，前者严格用于在一个浏览器会话中存储数据，因为数据在浏览器关闭后会立即删除，后者用于跨会话持久化数据并遵循跨域安全策略。</li>
+<li>IndexDB是一种类似SQL数据库的结构化数据存储机制。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-javascript/" rel="tag"># Font-End javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/3-js/" rel="next" title="「JavaScript高级程序设计」 第12-20章">
+                <i class="fa fa-chevron-left"></i> 「JavaScript高级程序设计」 第12-20章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/15/1-nodejs/" rel="prev" title="「深入浅出NodeJS」 1. 模块机制">
+                「深入浅出NodeJS」 1. 模块机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计"><span class="nav-number">1.</span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第21章-Ajax与Comet"><span class="nav-number">1.1.</span> <span class="nav-text">第21章 Ajax与Comet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XMLHttpRequest对象"><span class="nav-number">1.1.1.</span> <span class="nav-text">XMLHttpRequest对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XHR的用法"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">XHR的用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP头部信息"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">HTTP头部信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GET请求"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">GET请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POST请求"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">POST请求</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XHR2级"><span class="nav-number">1.1.2.</span> <span class="nav-text">XHR2级</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FormData"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">FormData</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#超时设定"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">超时设定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overrideMimeType-方法"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">overrideMimeType()方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进度事件"><span class="nav-number">1.1.3.</span> <span class="nav-text">进度事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#load事件"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">load事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#progress事件"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">progress事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨域资源共享"><span class="nav-number">1.1.4.</span> <span class="nav-text">跨域资源共享</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IE对CORS的实现"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">IE对CORS的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他浏览器对CORS的实现"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">其他浏览器对CORS的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Preflighted-Requests"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">Preflighted Requests</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#带凭据的请求"><span class="nav-number">1.1.4.4.</span> <span class="nav-text">带凭据的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨浏览器的CORS"><span class="nav-number">1.1.4.5.</span> <span class="nav-text">跨浏览器的CORS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他跨域技术"><span class="nav-number">1.1.5.</span> <span class="nav-text">其他跨域技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像ping"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">图像ping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Comet"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">Comet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器发送事件"><span class="nav-number">1.1.5.4.</span> <span class="nav-text">服务器发送事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web-Sockets"><span class="nav-number">1.1.5.5.</span> <span class="nav-text">Web Sockets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSE与Web-Sockets"><span class="nav-number">1.1.5.6.</span> <span class="nav-text">SSE与Web Sockets</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全"><span class="nav-number">1.1.6.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.1.7.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript高级程序设计-1"><span class="nav-number">2.</span> <span class="nav-text">JavaScript高级程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第22章-高级技巧-小结"><span class="nav-number">2.1.</span> <span class="nav-text">第22章 高级技巧 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第23章-离线应用与客户端存储"><span class="nav-number">2.2.</span> <span class="nav-text">第23章   离线应用与客户端存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">2.2.1.</span> <span class="nav-text">数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IE用户数据"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">IE用户数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web存储机制"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">Web存储机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexedDB"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">IndexedDB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
