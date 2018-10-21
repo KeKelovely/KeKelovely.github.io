@@ -335,6 +335,341 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
+			<div class="post-day">14</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/14-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/14/14-vue/" itemprop="url">「Vue学习笔记」 14. Vue2.x组件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-14T00:00:00+08:00">
+                2018-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue2-x的组件传递"><a href="#Vue2-x的组件传递" class="headerlink" title="Vue2.x的组件传递"></a>Vue2.x的组件传递</h1><h2 id="组件的基本写法"><a href="#组件的基本写法" class="headerlink" title="组件的基本写法"></a>组件的基本写法</h2><ul>
+<li>先复习一下components的基本格式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;aaa&gt;&lt;/aaa&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;template id=&quot;aaa&quot;&gt;</span><br><span class="line">	&lt;h1&gt;this is component aaa&lt;/h1&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		components: &#123;</span><br><span class="line">			&apos;aaa&apos;: &#123;</span><br><span class="line">				template: &apos;#aaa&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="模板格式的变化：单一根元素"><a href="#模板格式的变化：单一根元素" class="headerlink" title="模板格式的变化：单一根元素"></a>模板格式的变化：单一根元素</h3><ul>
+<li><p>在Vue2.x版本中，不允许模板含有多个根元素，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;template id=&quot;aaa&quot;&gt;</span><br><span class="line">	&lt;h1&gt;this is line 1&lt;/h1&gt;</span><br><span class="line">	&lt;h2&gt;this is line 2&lt;/h2&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时，Vue会提示错误：Component template should contain exactly one root element.也就是说，在Vue2.x版本的组件模板中，需要采用React风格的写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;template id=&quot;aaa&quot;&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">		&lt;h1&gt;this is line 1&lt;/h1&gt;</span><br><span class="line">		&lt;h2&gt;this is line 2&lt;/h2&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="父组件向子组件传递数据"><a href="#父组件向子组件传递数据" class="headerlink" title="父组件向子组件传递数据"></a>父组件向子组件传递数据</h3><ul>
+<li>首先复习一下父组件向子组件传递数据</li>
+<li>与React类似，你需要给引用子组件的DOM元素，添加一个自定义属性（parMsg），其值为父组件属性（msg）</li>
+<li>然后在子组件的定义中，通过props引用（props以数组为参数）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;h1&gt;我是父组件，数据是：&lt;/h1&gt;&lt;span&gt;&#123;&#123;msg&#125;&#125;&lt;/span&gt;</span><br><span class="line">	&lt;my-aaa :parMsg=&apos;msg&apos;&gt;&lt;/my-aaa&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;template id=&quot;aaa&quot;&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">		&lt;h1&gt;我是子组件aaa，数据是&#123;&#123;parMsg&#125;&#125;&lt;/h1&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: &apos;我是父组件的数据&apos;</span><br><span class="line">		&#125;,</span><br><span class="line">		components: &#123;</span><br><span class="line">			&apos;my-aaa&apos;: &#123;</span><br><span class="line">				props:[&apos;parMsg&apos;],</span><br><span class="line">				template: &apos;#aaa&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Vue1-x版本的父子组件数据同步"><a href="#Vue1-x版本的父子组件数据同步" class="headerlink" title="Vue1.x版本的父子组件数据同步"></a>Vue1.x版本的父子组件数据同步</h4><ul>
+<li>如果我们需要让父子级的数据同步，以上文代码为例，当子组件的parMsg发生变化时，能否让父组件的msg也发生变化呢？</li>
+<li>在Vue1.x中，使用.sync方法令数据同步变化：（注意是1.x版本）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;h1&gt;我是父组件，数据是：&lt;/h1&gt;&lt;span&gt;&#123;&#123;msg&#125;&#125;&lt;/span&gt;</span><br><span class="line">	&lt;my-aaa :parMsg.sync=&apos;msg&apos;&gt;&lt;/my-aaa&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Vue2-x版本的父子组件数据同步"><a href="#Vue2-x版本的父子组件数据同步" class="headerlink" title="Vue2.x版本的父子组件数据同步"></a>Vue2.x版本的父子组件数据同步</h4><ul>
+<li>2.x版本中，可以用对象来传递数据，特点是形成了属性（parMsg）和对象（msg）之间的引用，这样，前者的改变也会让后者随之变化（原生JS的特点）</li>
+<li>当然，如果你不希望数据同步，还请使用字符串字面量的格式，即不再让:parMsg=’msg’（这样会创建引用），而是:parMsg=’msg.a’,这样还是只引用了属性上的字面量</li>
+<li>同时，2.x版本也不再提供对sync方法的支持<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;h1&gt;我是父组件，数据是：&lt;/h1&gt;&lt;span&gt;&#123;&#123;msg&#125;&#125;&lt;/span&gt;</span><br><span class="line">	&lt;my-aaa :parMsg=&apos;msg&apos;&gt;&lt;/my-aaa&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">	el: &apos;#app&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		msg: &#123;</span><br><span class="line">			a: &apos;我是父组件的数据&apos;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="子组件向父组件-同级组件传递数据"><a href="#子组件向父组件-同级组件传递数据" class="headerlink" title="子组件向父组件/同级组件传递数据"></a>子组件向父组件/同级组件传递数据</h3><ul>
+<li>在Vue1.x版本中，通过在子组件中使用@emit(name,data)来向父组件传递数据，此处不再赘述</li>
+<li>在Vue2.x版本中，子组件是如何向同级别/父级组件传递数据呢？</li>
+<li><p>例如，现在有如下代码，包括3个同级组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template id=&quot;aaa&quot;&gt;</span><br><span class="line">	&lt;input type=&quot;button&quot; @click=&apos;changed&apos; value=&apos;我是aaa的按钮&apos;&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;template id=&quot;bbb&quot;&gt;</span><br><span class="line">	&lt;input type=&quot;button&quot; @click=&apos;changed&apos; value=&apos;我是bbb的按钮&apos;&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;template id=&quot;ccc&quot;&gt;</span><br><span class="line">	&lt;div&gt;</span><br><span class="line">		&lt;h1&gt;&#123;&#123;a&#125;&#125;&lt;/h1&gt;</span><br><span class="line">		&lt;h1&gt;&#123;&#123;b&#125;&#125;&lt;/h1&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">	var vm = new Vue();</span><br><span class="line"></span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: &#123;</span><br><span class="line">				a: &apos;我是父组件的数据&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		components: &#123;</span><br><span class="line">			my-aaa: &#123;</span><br><span class="line">				data()&#123;</span><br><span class="line">					return &#123;</span><br><span class="line">						aMsg: &apos;我是a的数据&apos;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;,</span><br><span class="line">				template: &apos;#aaa&apos;,</span><br><span class="line">				methods: &#123;</span><br><span class="line">					changed()&#123;</span><br><span class="line">						vm.$emit(&apos;a-msg&apos;,this.aMsg)</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;,</span><br><span class="line">			my-bbb: &#123;</span><br><span class="line">				data()&#123;</span><br><span class="line">					return &#123;</span><br><span class="line">						bMsg: &apos;我是b的数据&apos;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;,</span><br><span class="line">				template: &apos;#bbb&apos;,</span><br><span class="line">				methods: &#123;</span><br><span class="line">					changed()&#123;</span><br><span class="line">						vm.$emit(&apos;b-msg&apos;,this.bMsg)</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;,</span><br><span class="line">			my-ccc: &#123;</span><br><span class="line">				template: &apos;#ccc&apos;,</span><br><span class="line">				data()&#123;</span><br><span class="line">					return &#123;</span><br><span class="line">						a: &apos;&apos;,</span><br><span class="line">						b: &apos;&apos;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;,</span><br><span class="line">				mounted()&#123;</span><br><span class="line">					vm.$on(&apos;a-msg&apos;,(data)=&gt;&#123;</span><br><span class="line">						console.log(data); //我是a的数据</span><br><span class="line">					&#125;);</span><br><span class="line">					vm.$on(&apos;b-msg&apos;,(data)=&gt;&#123;</span><br><span class="line">						console.log(data); //我是b的数据</span><br><span class="line">					&#125;);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>总结：外部创建一个Vue实例，（如vm），用来调用$emit和$on方法（相当于一个空的中间件）</p>
+</li>
+<li>然后，使用vm.$emit(name,data)来发送数据</li>
+<li>使用vm.$on(name,function(data))来接收数据</li>
+<li>注意$emit和$on方法都应被封装在组件的methods中</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/14/14-vue/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">07月</div>
+			<div class="post-day">13</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/13-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/13/13-vue/" itemprop="url">「Vue学习笔记」 13. Vue2.x</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-13T00:00:00+08:00">
+                2018-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue2-x和Vue1-x的区别"><a href="#Vue2-x和Vue1-x的区别" class="headerlink" title="Vue2.x和Vue1.x的区别"></a>Vue2.x和Vue1.x的区别</h1><h2 id="基本语法格式"><a href="#基本语法格式" class="headerlink" title="基本语法格式"></a>基本语法格式</h2><h3 id="指明作用域"><a href="#指明作用域" class="headerlink" title="指明作用域"></a>指明作用域</h3><ul>
+<li>Vue的引入格式没有变化，但是2.x中不能将html/body作为Vue引用的el元素，而是特定地指明某个DOM元素（参考React的根元素app）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 错误的写法</span><br><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 正确的风格</span><br><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;#app&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="json的输出"><a href="#json的输出" class="headerlink" title="json的输出"></a>json的输出</h3><ul>
+<li><p>在Vue1.x版本中，需要使用json过滤器，以使得Vue实例的数据中的对象以正确的形式渲染：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 如果没有json-filter，则渲染在页面上的只有[Object Object]</span><br><span class="line">&lt;div&gt;&#123;&#123;msg | json&#125;&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;body&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: &#123;a:1,b:2&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Vue2.x版本中，则不再需要json过滤器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&#123;&#123;msg&#125;&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;body&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: &#123;a:1,b:2&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><h4 id="Vue1-x版本的生命周期"><a href="#Vue1-x版本的生命周期" class="headerlink" title="Vue1.x版本的生命周期"></a>Vue1.x版本的生命周期</h4><ul>
+<li>created、beforeCompile、compiled、ready、beforeDestroy、destroyed</li>
+</ul>
+<h4 id="Vue2-x版本的生命周期（更像React了）"><a href="#Vue2-x版本的生命周期（更像React了）" class="headerlink" title="Vue2.x版本的生命周期（更像React了）"></a>Vue2.x版本的生命周期（更像React了）</h4><ul>
+<li>beforeCreate：刚刚创建实例，数据等属性还未绑定</li>
+<li>created：创建完毕，属性已经绑定好了</li>
+<li>beforeMount：模板在渲染之前</li>
+<li>mounted：模板渲染完成（相当于1.x版本的ready）</li>
+<li>beforeUpdate：数据更新之前</li>
+<li>updated：数据更新完成</li>
+<li>beforeDestroy：实例销毁之前</li>
+<li>destroyed：实例销毁完成</li>
+</ul>
+<h3 id="索引值"><a href="#索引值" class="headerlink" title="索引值"></a>索引值</h3><ul>
+<li><p>在Vue1.x版本中，为了获取循环元素的索引值，我们一般使用$index变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;div v-for=&apos;i in msg&apos;&gt;&#123;&#123;$index&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: [&apos;1&apos;,&apos;2&apos;,&apos;3&apos;]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Vue2.x版本中，将数组循环时的value与index显示地声明了,注意括号中第一个参数是值，第二个参数是索引，同时你不能再使用$index</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;div v-for=&apos;(value,index) in msg&apos;&gt;&#123;&#123;value&#125;&#125;&#123;&#123;index&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: [&apos;1&apos;,&apos;2&apos;,&apos;3&apos;]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>json同理，不能再使用$key查询到键值，而应使用(value,key)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">	&lt;div v-for=&apos;(value,key) in json&apos;&gt;&#123;&#123;value&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			json: &#123;</span><br><span class="line">				a: 1,</span><br><span class="line">				b: 2</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="过滤器filter"><a href="#过滤器filter" class="headerlink" title="过滤器filter"></a>过滤器filter</h3><ul>
+<li>Vue2.x版本中取消了所有的默认/预定义的filter，但是自定义的过滤器基本没有变化</li>
+<li>自定义过滤器的传参方式发生了改变，以函数的方式传参，例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;app&apos;&gt;</span><br><span class="line">	&#123;&#123;msg | uppercase(&apos;1&apos;,&apos;2&apos;)&#125;&#125;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	Vue.filter(&apos;uppercase&apos;,function(val,num1,num2)&#123;</span><br><span class="line">			console.log(num1,num2);</span><br><span class="line">			return val.toUpperCase();</span><br><span class="line">		&#125;);</span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;#app&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			msg: &apos;haha&apos;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/13/13-vue/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">07月</div>
 			<div class="post-day">12</div>
 	</div>
   
@@ -1705,301 +2040,6 @@
 
             <div class="post-button text-center">
               <a class="btn" href="/2018/07/05/5-vue/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">04</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/4-vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/04/4-vue/" itemprop="url">「Vue学习笔记」 4. Vue属性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T00:00:00+08:00">
-                2018-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Vue的computed计算属性与-watch侦听属性"><a href="#Vue的computed计算属性与-watch侦听属性" class="headerlink" title="Vue的computed计算属性与$watch侦听属性"></a>Vue的computed计算属性与$watch侦听属性</h1><h2 id="computed计算属性"><a href="#computed计算属性" class="headerlink" title="computed计算属性"></a>computed计算属性</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><ul>
-<li>vue的computed以对象的形式传入计算属性，和data类似，但是在computed中允许对数据进行计算</li>
-<li>computed属性在多数情况下必须是一个函数（前提是你不向其中传入参数）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: &apos;&apos;,</span><br><span class="line">	&#125;,</span><br><span class="line">	computed: &#123;</span><br><span class="line">		b: function()&#123;</span><br><span class="line">			return this.a + 20;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h3 id="向computed属性传入参数"><a href="#向computed属性传入参数" class="headerlink" title="向computed属性传入参数"></a>向computed属性传入参数</h3><ul>
-<li>以对象而不是函数的形式传入get与set函数，get函数用来读取值（也就是computed的默认用法），set函数用来传入参数或是设置参数</li>
-<li>注意，向get函数传入参数是没有任何效果的</li>
-<li>例如在下面的例子中，向vue.c显式的传入值10,10就会被自动赋给set函数中的参数，换言之，vue.c的值实际上就是指向的set函数的参数，而不会对get函数有任何影响，get函数只用于return</li>
-<li>总结：set是入口，用于显式地传入参数，get是出口，用于返回数据，提供给外部模板使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var vue = new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: &apos;&apos;,</span><br><span class="line">		b: &apos;&apos;,</span><br><span class="line">	&#125;,</span><br><span class="line">	computed: &#123;</span><br><span class="line">		c: &#123;</span><br><span class="line">			get: function()&#123;</span><br><span class="line">				return this.a;</span><br><span class="line">			&#125;,</span><br><span class="line">			set: function(argument)&#123;</span><br><span class="line">				this.b = 20;</span><br><span class="line">				this.a = this.b + argument; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vue.c = 10; // argument = vue.c = 10;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="watch侦听属性"><a href="#watch侦听属性" class="headerlink" title="$watch侦听属性"></a>$watch侦听属性</h2><ul>
-<li>添加$watch的侦听属性，当变量or数据发生变化时，就会触发回调函数</li>
-<li>基本格式：vue.$watch(data,callback),当data发生变化时，callback被调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var vue = new Vue(&#123;</span><br><span class="line">	el: &apos;body&apos;,</span><br><span class="line">	data: &#123;</span><br><span class="line">		a: 10</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">vue.$watch(&apos;a&apos;,function()&#123;</span><br><span class="line">	console.log(&apos;vue中的data.a发生了变化&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/04/4-vue/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">03</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/3-vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/03/3-vue/" itemprop="url">「Vue学习笔记」 3. Vue-resource</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T00:00:00+08:00">
-                2018-07-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="bower包管理工具、Vue的交互与vue-resource的应用"><a href="#bower包管理工具、Vue的交互与vue-resource的应用" class="headerlink" title="bower包管理工具、Vue的交互与vue-resource的应用"></a>bower包管理工具、Vue的交互与vue-resource的应用</h1><h2 id="bower介绍"><a href="#bower介绍" class="headerlink" title="bower介绍"></a>bower介绍</h2><ul>
-<li>bower是一个专注于前端的包管理工具（使用前请在全局环境下install -g）</li>
-<li>bower中的版本号用#表示(不是@)</li>
-<li>bower i 下载的库的名字#版本号</li>
-</ul>
-<h2 id="vue-resource插件介绍"><a href="#vue-resource插件介绍" class="headerlink" title="vue-resource插件介绍"></a>vue-resource插件介绍</h2><ul>
-<li>vue本身并没有提供和后端交互的方法，而官方推荐了一个插件：vue-resource，用以提供各类资源、插件、项目</li>
-<li>vue-resource主要给vue1.x提供如ajax、jsonp等方法，这也是本章介绍的主题</li>
-<li>vue-resource在vue对象上添加了若干方法，如$http，你可以通过在vue对象内部使用this.$http.xxx调用</li>
-</ul>
-<h2 id="vue-resource的GET方法"><a href="#vue-resource的GET方法" class="headerlink" title="vue-resource的GET方法"></a>vue-resource的GET方法</h2><ul>
-<li>vue-resource添加了一个this.$http方法用以交互，注意是封装成了Promise的用法，因此需要使用.then语法</li>
-<li>基本语法格式：this.$http.get(‘url’,data).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.get(&apos;http://localhost:2133/getInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="vue-resource的POST方法"><a href="#vue-resource的POST方法" class="headerlink" title="vue-resource的POST方法"></a>vue-resource的POST方法</h2><ul>
-<li>同样是用this.$http.post进行交互，并封装成Promise的语法，注意需要添加emulateJSON属性用以说明是用post传输的json数据</li>
-<li>基本语法格式：this.$http.post(‘url’,data,{emulateJSON:true}).then(function(){success},function(){failed})<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	ajax: function()&#123;</span><br><span class="line">		this.$http.post(&apos;http://localhost:2133/postInfo&apos;,&#123;</span><br><span class="line">			user: this.user,</span><br><span class="line">			pass: this.pass</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			emulateJSON:true</span><br><span class="line">		&#125;).then(function(responseText)&#123;</span><br><span class="line">			//console.log(responseText); </span><br><span class="line">			if(responseText.data.ok == 0)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;else if(responseText.data.ok == 1)&#123;</span><br><span class="line">				alert(responseText.data.msg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			alert(&apos;大失败~！&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="vue-resource的jsonp方法"><a href="#vue-resource的jsonp方法" class="headerlink" title="vue-resource的jsonp方法"></a>vue-resource的jsonp方法</h2><ul>
-<li>利用DOM元素中的src属性可以跨域调用的原理，用script标签跨域调用外部API接口</li>
-<li>外部API接口可以在开发者工具中的Network中获取</li>
-<li>基本语法格式：this.$http.jsonp(‘api-url’,data,{jsonp:callback-key}).then(function(){success},function(){failed})</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">	query: function()&#123;</span><br><span class="line">		this.$http.jsonp(&quot;https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su&quot;,&#123;</span><br><span class="line">			wd: this.wd</span><br><span class="line">		&#125;,&#123;</span><br><span class="line">			jsonp: &apos;cb&apos; // 此处jsonp属性的值应为对应API接口上的callback函数query上的键</span><br><span class="line">		&#125;).then(function(json)&#123;</span><br><span class="line">			//console.log(json.data.s);</span><br><span class="line">			for(var i in json.data.s)&#123;</span><br><span class="line">				this.arr.push(json.data.s[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,function()&#123;</span><br><span class="line">			console.log(&apos;error!&apos;);</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/03/3-vue/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
