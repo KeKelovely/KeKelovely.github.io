@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="https://cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Sigmar One:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+
+
+  
+
+<link href="https://cdn.bootcss.com/social-share.js/1.0.9/css/share.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=0.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon2.ico?v=0.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=0.0.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Font-End NodeJS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="理解Buffer 由于JavaScript自有的字符串无法处理网络传输中大量的二进制数据，于是Buffer对象应运而生。  Buffer结构 Buffer是一个像Array的对象，但它主要用于操作字节。  模块结构 Buffer性能相关部分用C++实现，非性能相关部分用JavaScript实现；Buffer所占用的是堆外内存，不属于V8分配；内置于global对象上，不需要require()即可使">
+<meta name="keywords" content="Font-End NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「深入浅出NodeJS」 4. 理解Buffer">
+<meta property="og:url" content="http://yoursite.com/2018/06/18/4-nodejs/index.html">
+<meta property="og:site_name" content="KeKeHome">
+<meta property="og:description" content="理解Buffer 由于JavaScript自有的字符串无法处理网络传输中大量的二进制数据，于是Buffer对象应运而生。  Buffer结构 Buffer是一个像Array的对象，但它主要用于操作字节。  模块结构 Buffer性能相关部分用C++实现，非性能相关部分用JavaScript实现；Buffer所占用的是堆外内存，不属于V8分配；内置于global对象上，不需要require()即可使">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-21T14:17:37.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「深入浅出NodeJS」 4. 理解Buffer">
+<meta name="twitter:description" content="理解Buffer 由于JavaScript自有的字符串无法处理网络传输中大量的二进制数据，于是Buffer对象应运而生。  Buffer结构 Buffer是一个像Array的对象，但它主要用于操作字节。  模块结构 Buffer性能相关部分用C++实现，非性能相关部分用JavaScript实现；Buffer所占用的是堆外内存，不属于V8分配；内置于global对象上，不需要require()即可使">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '0.0.4',
+    sidebar: {"position":"right","display":"always","offset":52,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    since: '5/16/2018 00:00:00',
+    onlineAPI: '',
+    site: {
+      title: 'KeKeHome',
+      subtitle: '',
+      author: 'John Doe'
+    },
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    leancloud: {
+      enable: false,
+      appID: '',
+      appKey: ''
+    },
+    favicon: {
+      visibilitychange: true,
+      narmal: '/images/favicon2.ico',
+      hidden: '/images/failure.ico',
+      show_text: '萌萌哒的博客酱',
+      hide_text: '网页受到神秘攻击'
+    }
+  };
+</script>
+
+
+
+  
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/18/4-nodejs/"/>
+
+
+
+
+
+  <title>「深入浅出NodeJS」 4. 理解Buffer | KeKeHome</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48084758-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-demo">
+          <a href="/demo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-cutlery"></i> <br />
+            
+            Demo
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-pencil"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-rocket"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+      <li class="menu-item search">
+          <form class="search-form">
+            <input name="keyword" type="text" class="search-input" placeholder="站内搜索">
+            <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
+          </form>
+      </li>
+      <li class="menu-item online"><span id="online-count">?</span>人在线</li>
+    </ul>
+  
+
+  
+</nav>
+
+<div class="site-brand-wrapper" style="background-image: url(/images/header-zerotwo.jpg)">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <div class="brand">
+        <span class="logo-line-before"><i></i></span>
+        <div class="site-title">
+          <div id="animate" class="animate">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+          <div id="guide" class="guide">
+            <span>K</span><span>e</span><span>K</span><span>e</span><span>H</span><span>o</span><span>m</span><span>e</span>
+          </div>
+        </div>
+        <span class="logo-line-after"><i></i></span>
+      </div>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+<div class="site-master" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-master-avatar" itemprop="image" src="/images/kekelovely.jpg" alt="John Doe" />
+    <h2 class="site-master-description" itemprop="description">
+        
+    </h2>
+</div>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">06月</div>
+			<div class="post-day">18</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/18/4-nodejs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「深入浅出NodeJS」 4. 理解Buffer</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-18T00:00:00+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="理解Buffer"><a href="#理解Buffer" class="headerlink" title="理解Buffer"></a>理解Buffer</h2><ol>
+<li>由于JavaScript自有的字符串无法处理网络传输中大量的二进制数据，于是Buffer对象应运而生。</li>
+</ol>
+<h3 id="Buffer结构"><a href="#Buffer结构" class="headerlink" title="Buffer结构"></a>Buffer结构</h3><ol>
+<li>Buffer是一个像Array的对象，但它主要用于操作字节。</li>
+</ol>
+<h4 id="模块结构"><a href="#模块结构" class="headerlink" title="模块结构"></a>模块结构</h4><ol>
+<li>Buffer性能相关部分用C++实现，非性能相关部分用JavaScript实现；Buffer所占用的是堆外内存，不属于V8分配；内置于global对象上，不需要require()即可使用</li>
+</ol>
+<h4 id="Buffer对象"><a href="#Buffer对象" class="headerlink" title="Buffer对象"></a>Buffer对象</h4><ol>
+<li><p>Buffer对象类似于数组，它的每个元素为16进制的两位数，0~255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;深入浅出node.js&quot;;</span><br><span class="line">var buf = new Buffer(str,&apos;utf-8&apos;);</span><br><span class="line">console.log(buf);</span><br><span class="line">// return &lt;Buffer e6 b7 b1 85 a5 ... 2e 6a 73&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>length和下标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 初始化一个100字节的Buffer对象</span><br><span class="line">var buf = new Buffer(100);</span><br><span class="line">buf.length; // return 100</span><br><span class="line">buf[10] = 100</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Buffer内存分配"><a href="#Buffer内存分配" class="headerlink" title="Buffer内存分配"></a>Buffer内存分配</h4><ol>
+<li><p>用以下方式分配指定内存大小的Buffer对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Buffer(size);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Buffer以8KB为界限来区分Buffer是大对象还是小对象</p>
+</li>
+</ol>
+<ul>
+<li>分配小buffer对象</li>
+<li>分配大Buffer对象</li>
+</ul>
+<h3 id="Buffer的转换"><a href="#Buffer的转换" class="headerlink" title="Buffer的转换"></a>Buffer的转换</h3><ol>
+<li>Buffer对象可以与字符串之间相互转换</li>
+</ol>
+<h4 id="字符串转Buffer"><a href="#字符串转Buffer" class="headerlink" title="字符串转Buffer"></a>字符串转Buffer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// encoding表示编码类型，没有则默认utf-8</span><br><span class="line">new Buffer(str,[encoding]);</span><br><span class="line">// write()方法可让一个Buffer对象存储不同编码类型的字符串转码的值</span><br><span class="line">buf.write(string,[offset],[length],[encoding]);</span><br></pre></td></tr></table></figure>
+<h4 id="Buffer转字符串"><a href="#Buffer转字符串" class="headerlink" title="Buffer转字符串"></a>Buffer转字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// toString()方法实现</span><br><span class="line">buf.toString([encoding],[start],[end]);</span><br></pre></td></tr></table></figure>
+<h4 id="Buffer不支持的编码类型"><a href="#Buffer不支持的编码类型" class="headerlink" title="Buffer不支持的编码类型"></a>Buffer不支持的编码类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// isEncoding()判断编码是否支持转换</span><br><span class="line">Buffer.isEncoding(encoding);</span><br></pre></td></tr></table></figure>
+<h3 id="Buffer的拼接"><a href="#Buffer的拼接" class="headerlink" title="Buffer的拼接"></a>Buffer的拼接</h3><h4 id="乱码是如何产生的"><a href="#乱码是如何产生的" class="headerlink" title="乱码是如何产生的"></a>乱码是如何产生的</h4><h4 id="setEncoding-与string-decoder"><a href="#setEncoding-与string-decoder" class="headerlink" title="setEncoding()与string_decoder()"></a>setEncoding()与string_decoder()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 让data事件中传递的不再是一个Buffer对象，而是编码后的字符串</span><br><span class="line">readable.setEncoding(&apos;utf-8&apos;);</span><br><span class="line">// 但这种方法能够处理的转码类型有限，仍不是最好的处理方法</span><br></pre></td></tr></table></figure>
+<h4 id="正确拼接Buffer"><a href="#正确拼接Buffer" class="headerlink" title="正确拼接Buffer"></a>正确拼接Buffer</h4><ol>
+<li>用Buffer.concat()方法生成一个合并的Buffer对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var chunks = [];</span><br><span class="line">var size = 0;</span><br><span class="line">res.on(&apos;data&apos;,function(chunk)&#123;</span><br><span class="line">    chunks.push(chunk);</span><br><span class="line">    size += chunk.length;</span><br><span class="line">&#125;);</span><br><span class="line">res.on(&apos;end&apos;,function()&#123;</span><br><span class="line">    var buf = Buffer.concat(chunks,size);</span><br><span class="line">    var str = iconv.decode(buf,&apos;utf-8&apos;);</span><br><span class="line">    console.log(str);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Buffer与性能"><a href="#Buffer与性能" class="headerlink" title="Buffer与性能"></a>Buffer与性能</h3><blockquote>
+<p>在应用中，我们通常会操作字符串，但一旦在网络中传输，都需要转换为Buffer，以进行二进制数据传输。</p>
+</blockquote>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>Buffer是二进制数据，字符串与Buffer之间存在编码关系。理解Buffer的诸多细节十分必要，对于如何高效处理二进制数据十分有用。</li>
+</ol>
+<blockquote>
+<p>Node提供了net、dgram、http、https这4个模块，分别用于处理TCP、UDP、HTTP、HTTPS，适用于服务器端和客户端</p>
+</blockquote>
+<h3 id="构建TCP服务"><a href="#构建TCP服务" class="headerlink" title="构建TCP服务"></a>构建TCP服务</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><ol>
+<li>TCP全名为传输控制协议，在OSI模型中属于传输层协议。许多应用层协议基于TCP构建，如HTTP等。<h4 id="创建TCP服务器端"><a href="#创建TCP服务器端" class="headerlink" title="创建TCP服务器端"></a>创建TCP服务器端</h4></li>
+<li>创建一个TCP服务器端来接受网络请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var net = require(&apos;net&apos;);</span><br><span class="line">var server = net.createServer(function(socket)&#123;</span><br><span class="line">    // 新的连接</span><br><span class="line">    socket.on(&apos;data&apos;,function(data)&#123;</span><br><span class="line">        socket.write(&apos;你好&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    socket.on(&apos;end&apos;,function(data)&#123;</span><br><span class="line">        console.log(&apos;连接断开&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    socket.write(&apos;欢迎&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">    server.listen(8124,function()&#123;</span><br><span class="line">        console.log(&apos;server bound&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div class="post-share">分享到：</div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Font-End-NodeJS/" rel="tag"># Font-End NodeJS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/17/3-nodejs/" rel="next" title="「深入浅出NodeJS」 3. 内存控制">
+                <i class="fa fa-chevron-left"></i> 「深入浅出NodeJS」 3. 内存控制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/19/5-nodejs/" rel="prev" title="「深入浅出NodeJS」 5. 网络编程">
+                「深入浅出NodeJS」 5. 网络编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/maincard.jpg"
+                alt="John Doe" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">KeKelovely's Home</p>
+          </div>
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/KeKelovely" target="_blank" title="GitHub" data-balloon="GitHub" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.bilibili.com/" target="_blank" title="Twitter" data-balloon="Twitter" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-twitter"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://space.bilibili.com/11540649/#/" target="_blank" title="更多" data-balloon="更多" data-balloon-pos="up">
+                    
+                      <i class="fa fa-fw fa-more"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+            
+
+          </nav>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.png" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解Buffer"><span class="nav-number">1.</span> <span class="nav-text">理解Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer结构"><span class="nav-number">1.1.</span> <span class="nav-text">Buffer结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模块结构"><span class="nav-number">1.1.1.</span> <span class="nav-text">模块结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer对象"><span class="nav-number">1.1.2.</span> <span class="nav-text">Buffer对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer内存分配"><span class="nav-number">1.1.3.</span> <span class="nav-text">Buffer内存分配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer的转换"><span class="nav-number">1.2.</span> <span class="nav-text">Buffer的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串转Buffer"><span class="nav-number">1.2.1.</span> <span class="nav-text">字符串转Buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer转字符串"><span class="nav-number">1.2.2.</span> <span class="nav-text">Buffer转字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer不支持的编码类型"><span class="nav-number">1.2.3.</span> <span class="nav-text">Buffer不支持的编码类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer的拼接"><span class="nav-number">1.3.</span> <span class="nav-text">Buffer的拼接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#乱码是如何产生的"><span class="nav-number">1.3.1.</span> <span class="nav-text">乱码是如何产生的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setEncoding-与string-decoder"><span class="nav-number">1.3.2.</span> <span class="nav-text">setEncoding()与string_decoder()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正确拼接Buffer"><span class="nav-number">1.3.3.</span> <span class="nav-text">正确拼接Buffer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer与性能"><span class="nav-number">1.4.</span> <span class="nav-text">Buffer与性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建TCP服务"><span class="nav-number">1.6.</span> <span class="nav-text">构建TCP服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP"><span class="nav-number">1.6.1.</span> <span class="nav-text">TCP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建TCP服务器端"><span class="nav-number">1.6.2.</span> <span class="nav-text">创建TCP服务器端</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-image"></div>
+      <div class="footer-inner">
+        <p>博客已萌萌哒运行<span id="since"></span><span class="my-face">(●'◡'●)ﾉ♥</span></p>
+<p>custom text</p>
+
+<p>© <span itemprop="copyrightYear">2018</span> KeKeHome.
+    由 <a href="https://hexo.io/" target="_blank" class="external" rel="nofollow">Hexo</a> 强力驱动.
+    Theme By <a href="https://github.com/DIYgod/hexo-theme-sagiri" target="_blank" class="external" rel="nofollow">Sagiri</a> v0.0.4.
+    <a href="/sitemap.xml" target="_blank">站点地图</a>.
+    xxxx.
+</p>
+<p>Made with <i class="fa fa-heart throb" style="color: #d43f57;"></i> by <span class="author" itemprop="copyrightHolder">John Doe</span>. </p>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    <canvas id="evanyou"></canvas>
+
+    
+
+  </div>
+
+  <script type="text/javascript" src="/js/sagiri.min.js?v=0.0.4"></script>
+
+  
+
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
