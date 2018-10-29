@@ -335,6 +335,174 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
+			<div class="post-day">06</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/6-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/06/6-vue/" itemprop="url">「Vue学习笔记」 6. Vue实例方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-06T00:00:00+08:00">
+                2018-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue过滤器"><a href="#Vue过滤器" class="headerlink" title="Vue过滤器"></a>Vue过滤器</h1><ul>
+<li>过滤器的含义并不仅仅是指删除数据，而是对数据进行修改，类似于filter</li>
+</ul>
+<h2 id="Vue过滤器的语法格式及自带过滤器"><a href="#Vue过滤器的语法格式及自带过滤器" class="headerlink" title="Vue过滤器的语法格式及自带过滤器"></a>Vue过滤器的语法格式及自带过滤器</h2><h3 id="过滤器的语法格式"><a href="#过滤器的语法格式" class="headerlink" title="过滤器的语法格式"></a>过滤器的语法格式</h3><ul>
+<li>过滤器的基本语法格式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; msg | 过滤器的名称&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123; msg | filter_name &#125;&#125;</span><br><span class="line"></span><br><span class="line">// 向过滤器传入参数：</span><br><span class="line"></span><br><span class="line">&#123;&#123; msg | filter_name &quot;arg1&quot; &quot;arg2&quot; &quot;arg3&quot; &#125;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Vue的内置过滤器（限于1-x版本）"><a href="#Vue的内置过滤器（限于1-x版本）" class="headerlink" title="Vue的内置过滤器（限于1.x版本）"></a>Vue的内置过滤器（限于1.x版本）</h3><ul>
+<li>uppercase：大写字母</li>
+<li>lowercase：小写字母</li>
+<li>currency：以货币形式输出数据，</li>
+<li><p>debounce：延时执行：后面的参数表示时间（ms）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@click = &apos;add | debounce &quot;3000&quot; &apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>limitBy：截取部分元素，第一个参数表示截取元素个数，第二个参数表示从第几个开始截取（位置）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul v-for=&apos;i in arr | limitBy 2 1&apos;&gt;&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">// 表示从arr的第1个元素开始，只取之后的2个元素</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>filterBy：过滤并只获取符合条件的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 只留下含有字符串h的元素</span><br><span class="line">&lt;ul v-for=&apos;i in arr | filterBy &quot;h&quot;&apos;&gt;&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">// 只留下json对象中name属性的值含有字符串h的元素（注意这里是传入的若干对象组成的数组）</span><br><span class="line">&lt;ul v-for=&apos;i in arr | filterBy &quot;h&quot; in name&apos;&gt;&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>orderBy：排序，参数1表示升序，参数-1表示降序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul v-for=&apos;i in arr | orderBy 1&apos;&gt;&lt;/ul&gt;</span><br><span class="line">&lt;ul v-for=&apos;i in arr | orderBy -1&apos;&gt;&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="自定义过滤器"><a href="#自定义过滤器" class="headerlink" title="自定义过滤器"></a>自定义过滤器</h2><h3 id="基本格式"><a href="#基本格式" class="headerlink" title="基本格式"></a>基本格式</h3><ul>
+<li><p>过滤器定义在Vue对象的filter方法上：，其中val表示传入的模板变量的值，arg表示过滤器之后传入的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.filter(name,function(val,arg))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如大写过滤器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.fliter(&apos;up&apos;,funciton(val)&#123;</span><br><span class="line">	return val.toUpperCase();</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#123;&#123; msg | up &#125;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="双向过滤器"><a href="#双向过滤器" class="headerlink" title="双向过滤器"></a>双向过滤器</h3><ul>
+<li>双向过滤器提供了输入和输出函数两个接口，用于对传入的模板变量及过滤器参数进行一些中间的处理</li>
+<li><p>基本格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vue.filter(&apos;filter_name&apos;,&#123;</span><br><span class="line">	read: function(inputval)&#123;</span><br><span class="line">		return inputval;</span><br><span class="line">	&#125;,</span><br><span class="line">	write: function(val)&#123;</span><br><span class="line">		return ...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>read相当于输入，write相当于输出，所以，write函数的参数inputVal，接收到的是read函数的返回值，write函数的返回值也就是处理后渲染的变量值。</p>
+</li>
+<li>总结：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vue.filter(&apos;filter_name&apos;,&#123;</span><br><span class="line">	read: function()&#123;&#125;,</span><br><span class="line">	write: function()&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/06/6-vue/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">07月</div>
 			<div class="post-day">05</div>
 	</div>
   
@@ -1769,284 +1937,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">06月</div>
-			<div class="post-day">21</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/7-nodejs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/21/7-nodejs/" itemprop="url">「深入浅出NodeJS」 7. 进程与测试</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
-                2018-06-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="玩转进程"><a href="#玩转进程" class="headerlink" title="玩转进程"></a>玩转进程</h2><h3 id="服务模型的变迁"><a href="#服务模型的变迁" class="headerlink" title="服务模型的变迁"></a>服务模型的变迁</h3><h4 id="石器时代：同步"><a href="#石器时代：同步" class="headerlink" title="石器时代：同步"></a>石器时代：同步</h4><h4 id="青铜时代：复制进程"><a href="#青铜时代：复制进程" class="headerlink" title="青铜时代：复制进程"></a>青铜时代：复制进程</h4><h4 id="白银时代：多线程"><a href="#白银时代：多线程" class="headerlink" title="白银时代：多线程"></a>白银时代：多线程</h4><h4 id="黄金时代：事件驱动"><a href="#黄金时代：事件驱动" class="headerlink" title="黄金时代：事件驱动"></a>黄金时代：事件驱动</h4><h3 id="多进程架构"><a href="#多进程架构" class="headerlink" title="多进程架构"></a>多进程架构</h3><ol>
-<li><p>面对单进程单线程对多核CPU使用不足的问题，前人的经验是启动多进程即可。Node提供了child_process模块以及child_process.fork()函数实现对进程的复制</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var fork = require(&apos;chide_process&apos;).fork;</span><br><span class="line">var cpus = require(&apos;os&apos;).cpus();</span><br><span class="line">for (var i = 0; i &lt; cpus.length; i++)&#123;</span><br><span class="line">    fork(&apos;./worker.js&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这里启动多进程只是为了充分利用CPU资源，而不是为了解决并发问题</p>
-</li>
-</ol>
-<h4 id="创建子进程"><a href="#创建子进程" class="headerlink" title="创建子进程"></a>创建子进程</h4><ol>
-<li>创建子进程的方法：</li>
-</ol>
-<ul>
-<li>spawn()：启动</li>
-<li>exec()：启动，但有一个回调函数</li>
-<li>execFile()：启动子进程执行可执行文件</li>
-<li>fork()：指定JavaScript文件执行</li>
-</ul>
-<h4 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h4><ol>
-<li><p>Webworker允许创建工作线程并在后台运行，使得一些阻塞较为严重的计算不影响主线程上的UI渲染</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var worker = new Worker(&apos;worker.js&apos;);</span><br><span class="line">worker.onmessage = function(message)&#123;</span><br><span class="line">    document.getElementById(&apos;result&apos;).textContent = event.data;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>主进程对象用send()向子进程发送数据，message事件收听子进程发来数据，通过onmessage()与postMessage()通信</p>
-</li>
-<li>进程间通信原理</li>
-</ol>
-<ul>
-<li>IPC全称是Inter-Process Communication，进程间通信。Node中，IPC通道被抽象为Stream对象，调用send()时发送数据，接收消息时通过message事件</li>
-</ul>
-<h4 id="句柄传递"><a href="#句柄传递" class="headerlink" title="句柄传递"></a>句柄传递</h4><ol>
-<li>句柄是一种可以用来标识资源的引用，它的内部包含了指向对象的文件描述符</li>
-<li>通过send()方法发送句柄（handle），能够使主进程接收到请求后，将请求直接发送给工作进程，而不是重新与工作进程之间建立连接，这样可以解决文件描述符浪费的问题</li>
-</ol>
-<h3 id="集群稳定之路"><a href="#集群稳定之路" class="headerlink" title="集群稳定之路"></a>集群稳定之路</h3><h4 id="进程事件"><a href="#进程事件" class="headerlink" title="进程事件"></a>进程事件</h4><ol>
-<li>父进程能够监听到的与子进程相关的其他事件：</li>
-</ol>
-<ul>
-<li>error</li>
-<li>exit</li>
-<li>close</li>
-<li>disconnect</li>
-</ul>
-<h4 id="自动重启"><a href="#自动重启" class="headerlink" title="自动重启"></a>自动重启</h4><ol>
-<li>我们在主进程上要能够加入一些子进程管理的机制，比如重新启动一个工作进程来继续服务</li>
-</ol>
-<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><ol>
-<li>保证多个处理单元工作量公平的策略叫做负载均衡</li>
-<li>Node提供了Round-Robin（轮叫调度）机制，工作方式是由主进程接受连接，将其依次分发给工作进程，在N各工作进程中，每次选择第i = (i+1) mod n个进程来发送连接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cluster.schedulingPolicy = cluster.SCHED_RR</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="状态共享"><a href="#状态共享" class="headerlink" title="状态共享"></a>状态共享</h4><ol>
-<li>第三方数据存储：实现状态同步的机制</li>
-</ol>
-<ul>
-<li>各个子进程去向第三方进行定时轮询</li>
-<li>主动通知</li>
-</ul>
-<h3 id="Cluster模块"><a href="#Cluster模块" class="headerlink" title="Cluster模块"></a>Cluster模块</h3><ol>
-<li>Node中的Cluster模块，用以解决多核CPU的利用率问题，同时提供了较完善的API，用以处理进程的健壮性问题<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// cluster.js</span><br><span class="line">var cluster = require(&apos;cluster&apos;);</span><br><span class="line">cluster.setupMaster(&#123;</span><br><span class="line">    exec:&quot;worker.js&quot;;</span><br><span class="line">&#125;);</span><br><span class="line">var cpus = require(&apos;os&apos;).cpus();</span><br><span class="line">for (var i = 0; i &lt; cpus.length; i++)&#123;</span><br><span class="line">    cluster.fork();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="Cluter工作原理"><a href="#Cluter工作原理" class="headerlink" title="Cluter工作原理"></a>Cluter工作原理</h4><ol>
-<li>Cluster模块就是child_process和net模块的组合应用</li>
-<li>在cluster模块中，一个主进程只能管理一组工作进程</li>
-<li>对于自行通过child_process来操作时，可以更灵活地控制工作进程，甚至控制多组工作进程，因为可以隐式创建多个TCP服务器，使得子进程可以共享多个服务器端socket</li>
-</ol>
-<h4 id="Cluster事件"><a href="#Cluster事件" class="headerlink" title="Cluster事件"></a>Cluster事件</h4><ul>
-<li>fork</li>
-<li>online</li>
-<li>listening</li>
-<li>disconnect</li>
-<li>exit</li>
-<li>setup<blockquote>
-<p>测试包含单元测试、性能测试、安全测试和功能测试等几个方面，本章将从Node实践的角度来介绍单元测试和性能测试</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><h4 id="单元测试的意义"><a href="#单元测试的意义" class="headerlink" title="单元测试的意义"></a>单元测试的意义</h4><ol>
-<li>编写可测试代码有以下几个原则可以遵循：</li>
-</ol>
-<ul>
-<li>单一职责</li>
-<li>接口抽象</li>
-<li>层次分离</li>
-</ul>
-<h4 id="1单元测试介绍"><a href="#1单元测试介绍" class="headerlink" title="1单元测试介绍"></a>1单元测试介绍</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var assert = require(&apos;assert&apos;);</span><br><span class="line">assert.equal(Math.max(1,100),100);</span><br></pre></td></tr></table></figure>
-<ol>
-<li>断言，Node内置了assert模块用以实现断言</li>
-</ol>
-<ul>
-<li>一旦assert.equal()不满足期望，将会抛出AssertionError异常，整个程序将会停止执行，常用的断言方法如下</li>
-<li>ok()</li>
-<li>equal()</li>
-<li>notEqual()</li>
-<li>deepEqual()</li>
-<li>notDeepEqual()</li>
-<li>strictEqual()</li>
-<li>throws()</li>
-<li>doesNotThrow()</li>
-<li>ifError()</li>
-</ul>
-<ol start="2">
-<li>测试框架：mocha</li>
-</ol>
-<ul>
-<li><p>测试风格：TDD（测试驱动开发）、BDD（行为驱动开发）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// TDD对测试用例的组织主要采用suite和test完成</span><br><span class="line">suite(&apos;#indexOf()&apos;,function()&#123;</span><br><span class="line">        test (&apos;should return -1 when not present&apos;,function()&#123;</span><br><span class="line">            assert.equal(-1,[1,2,3]indexOf(4));</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">// BDD对测试用例的组织主要采用describe和it进行组织</span><br><span class="line">describe(&apos;#indexOf()&apos;,function()&#123;</span><br><span class="line">        it (&apos;should return -1 when not present&apos;,function()&#123;</span><br><span class="line">            [1,2,3].indexOf(4).should.equal(-1);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试报告</p>
-</li>
-</ul>
-<ol start="3">
-<li>测试代码的文件组织</li>
-<li>测试用例</li>
-</ol>
-<ul>
-<li>异步测试</li>
-<li>超时设置</li>
-</ul>
-<ol start="5">
-<li>测试覆盖率：用blanket模块实现</li>
-<li>mock：模拟异常，通过伪造被调用方来测试上层代码的健壮性</li>
-<li>私有方法的测试：rewire模块提供了<em>set</em>()和<em>get</em>()方法实现对私有方法的访问</li>
-</ol>
-<h4 id="工程化与自动化"><a href="#工程化与自动化" class="headerlink" title="工程化与自动化"></a>工程化与自动化</h4><ol>
-<li>工程化</li>
-</ol>
-<ul>
-<li>Makefile工具（仅在*nix系统下使用），通过make test和make test-cov命令执行复杂的单元测试和覆盖率</li>
-</ul>
-<ol start="2">
-<li>持续集成</li>
-</ol>
-<ul>
-<li>利用travis-ci实现持续集成</li>
-</ul>
-<h3 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h3><h4 id="基准测试"><a href="#基准测试" class="headerlink" title="基准测试"></a>基准测试</h4><ol>
-<li>基准测试要统计的就是在多少时间内执行了多少次某个方法。为了增强可比性，一般会以次数为参照物，然后比较时间，以此来判别性能的差距</li>
-<li>benchmark模块通过suite来组织每组测试，在测试套件中调用add()来添加被测试的代码</li>
-</ol>
-<h4 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h4><ol>
-<li>通常还会对网络接口进行压力测试以判断网络接口的性能，需要考察的指标有吞吐率、响应时间和并发数，最常用的工具是ab、siege、http_load等</li>
-</ol>
-<h4 id="基准测试驱动开发"><a href="#基准测试驱动开发" class="headerlink" title="基准测试驱动开发"></a>基准测试驱动开发</h4><ol>
-<li>即BDD，主要分为如下几步</li>
-</ol>
-<ul>
-<li>写基准测试</li>
-<li>写/改代码</li>
-<li>收集数据</li>
-<li>找出问题</li>
-<li>回到第二步</li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/21/7-nodejs/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2160,7 +2050,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
