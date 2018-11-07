@@ -335,6 +335,214 @@
   
   <div class="post-date">
 			<div class="post-month">07月</div>
+			<div class="post-day">07</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/07/7-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/07/7-vue/" itemprop="url">「Vue学习笔记」 7. Vue的自定义指令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-07T00:00:00+08:00">
+                2018-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vue的实例方法以及cloak"><a href="#Vue的实例方法以及cloak" class="headerlink" title="Vue的实例方法以及cloak"></a>Vue的实例方法以及cloak</h1><h2 id="Vue的实现原理"><a href="#Vue的实现原理" class="headerlink" title="Vue的实现原理"></a>Vue的实现原理</h2><ul>
+<li><p>作者定义了一种基本类型：Vue，并以构造函数的形式实现，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function Vue()&#123;</span><br><span class="line">	//...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Vue.prototype.typename = ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>因此，我们可以使用new构造函数，来创建一个Vue对象（函数）并运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Vue(json);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>显然，我们可以为new构造函数生成的Vue对象赋予一个实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var v = new Vue(json);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>因此，这个实例v就自然而然地继承了Vue.prototype上定义的各种属性与方法，这也正是本讲的主题</p>
+</li>
+</ul>
+<h2 id="Vue对象上的实例方法"><a href="#Vue对象上的实例方法" class="headerlink" title="Vue对象上的实例方法"></a>Vue对象上的实例方法</h2><ol>
+<li>注意，在使用如下vue对象上的实例方法时，请先显示地创建一个vue对象的实例。</li>
+</ol>
+<ul>
+<li>v.$mount方法用于指定作用域（vue作用的DOM对象）,但其优先级不如vue对象内部定义的el属性。作者建议最好不要使用这个方法。</li>
+<li>v.$el属性用于显式地访问作用域指定的DOM对象/元素</li>
+<li>v.$data属性用于访问vue上的数据属性(data)</li>
+<li>v.$options属性用于访问vue对象上的自定义属性以及其他的正常属性</li>
+<li>v.$log()方法用于直接获取data（只能访问，不能修改）</li>
+<li>v.$destory()方法用于销毁vue实例</li>
+</ul>
+<h2 id="补充：v-track用于相同元素"><a href="#补充：v-track用于相同元素" class="headerlink" title="补充：v-track用于相同元素"></a>补充：v-track用于相同元素</h2><ul>
+<li><p>当vue对象的data属性中存在相同值的元素时，多次传入相同值，将不会被vue对象渲染，vue提供如下warning：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Use track-by=&quot;$index&quot; if you are expecting duplicate values</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>因此，当data中存在重复元素，且你需要循环渲染多个相同数据时，请在DOM元素中声明track-by=”$index”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul v-for=&quot;i in arr&quot; track-by=&quot;$index&quot;&gt;</span><br><span class="line">	&lt;li&gt;&#123;&#123;i&#125;&#125;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="cloak解决闪烁问题"><a href="#cloak解决闪烁问题" class="headerlink" title="cloak解决闪烁问题"></a>cloak解决闪烁问题</h2><ul>
+<li><p>在DOM元素上显式地声明v-cloak属性，以避免刷新or加载时出现闪烁，显示变量的问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-cloak&gt;&#123;&#123;msg&#125;&#125;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意在渲染完毕后，v-cloak属性会被自动清除，因此在加载完毕的DOM文档中并不会出现v-cloak属性</p>
+</li>
+</ul>
+<h1 id="Vue的自定义指令"><a href="#Vue的自定义指令" class="headerlink" title="Vue的自定义指令"></a>Vue的自定义指令</h1><ul>
+<li>如v-for、v-show等DOM元素中可使用的属性被称为vue的指令。同样，我们可以自定义若干的vue指令方便使用~</li>
+</ul>
+<h2 id="自定义指令的基本语法"><a href="#自定义指令的基本语法" class="headerlink" title="自定义指令的基本语法"></a>自定义指令的基本语法</h2><h3 id="Vue-directive"><a href="#Vue-directive" class="headerlink" title="Vue.directive"></a>Vue.directive</h3><ul>
+<li><p>使用Vue.directive方法自定义属性：Vue.directive(name,function)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(&apos;myDirect&apos;,function()&#123;</span><br><span class="line">	console.log(this);</span><br><span class="line">&#125;) // this表示作用在该DOM元素上的一个vue对象</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在DOM元素中使用该自定义指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-my-direct&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="命名规则（驼峰命名法的转换）"><a href="#命名规则（驼峰命名法的转换）" class="headerlink" title="命名规则（驼峰命名法的转换）"></a>命名规则（驼峰命名法的转换）</h3><ul>
+<li>小写ok</li>
+<li>如果你定义的指令名中含有大写字母（驼峰命名），在DOM元素中使用该指令时，应将大写改为小写，并使用“-”连接</li>
+<li>例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(&apos;randomColor&apos;,function()&#123;...&#125;);</span><br><span class="line"></span><br><span class="line">&lt;div v-random-color&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="向自定义指令传入参数"><a href="#向自定义指令传入参数" class="headerlink" title="向自定义指令传入参数"></a>向自定义指令传入参数</h2><ul>
+<li><p>在DOM元素中传参：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-my-direct=&apos;arg&apos;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在传参时，应当在预先定义的Vue对象的data属性中显式地定义传入的参数名，（预置为0），否则在directive方法中接收到的参数将是undefined</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-my-direct=&apos;arg&apos;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	Vue.direact(&apos;myDirect&apos;,function(val)&#123;</span><br><span class="line">		console.log(val);</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	new Vue(&#123;</span><br><span class="line">		el: &apos;body&apos;,</span><br><span class="line">		data: &#123;</span><br><span class="line">			arg: &apos;&apos;,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当然，使用这种单向绑定的方式不够直观，预设参数的方式也容易出错，因此建议采用model-view的双向绑定写法，参考8.3</p>
+</li>
+</ul>
+<h2 id="Vue-directive的双向绑定写法"><a href="#Vue-directive的双向绑定写法" class="headerlink" title="Vue.directive的双向绑定写法"></a>Vue.directive的双向绑定写法</h2><ul>
+<li>语法格式：Vue.directive(name,{ bind(){}, update() })</li>
+<li>第二个参数是一个对象，其中bind函数用来获取绑定DOM元素的属性和参数（相当于初始化数据），不接受任何参数</li>
+<li>update函数会在bind函数获取的属性or参数发生变化时，自动调用,同时update函数也用来接收参数~</li>
+<li>即bind用来初始化，update则是当数据改变时，就会自动调用一次~</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Vue.directive(&apos;myDirect&apos;,&#123;</span><br><span class="line">	bind()&#123;</span><br><span class="line">		//</span><br><span class="line">	&#125;,</span><br><span class="line">	update(val)&#123;</span><br><span class="line">		//</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="属性元素"><a href="#属性元素" class="headerlink" title="属性元素"></a>属性元素</h2><ul>
+<li>类似于自定义的DOM元素（组件），但注意这不是组件</li>
+<li><p>基本格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;reddiv&gt;这是自定义的属性元素~&lt;/reddiv&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	Vue.elementDirective(&apos;reddiv&apos;,&#123;</span><br><span class="line">		bind()&#123;</span><br><span class="line">			this.el.style.background = &apos;red&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>属性元素不支持update和传参，返回值是undefined（控制台会提示warning，建议你使用Vue的Component）</p>
+</li>
+</ul>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/07/7-vue/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">07月</div>
 			<div class="post-day">06</div>
 	</div>
   
@@ -1780,163 +1988,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">06月</div>
-			<div class="post-day">23</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/23/1-koa/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/23/1-koa/" itemprop="url">「Koa2框架」 1. koa入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-23T00:00:00+08:00">
-                2018-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="koa2入门"><a href="#koa2入门" class="headerlink" title="koa2入门"></a>koa2入门</h1><h2 id="创建koa2工程"><a href="#创建koa2工程" class="headerlink" title="创建koa2工程"></a>创建koa2工程</h2><ol>
-<li><p>示例代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 导入koa，在koa2中，我们导入的是一个class，因此用大写的Koa表示</span><br><span class="line">const Koa = require(&apos;koa&apos;);</span><br><span class="line"></span><br><span class="line">// 创建一个Koa对象以表示web app本身</span><br><span class="line">const app = new Koa();</span><br><span class="line"></span><br><span class="line">// 对于任何请求，app将调用该异步函数进行处理</span><br><span class="line">app.use(async(ctx,next) =&gt; &#123;</span><br><span class="line">	await next();</span><br><span class="line">	ctx.response.type = &apos;text/html&apos;;</span><br><span class="line">	ctx.response.body = &apos;&lt;h1&gt;Hello Koa2!&lt;/h1&gt;&apos;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ctx是由koa传入的封装了req与res的变量，next是koa传入将要处理的下一个异步函数</p>
-</li>
-<li>由async标记的函数称为异步函数，在异步函数中，可用await调用另一个异步函数，这两个关键字在es7中引入</li>
-<li>koa把很多async函数组成一个处理链，每个async函数都可以做一些自己的事情，然后用await next()来调用下一个async函数。每个async函数被称为中间件。</li>
-<li>如果一个middleware没有调用awit next(),后续的middleware将不再执行</li>
-</ol>
-<h2 id="koa-router"><a href="#koa-router" class="headerlink" title="koa-router"></a>koa-router</h2><ul>
-<li>为了处理URL，我们需要引入koa-router这个middleware，让它负责处理URL映射</li>
-<li>安装： $cnpm i koa-router</li>
-</ul>
-<h3 id="使用koa-router处理GET请求"><a href="#使用koa-router处理GET请求" class="headerlink" title="使用koa-router处理GET请求"></a>使用koa-router处理GET请求</h3><ul>
-<li>示例代码：(处理get请求)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">const Koa = require(&apos;koa&apos;);</span><br><span class="line"></span><br><span class="line">// 注意require(&apos;koa-router&apos;)返回的是函数</span><br><span class="line">const router = require(&apos;koa-router&apos;)();</span><br><span class="line"></span><br><span class="line">const app = new Koa();</span><br><span class="line"></span><br><span class="line">// log requset URL:</span><br><span class="line">app.use(async(ctx,next) =&gt; &#123;</span><br><span class="line">	console.log(`Process $&#123;ctx.request.method&#125; $&#123;ctx.request.url&#125;...`);</span><br><span class="line">	await next();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// add url-route:</span><br><span class="line">router.get(&apos;/hello/:name&apos;,async(ctx,next) =&gt; &#123;</span><br><span class="line">		var name = ctx.params.name;</span><br><span class="line">		ctx.response.body = `&lt;h1&gt;Hello, $&#123;name&#125;!&lt;/h1&gt;`;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">router.get(&apos;/&apos;,async(ctx,next) =&gt; &#123;</span><br><span class="line">		ctx.response.body = &apos;&lt;h1&gt;Index&lt;/h1&gt;&apos;;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">// add router middleware:</span><br><span class="line">app.use(router.routes());</span><br><span class="line"></span><br><span class="line">app.listen(3000);</span><br><span class="line">console.log(&apos;app started at port 3000&apos;);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="使用koa-router-koa-bodyparser处理POST请求"><a href="#使用koa-router-koa-bodyparser处理POST请求" class="headerlink" title="使用koa-router+koa-bodyparser处理POST请求"></a>使用koa-router+koa-bodyparser处理POST请求</h3><ul>
-<li>首先安装koa-bodyparser: $ cnpm i koa-bodyparser</li>
-<li><p>修改app.js，引入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const bodyParser = require(&apos;koa-bodyparser&apos;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在合适的位置（router之前）将koa-bodyparser注册到app对象上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.use(bodyParser());</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后处理POST请求，例如我们写一个简单的登录表单：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">router.get(&apos;/&apos;, async (ctx, next) =&gt; &#123;</span><br><span class="line">    ctx.response.body = `&lt;h1&gt;Index&lt;/h1&gt;</span><br><span class="line">        &lt;form action=&quot;/signin&quot; method=&quot;post&quot;&gt;</span><br><span class="line">            &lt;p&gt;Name: &lt;input name=&quot;name&quot; value=&quot;koa&quot;&gt;&lt;/p&gt;</span><br><span class="line">            &lt;p&gt;Password: &lt;input name=&quot;password&quot; type=&quot;password&quot;&gt;&lt;/p&gt;</span><br><span class="line">            &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;&lt;/p&gt;</span><br><span class="line">        &lt;/form&gt;`;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.post(&apos;/signin&apos;, async (ctx, next) =&gt; &#123;</span><br><span class="line">    var</span><br><span class="line">        name = ctx.request.body.name || &apos;&apos;,</span><br><span class="line">        password = ctx.request.body.password || &apos;&apos;;</span><br><span class="line">    console.log(`signin with name: $&#123;name&#125;, password: $&#123;password&#125;`);</span><br><span class="line">    if (name === &apos;koa&apos; &amp;&amp; password === &apos;12345&apos;) &#123;</span><br><span class="line">        ctx.response.body = `&lt;h1&gt;Welcome, $&#123;name&#125;!&lt;/h1&gt;`;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        ctx.response.body = `&lt;h1&gt;Login failed!&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;&lt;a href=&quot;/&quot;&gt;Try again&lt;/a&gt;&lt;/p&gt;`;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/23/1-koa/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2050,7 +2101,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

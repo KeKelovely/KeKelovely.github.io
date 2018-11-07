@@ -335,6 +335,349 @@
   
   <div class="post-date">
 			<div class="post-month">08月</div>
+			<div class="post-day">13</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/2-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/13/2-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 2. 散列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-13T00:00:00+08:00">
+                2018-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据结构与算法分析：C语言描述"><a href="#数据结构与算法分析：C语言描述" class="headerlink" title="数据结构与算法分析：C语言描述"></a>数据结构与算法分析：C语言描述</h1><h2 id="第5章-散列"><a href="#第5章-散列" class="headerlink" title="第5章 散列"></a>第5章 散列</h2><ul>
+<li>散列是一种用于以<strong>常数平均时间</strong>执行插入、删除和查找的技术</li>
+<li>但是对排序信息的操作不提供支持，比如FindMin、FindMax等在散列中是不支持的</li>
+</ul>
+<h3 id="本章学习"><a href="#本章学习" class="headerlink" title="本章学习"></a>本章学习</h3><ul>
+<li>实现散列的几种方法，并分析比较它们</li>
+<li>介绍散列的多种应用</li>
+<li>将散列表和二叉查找树进行比较</li>
+</ul>
+<h3 id="一般想法"><a href="#一般想法" class="headerlink" title="一般想法"></a>一般想法</h3><ul>
+<li>散列函数：每个关键字被映射到0到TableSize-1这个范围中的某个数，并且被放到适当的单元中，这个映射就叫做散列函数</li>
+<li>实际情况中，单元的数目有限，关键字却是用不完的，因此我们需要一个散列函数，该函数要在单元之间均匀地分配关键字</li>
+<li>选择一个函数，决定当两个关键字散列到同一个值（发生冲突时）应该怎么做</li>
+</ul>
+<h3 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h3><ul>
+<li>一个相对较好的散列函数：Horner法则</li>
+<li>key的每一位对32求加权赋值(位数越高，加权越高)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while(*key != &apos;\0&apos;)</span><br><span class="line">    HashVal = (HashVal &lt;&lt; 5) * key++;</span><br><span class="line">return HashVal % TableSize;</span><br><span class="line">/*TableSize应是一个素数*/</span><br></pre></td></tr></table></figure>
+<h3 id="分离链接法"><a href="#分离链接法" class="headerlink" title="分离链接法"></a>分离链接法</h3><ul>
+<li>将散列到同一个值的所有元素保留到一个表中。为了方便起见，这些表都有表头</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/*分离链接散列表的类型声明*/</span><br><span class="line"></span><br><span class="line">struct ListNode;</span><br><span class="line">typedef struct ListNode *Position;</span><br><span class="line">struct HashTbl;</span><br><span class="line">typedef struct HashTbl *HashTable;</span><br><span class="line"></span><br><span class="line">struct ListNode</span><br><span class="line">&#123;</span><br><span class="line">	ElementType Element;</span><br><span class="line">	Position Next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef Position List;</span><br><span class="line"></span><br><span class="line">/* List The list will be an array of lists */</span><br><span class="line">/* The lists use headers for simplicity */</span><br><span class="line"></span><br><span class="line">struct Hashtbl</span><br><span class="line">&#123;</span><br><span class="line">	int TableSize;  /* 表示数组中链表的个数 */</span><br><span class="line">	List *Thelists; /* 表示一个链表数组 */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面的散列表结构包括一个链表数组、以及数组中链表的个数，它们在散列表结构初始化时动态分配空间</li>
+<li>此处的Hashtbl类型就是指向该结构的指针类型</li>
+<li>注意Thelists是指向链表数组的指针的指针，用于标记不同的链表数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">/* 分离链接散列表的初始化例程 */</span><br><span class="line">HashTable</span><br><span class="line">InitTable(int TabSize)</span><br><span class="line">&#123;</span><br><span class="line">	HashTable H;</span><br><span class="line">	int i;</span><br><span class="line">	if (TableSize &lt; MinTableSize)</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Table size too small!&quot;);</span><br><span class="line">		return NULL;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/* Allocate table */</span><br><span class="line">	</span><br><span class="line">	H = malloc(sizeof(struct HashTbl));</span><br><span class="line">	/* 该结构包含一个整数和指向一个表的指针 */</span><br><span class="line"></span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;TableSize = NextPrime(TableSize); /* 散列表的大小应当是一个素数 */</span><br><span class="line"></span><br><span class="line">	/* Allocate array of lists */</span><br><span class="line"></span><br><span class="line">	H-&gt;thelists = malloc(sizeof( List ) * H-&gt;TableSize);</span><br><span class="line">	if (H-&gt;thelists == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">	</span><br><span class="line">	/* Allocate list headers */</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;H-&gt;TableSize; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		H-&gt;thelists[i] = malloc(sizeof(struct ListNode));</span><br><span class="line">		if (H-&gt;thelists[i] == NULL)</span><br><span class="line">			FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">		else</span><br><span class="line">			H-&gt;thelists[i]-&gt;next = NULL;</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意上述代码中的三个malloc函数：第一个是给一个散列表结构分配空间。第二个是试图指定list的一个数组，结果为一个指针的数组。第三个是给每个链表分配了一个表头，并设置它的Next域为NULL</li>
+<li>注意散列表的大小应当是一个素数，这样可以使分配的效率最大化，避免关键字集中堆在一起发生冲突<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/* 分离链接散列表的Find例程 */</span><br><span class="line">Position</span><br><span class="line">Find(ElementType key, HashTable H)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	Position P;</span><br><span class="line">	List L;</span><br><span class="line"></span><br><span class="line">	L = H-&gt;thelists[Hash(key, H-&gt;tablesize)];</span><br><span class="line">	P = L-&gt;next;</span><br><span class="line">	</span><br><span class="line">	while (p != NULL &amp;&amp; P-&gt;element != key)</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line"></span><br><span class="line">	/* 一个数组中可能也含有多个元素哦！ */</span><br><span class="line">	return p;</span><br><span class="line">	/* 返回一个指针，该指针指向包含key的那个单元 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/* 分离链接散列表的Insert例程 */</span><br><span class="line">void Insert(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position Pos,Newcell;</span><br><span class="line">	List L;</span><br><span class="line"></span><br><span class="line">	Pos = Find(key,H);</span><br><span class="line">	/* 如果插入的项已经存在，那么我们什么也不做，否则放到表的前端 */</span><br><span class="line"></span><br><span class="line">	if (Pos == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		Newcell = malloc(sizeof(struct ListNode));</span><br><span class="line">			if (Newcell == NULL)</span><br><span class="line">				FatalError(&quot;Out of Space!&quot;);</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">				L = H-&gt;thelists[(Hash(key,H-&gt;tablesize))];</span><br><span class="line">				Newcell-&gt;next = L-&gt;next;</span><br><span class="line">				Newcell-&gt;element = key;</span><br><span class="line">				L-&gt;next = Newcell;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>定义散列表的<strong>装填因子</strong>为散列表中的元素个数与散列表大小的比值。在上面的例子中，装填因子为1。表的平均长度为1（每个链表数组中只放一个元素）</p>
+</li>
+<li><p>通过散列函数的变换，在散列表中查找元素，所花的时间与装填因子有关，但至少是一个常数，那么这样也很大地减少了查询的时间</p>
+</li>
+</ul>
+<h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
+<li>如果有冲突发生，那么就要尝试选择另外的单元，直到找出空的单元为止</li>
+<li><p>因为所有的数据都要置入表内，所以开放定址法所需要的表，比分离链接散列用表要大</p>
+</li>
+<li><p>对于开放定址法来说，装填因子一般为0.5，即大小为2的散列表中一般只丢1个元素进去</p>
+</li>
+</ul>
+<h4 id="线性探测法"><a href="#线性探测法" class="headerlink" title="线性探测法"></a>线性探测法</h4><ul>
+<li>一般来说，如果表可以有多余一半被填满的话，那么线性探测就不是个好办法</li>
+<li>如果表填满的不多，那么线性探测的插入操作和查找操作探测的次数花费就是一个较少的常数，只需要1.5-2.5</li>
+</ul>
+<h4 id="平方探测法"><a href="#平方探测法" class="headerlink" title="平方探测法"></a>平方探测法</h4><ul>
+<li>对于平方探测的情况更糟：一旦表被填满超过一半，就不能保证一次找到一个空单元了</li>
+<li>但是，如果使用平方探测，且表的大小是素数，那么当表至少有一半是空的时候，总能够插入一个新的元素</li>
+<li>注意！哪怕表有比一半多一个的位置被填满，那么插入都有可能性失败（虽然可能性很小）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/* 初始化开放定址散列表的例程 */</span><br><span class="line"></span><br><span class="line">HashTable</span><br><span class="line">InitTable(int tablesize)</span><br><span class="line">&#123;</span><br><span class="line">	HashTable H;</span><br><span class="line">	int i;</span><br><span class="line"></span><br><span class="line">	if (tablesize &lt; mintablesize)</span><br><span class="line">	&#123;</span><br><span class="line">		Error(&quot;Table Size is too SMALL!&quot;);</span><br><span class="line">		return NULL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* Allocate Table */</span><br><span class="line"></span><br><span class="line">	H = malloc(sizeof(struct HashTbl));</span><br><span class="line">	if (H == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	H-&gt;tablesize = NextPrime(tablesize);</span><br><span class="line"></span><br><span class="line">	/* Allocate array of Cells */</span><br><span class="line"></span><br><span class="line">	H-&gt;thecells = malloc(sizeof(cell) * H-&gt;tablesize);</span><br><span class="line">	if (H-&gt;thecells == NULL)</span><br><span class="line">		FatalError(&quot;Out of Space!&quot;);</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;H-&gt;tablesize; i++)</span><br><span class="line">		H-&gt;thecells[i].info = Empty; /* info表示一个索引，类似于链表中的表头 */</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/* 使用平方探测散列法的Find例程 */</span><br><span class="line"></span><br><span class="line">Position</span><br><span class="line">Find(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position CurrentPos;</span><br><span class="line">	int CollisionNum;</span><br><span class="line"></span><br><span class="line">	CollisionNum = 0; /* CollisionNum表示表中的元素个数 */</span><br><span class="line">	CurrentPos = Hash(key,H-&gt;tablesize);</span><br><span class="line"></span><br><span class="line">	while(H-&gt;thecells[CurrentPos].info != Empty &amp;&amp; H-&gt;thecells[CurrentPos].element != key)</span><br><span class="line">	&#123;</span><br><span class="line">		CurrentPos += 2 * ++ CollisionNum -1;</span><br><span class="line">		/* 这里是一个数学糖衣，利用了F(i)=F(i-1)+2i-1,其中F(i)=i^2的变换 */</span><br><span class="line">		if (CurrentPos &gt;= H-&gt;tablesize)</span><br><span class="line">			CurrentPos -= H-&gt;tablesize;</span><br><span class="line">	&#125;</span><br><span class="line">	return CurrentPos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/* 使用平方探测散列表的插入例程 */</span><br><span class="line"></span><br><span class="line">void Insert(ElementType key, HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	Position Pos;</span><br><span class="line"></span><br><span class="line">	Pos = Find(key,H);</span><br><span class="line"></span><br><span class="line">	if (H-&gt;thecells[Pos].Info != Legitimate)</span><br><span class="line">	&#123;</span><br><span class="line">		H-&gt;thecells[Pos].Info = Legitimate;</span><br><span class="line">		H-&gt;thecells[Pos].element = key;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双散列"><a href="#双散列" class="headerlink" title="双散列"></a>双散列</h4><ul>
+<li>F(i) = ihash2(x)</li>
+</ul>
+<h3 id="再散列"><a href="#再散列" class="headerlink" title="再散列"></a>再散列</h3><ul>
+<li>再散列：建立另外一个大约两倍大的表（而且使用一个相关的新散列函数），扫描整个原始散列表，并计算每个（未删除）元素的新散列值并将其插入到新表中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Rehash(HashTable H)</span><br><span class="line">&#123;</span><br><span class="line">	int i,OldSize;</span><br><span class="line">	Cell *Oldcells;</span><br><span class="line"></span><br><span class="line">	Oldcells = H-&gt;thecells;</span><br><span class="line">	Oldsize = H-&gt;tablesize;</span><br><span class="line">	/* 声明俩临时变量，不要破坏原有的散列表 */</span><br><span class="line"></span><br><span class="line">	H = InitializeTable( 2*Oldsize );</span><br><span class="line"></span><br><span class="line">	for (i=0; i&lt;Oldsize; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		if (Oldcells[i].Info == Legitmate)</span><br><span class="line">				Insert(Oldcells[i].element,H);</span><br><span class="line">		free(Oldcells);</span><br><span class="line">	&#125;</span><br><span class="line">	return H;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可扩散列"><a href="#可扩散列" class="headerlink" title="可扩散列"></a>可扩散列</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>散列表可以用来以常数的平均时间实现Insert和Find操作。装填因子这样的细节是特别重要的，否则时间界将不再有效。将关键字不是短串或整数时，仔细选择散列函数也是很重要的。</p>
+</li>
+<li><p>对于分离链接散列法，装填因子应尽可能为1。对于开放定址散列算法，装填因子不应该超过0.5。保持合理的装填因子，对于空间紧缺而且不可能声明巨大散列表的情况，这是很重要的。</p>
+</li>
+<li><p>二叉查找树也可以做到Insert和Find例程，虽然平均时间界为logN，但是二叉查找树可以做的事情更多，而使用散列表不可能找出最小元素，除非准确知道一个字符串，否则散列表也不可能有效地找到它。二叉查找树可以迅速找到在一定范围内的所有项，散列表是做不到的。</p>
+</li>
+<li><p>如果不需要序的信息以及对输入是否被排序有怀疑，那么就应该选择散列这种数据结构。</p>
+</li>
+<li><p>散列有着丰富的应用：</p>
+</li>
+</ul>
+<ol>
+<li><p>编译器使用散列表跟踪源代码中声明的变量，这种数据结构叫做符号表。因为只有insert和find，散列函数可以算的很快</p>
+</li>
+<li><p>散列表对于任何图论问题都是有用的。</p>
+</li>
+<li><p>散列表在游戏中也有使用。它跟踪通过计算基于位置的散列函数而看到的一些位置，如果同样的位置再出现，程序通常经过简单移动变换来避免昂贵的重复变换，这在游戏中被称为变换表。</p>
+</li>
+<li><p>散列的另一个用途是在线拼写检验程序。</p>
+</li>
+</ol>
+
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/13/2-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
+			<div class="post-day">12</div>
+	</div>
+  
+
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/12/8-algo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/kekelovely.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeKeHome">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/12/8-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T00:00:00+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/12/8-algo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-date">
+			<div class="post-month">08月</div>
 			<div class="post-day">12</div>
 	</div>
   
@@ -744,133 +1087,6 @@
 
             <div class="post-button text-center">
               <a class="btn" href="/2018/08/12/1-algo/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">08月</div>
-			<div class="post-day">12</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/12/8-algo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/12/8-algo/" itemprop="url">「数据结构与算法分析-C语言实现」 1. 算法分析、表和队列、树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T00:00:00+08:00">
-                2018-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/12/8-algo/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -2354,174 +2570,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-date">
-			<div class="post-month">07月</div>
-			<div class="post-day">17</div>
-	</div>
-  
-
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/17/17-vue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/kekelovely.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="KeKeHome">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/17/17-vue/" itemprop="url">「Vue学习笔记」 17. Vue2.x脚手架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-17T00:00:00+08:00">
-                2018-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Vue2-x的脚手架"><a href="#Vue2-x的脚手架" class="headerlink" title="Vue2.x的脚手架"></a>Vue2.x的脚手架</h1><h2 id="脚手架的使用"><a href="#脚手架的使用" class="headerlink" title="脚手架的使用"></a>脚手架的使用</h2><ul>
-<li><p>在全局环境下安装vue-cli后，用如下命令安装不同的脚手架，包括simple/webpack/webpack-simple</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack-simple demoName1</span><br><span class="line">$ vue init webpack demoName2</span><br><span class="line">$ vue init simple demoName3</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>以webpack-simple为例，安装完成后按如下命令运行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">To get started:</span><br><span class="line"></span><br><span class="line">	cd demoName1</span><br><span class="line">	npm/cnpm install</span><br><span class="line">	npm run dev</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>构建流程：</p>
-</li>
-</ul>
-<ol>
-<li>所有的东西/组件可以汇入 app.vue</li>
-<li>app.vue的内容被引入到main.js中</li>
-<li>main.js通过webpack打包成Index.js</li>
-</ol>
-<h2 id="全局模块-组件"><a href="#全局模块-组件" class="headerlink" title="全局模块/组件"></a>全局模块/组件</h2><ol>
-<li>在src目录下新建文件夹：components/Loading（自定义，这里只是举个栗子）</li>
-<li><p>在main.js（而不是App.vue）中引入Loading组件,并使用use告诉全局环境该组件是什么，用以解析Vue元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import Loading from &apos;./components/Loading/index.js&apos;</span><br><span class="line"></span><br><span class="line">// 将Loading以Vue元素的形式加载在全局环境中，这样就可以解析如&lt;Loading&gt;&lt;/Loading&gt;元素了</span><br><span class="line">Vue.use(Loading);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在components/Loading文件夹下新建index.js，编码：（这样做的好处是将模板与构建的js分离，便于处理）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// index.js的作用是，告诉main.js，组件是什么？同时对组件进行配置，最后export该组件</span><br><span class="line">import LoadingComponent from &apos;./loading.vue&apos;</span><br><span class="line"></span><br><span class="line">const Loading = &#123;</span><br><span class="line">	install: function(vue)&#123;</span><br><span class="line">		vue.component(&apos;Loading&apos;,LoadingComponent)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default Loading;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后，编码loading.vue文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;div id=&quot;loading&quot;&gt;</span><br><span class="line">		&lt;span&gt;&#123;&#123;msg&#125;&#125;&lt;/span&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	export default &#123;</span><br><span class="line">		data() &#123;</span><br><span class="line">			return &#123;</span><br><span class="line">				msg: &apos;我是Loading&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">	</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>这样就完成了全局组件的构建（相当于重写了一个App.vue）</p>
-</li>
-<li>最后，如果你没有在main.js的入口文件中使用Vue.use(component)方法声明组件，Vue会报如下错误：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unknown custom element: &lt;Loading&gt; - did you register the component correctly?</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="总结：局部-全局组件的定义"><a href="#总结：局部-全局组件的定义" class="headerlink" title="总结：局部/全局组件的定义"></a>总结：局部/全局组件的定义</h2><h3 id="局部组件"><a href="#局部组件" class="headerlink" title="局部组件"></a>局部组件</h3><ul>
-<li>一般直接放在src目录下，如header.vue，并将其export</li>
-<li>在App.vue中的script元素内使用import方式引入，并使用components对象引入</li>
-<li>最后在App.vue的template中使用组件元素即可</li>
-</ul>
-<h3 id="全局组件"><a href="#全局组件" class="headerlink" title="全局组件"></a>全局组件</h3><ul>
-<li>一般放在独立的资源文件夹中，其地位与App.vue相当，在main.js中引入，注意需使用Vue.use(globalComponent)声明其存在</li>
-<li>然后分别用Index.js用来配置组件，用component.vue来编写组件模板</li>
-<li>最后在App.vue的template元素中直接使用该组件即可（而不需要像局部组件那样，从script标签中引入再加载），相当于独立于App.vue</li>
-</ul>
-
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/17/17-vue/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2635,7 +2683,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
